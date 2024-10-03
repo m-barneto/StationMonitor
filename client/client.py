@@ -1,6 +1,7 @@
 from rpi_ws281x import Adafruit_NeoPixel, Color
 import time
 import colorsys
+import requests
 
 import RPi.GPIO as GPIO
 
@@ -31,12 +32,22 @@ leds.begin()
 
 
 
+
 try:
-    # Start reading state constantly
+    # Store previous state to compare to
     state = 0
+
+    # Start reading state constantly
     while True:
         # state is 0 or 1
-        state = GPIO.input(PES_PIN)
+        current_state = GPIO.input(PES_PIN)
+
+        if current_state != state:
+            print("State changed!")
+            #r = requests.post('http://httpbin.org/post', json={"key": "value"})
+            # send post request to server
+            state = current_state
+
         if state == 0:
             wipe(leds, Color(0, 0, 50))
         else:
