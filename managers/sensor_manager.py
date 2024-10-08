@@ -1,11 +1,14 @@
 import asyncio
+from copy import deepcopy
 import RPi.GPIO as GPIO
 
-from sensor_event import SensorEvent, SensorState
+from utils.sensor_event import SensorEvent, SensorState
 
 
 
 class SensorManager:
+    last_sensor_event: SensorEvent = None
+
     def __init__(self, SENSOR_PIN: int, q: asyncio.Queue) -> None:
         self.SENSOR_PIN = SENSOR_PIN
         GPIO.setmode(GPIO.BCM)
@@ -13,6 +16,7 @@ class SensorManager:
 
         self.event_queue = q
         self.sensor_state: SensorState = SensorState.EMPTY
+        SensorManager.last_sensor_event = SensorEvent(self.sensor_state)
     
     async def loop(self) -> None:
         while True:
@@ -34,3 +38,4 @@ class SensorManager:
 
             # update our sensor_state
             self.sensor_state = current_state
+            SensorManager.last_sensor_event = deepcopy(event)

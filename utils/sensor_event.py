@@ -1,6 +1,5 @@
 from datetime import datetime, timezone
 from enum import Enum
-import json
 
 class SensorState(Enum):
     EMPTY = 0

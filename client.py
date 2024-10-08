@@ -1,10 +1,8 @@
 import asyncio
-import datetime
-from Managers.event_manager import EventManager
-from Managers.sensor_manager import SensorManager
-from Managers.led_manager import LedManager
-from rpi_ws281x import Adafruit_NeoPixel, Color
-import time
+from managers.event_manager import EventManager
+from managers.sensor_manager import SensorManager
+from managers.led_manager import LedManager
+from rpi_ws281x import Adafruit_NeoPixel
 
 import RPi.GPIO as GPIO
 
@@ -19,7 +17,7 @@ LED_COUNT = 16
 LED_PIN = 18
 LED_HZ = 800000
 LED_DMA = 10
-LED_BRIGHTNESS = 25
+LED_BRIGHTNESS = 10
 LED_INVERT = False
 LED_CHANNEL = 0
 
@@ -33,8 +31,12 @@ try:
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
 
-    loop.create_task(SensorManager(PES_PIN, q).loop())
+    loop.create_task(LedManager(leds).loop())
     loop.create_task(EventManager(q).loop())
+
+    loop.create_task(SensorManager(PES_PIN, q).loop())
+    # sensor #2 here
+    # loop.create_task(SensorManager(PES_PIN, q).loop())
 
     loop.run_forever()
 finally:

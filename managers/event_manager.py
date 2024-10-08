@@ -1,7 +1,7 @@
 import asyncio
 from typing import Any, Coroutine, NoReturn
 
-from sensor_event import SensorState
+from utils.sensor_event import SensorState
 
 
 class EventManager:
@@ -20,8 +20,13 @@ class EventManager:
         try:
             #r = requests.post("get ip from config", json=event.json())
             print(f"Consumed event {event.id} {event.rpi_time} {SensorState(event.state)}")
+            # this is our rate limiting sleep, should be read from config
+            # only sends one event to AWS per second
+            await asyncio.sleep(1)
         except ConnectionError as e:
             print("Failed to post event data. Adding event to back of queue.")
             print(e)
             # add the event back to the queue
             self.event_queue.put(event)
+            # sleep for a bit to avoid spamming a down aws
+            await asyncio.sleep(5)
