@@ -29,13 +29,13 @@ class LedManager:
             return
         
         event_duration = datetime.now(timezone.utc).timestamp() - event.rpi_time
-        first_stage_mins = .25
+        first_stage_mins = .1
         if event_duration <= first_stage_mins * 60:
             # figure out how far into first stage we are 0-1
             end = inv_lerp(0, first_stage_mins * 60, event_duration)
             start = 1 - end
 
-            print(start, end)
+            #print(start, end)
             col = Color(int(lerp(0, 255, end)), int(lerp(0, 255, start)), 0)
             self.wipe(col)
         else:

@@ -7,11 +7,11 @@ class SensorState(Enum):
 
 
 class SensorEvent:
-    def __init__(self, state: SensorState) -> None:
+    def __init__(self, zone: str, state: SensorState) -> None:
         # Set our rpi's utc timestamp
         # Seconds from epoch
         self.rpi_time = datetime.now(timezone.utc).timestamp()
         # Load ID from config
-        self.id = "A1"
+        self.zone = zone
 
         self.state = state

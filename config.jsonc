@@ -1,0 +1,22 @@
+{
+    // Sensors list
+    "sensors": [
+        // Each sensor needs to have zone and pin declared
+        {
+            "zone": "A1",
+            "pin": 17
+        },
+        {
+            "zone": "A2",
+            "pin": 18
+        }
+    ],
+    // How many times the sensor is polled per second
+    "sensorPollRate": 10,
+    // IP to send our event data to
+    "proxyServerIp": "192.168.17.200",
+    // How many events to send to server per second
+    "eventSendRate": 2,
+    // If we fail to send an event, how many seconds to wait before trying again
+    "eventSendFailureCooldown": 5
+}
