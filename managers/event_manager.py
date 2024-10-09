@@ -5,7 +5,7 @@ from typing import Any, Coroutine, NoReturn
 import requests
 
 from utils.config import Config
-from utils.sensor_event import SensorState
+from utils.sensor_event import OccupiedEvent, SensorState
 
 
 class EventManager:
@@ -18,7 +18,7 @@ class EventManager:
     
     async def process_event(self):
         # waits for event to become available
-        event = await self.event_queue.get()
+        event: OccupiedEvent = await self.event_queue.get()
 
         # we have an event, send it to the server.
         loop = asyncio.get_event_loop()
@@ -30,7 +30,7 @@ class EventManager:
                 #res = await loop.run_in_executor(None, requests.post, f'http://}', None, json.dumps(event.__dict__))
                 #print(res)
                 #r = requests.post(f'https://webhook.site/c576d64b-8784-4fa9-80ce-168a1819c93b', json=json.dumps(event.__dict__))
-                print(f"Consumed event {event.zone} {event.rpi_time} {SensorState(event.state)}")
+                print(f"Consumed event {event.zone} {event.duration}")
                 # this is our rate limiting sleep
                 await asyncio.sleep(float(1 / int(Config.get()["eventSendRate"])))
                 break

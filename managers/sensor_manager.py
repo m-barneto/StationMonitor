@@ -1,9 +1,10 @@
 import asyncio
 from copy import deepcopy
+from datetime import datetime, timezone
 import RPi.GPIO as GPIO
 
 from utils.config import Config
-from utils.sensor_event import SensorEvent, SensorState
+from utils.sensor_event import OccupiedEvent, SensorEvent, SensorState
 
 
 
@@ -30,14 +31,25 @@ class SensorManager:
     async def process_sensor(self) -> None:
         current_state: SensorState = GPIO.input(self.SENSOR_PIN)
 
-        if current_state != self.sensor_state:
-            # Create our event
-            event = SensorEvent(self.zone, current_state)
+        # if previous state was occupied and now we're empty
+        if self.sensor_state == SensorState.OCCUPIED and current_state == SensorState.EMPTY:
+            print("Sending event.")
 
-            print(f"Produced event {event.zone} {event.rpi_time} {SensorState(event.state)}")
-            # Enqueue the event
-            await self.event_queue.put(event)
+            occupied_event = OccupiedEvent(self.zone, self.last_sensor_event.rpi_time, datetime.now(timezone.utc).timestamp())
+            await self.event_queue.put(occupied_event)
 
-            # update our sensor_state
-            self.sensor_state = current_state
-            SensorManager.last_sensor_event = deepcopy(event)
+        self.sensor_state = current_state
+        SensorManager.last_sensor_event = SensorEvent(self.zone, current_state)
+
+
+        #if current_state != self.sensor_state:
+        #    # Create our event
+        #    event = SensorEvent(self.zone, current_state)
+#
+        #    print(f"Produced event {event.zone} {event.rpi_time} {SensorState(event.state)}")
+        #    # Enqueue the event
+        #    await self.event_queue.put(event)
+#
+        #    # update our sensor_state
+        #    self.sensor_state = current_state
+        #    SensorManager.last_sensor_event = deepcopy(event)
