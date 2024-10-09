@@ -37,11 +37,18 @@ class SensorManager:
         # if previous state was occupied and now we're empty
         if SensorState(self.sensor_state) == SensorState.OCCUPIED and SensorState(current_state) == SensorState.EMPTY:
             print("Sending event.")
+            print(f"Last empty time is {SensorManager.last_empty_event.rpi_time}")
+            print(f"Current time is {datetime.now(timezone.utc).timestamp()}")
 
             occupied_event = OccupiedEvent(self.zone, self.last_empty_event.rpi_time, datetime.now(timezone.utc).timestamp())
             await self.event_queue.put(occupied_event)
         elif SensorState(current_state) == SensorState.EMPTY:
             SensorManager.last_empty_event = SensorEvent(self.zone, current_state)
+            print(f"Setting last empty time to {SensorManager.last_empty_event.rpi_time}")
+
+
+
+
         self.sensor_state = current_state
         SensorManager.last_sensor_event = SensorEvent(self.zone, current_state)
         
