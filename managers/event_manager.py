@@ -26,9 +26,10 @@ class EventManager:
             try:
                 # TODO
                 # this needs to be tested to see if this actually works to send the request...
-                res = await loop.run_in_executor(None, requests.post, f'http://{Config.get()["proxyServerIp"]}', None, json.dumps(event.__dict__))
-                print(res)
-                #r = requests.post(f'http://{Config.get()["proxyServerIp"]}', json=json.dumps(event.__dict__))
+                res = await loop.run_in_executor(None, requests.post, Config.get()["proxyServerIp"], None, json.dumps(event.__dict__))
+                #res = await loop.run_in_executor(None, requests.post, f'http://}', None, json.dumps(event.__dict__))
+                #print(res)
+                #r = requests.post(f'https://webhook.site/c576d64b-8784-4fa9-80ce-168a1819c93b', json=json.dumps(event.__dict__))
                 print(f"Consumed event {event.zone} {event.rpi_time} {SensorState(event.state)}")
                 # this is our rate limiting sleep
                 await asyncio.sleep(float(1 / int(Config.get()["eventSendRate"])))

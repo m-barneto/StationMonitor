@@ -5,16 +5,12 @@
         {
             "zone": "A1",
             "pin": 17
-        },
-        {
-            "zone": "A2",
-            "pin": 18
         }
     ],
     // How many times the sensor is polled per second
     "sensorPollRate": 10,
     // IP to send our event data to
-    "proxyServerIp": "192.168.17.200",
+    "proxyServerIp": "https://webhook.site/c576d64b-8784-4fa9-80ce-168a1819c93b",
     // How many events to send to server per second
     "eventSendRate": 2,
     // If we fail to send an event, how many seconds to wait before trying again
