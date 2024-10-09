@@ -32,7 +32,7 @@ class SensorManager:
         current_state: SensorState = GPIO.input(self.SENSOR_PIN)
 
         # if previous state was occupied and now we're empty
-        if self.sensor_state == SensorState.OCCUPIED and current_state == SensorState.EMPTY:
+        if SensorState(self.sensor_state) == SensorState.OCCUPIED and SensorState(current_state) == SensorState.EMPTY:
             print("Sending event.")
 
             occupied_event = OccupiedEvent(self.zone, self.last_sensor_event.rpi_time, datetime.now(timezone.utc).timestamp())
