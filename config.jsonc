@@ -10,7 +10,7 @@
     // How many times the sensor is polled per second
     "sensorPollRate": 10,
     // IP to send our event data to
-    "proxyServerIp": "https://webhook.site/c576d64b-8784-4fa9-80ce-168a1819c93b",
+    "proxyServerIp": "http://192.168.1.100:8000/events",
     // How many events to send to server per second
     "eventSendRate": 2,
     // If we fail to send an event, how many seconds to wait before trying again
