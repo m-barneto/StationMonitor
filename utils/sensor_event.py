@@ -1,6 +1,7 @@
 from datetime import datetime, timezone
 from enum import Enum
 
+
 class SensorState(Enum):
     EMPTY = 0
     OCCUPIED = 1
@@ -15,6 +16,7 @@ class SensorEvent:
         self.zone = zone
 
         self.state = state
+
 
 class OccupiedEvent:
     def __init__(self, zone: str, start_time: float, end_time: float):

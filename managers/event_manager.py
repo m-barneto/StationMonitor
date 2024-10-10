@@ -1,11 +1,9 @@
 import asyncio
 import json
-from typing import Any, Coroutine, NoReturn
-
 import requests
 
 from utils.config import Config
-from utils.sensor_event import OccupiedEvent, SensorState
+from utils.sensor_event import OccupiedEvent
 
 
 class EventManager:
@@ -15,27 +13,23 @@ class EventManager:
     async def loop(self) -> None:
         while True:
             await self.process_event()
-    
+
     async def process_event(self):
-        # waits for event to become available
+        # Waits for an event to become available
         event: OccupiedEvent = await self.event_queue.get()
 
-        # we have an event, send it to the server.
+        # We have an event, send it to the server.
+
+        # Loop here is used to schedule our request without blocking
         loop = asyncio.get_event_loop()
         while True:
             try:
-                # TODO
-                # this needs to be tested to see if this actually works to send the request...
+                # Sends the request while still allowing other loops to continue running
                 res = await loop.run_in_executor(None, requests.post, Config.get()["proxyServerIp"], None, json.dumps(event.__dict__))
-                #res = await loop.run_in_executor(None, requests.post, f'http://}', None, json.dumps(event.__dict__))
-                #print(res)
-                #r = requests.post(f'https://webhook.site/c576d64b-8784-4fa9-80ce-168a1819c93b', json=json.dumps(event.__dict__))
-                print(f"Consumed event {event.zone} {event.duration}")
-                # this is our rate limiting sleep
+                # This is our rate limiting sleep
                 await asyncio.sleep(float(1 / int(Config.get()["eventSendRate"])))
+                # Break out of loop to allow us to process the next event in the queue
                 break
             except requests.exceptions.ConnectionError as e:
-                print("Failed to post event data.")
-                #print(e)
                 # sleep for a bit to avoid spamming a downed proxy
                 await asyncio.sleep(float(Config.get()["eventSendFailureCooldown"]))
