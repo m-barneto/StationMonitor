@@ -18,7 +18,7 @@ class LedManager:
         while True:
             await self.process_event()
             # controls the update rate of our leds
-            await asyncio.sleep(.05)
+            await asyncio.sleep(.01)
 
     async def process_event(self) -> None:
         event = self.sensor.last_sensor_event
