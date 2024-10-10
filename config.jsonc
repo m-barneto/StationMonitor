@@ -1,10 +1,16 @@
 {
+    "leds": {
+        "numLeds": 48,
+        "numIndicators": 2,
+        "gpioPin": 18
+    },
     // Sensors list
     "sensors": [
         // Each sensor needs to have zone and pin declared
         {
             "zone": "A1",
-            "pin": 17
+            "gpioPin": 17,
+            "indicatorIndex": 0
         }
     ],
     // How many times the sensor is polled per second

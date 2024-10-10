@@ -22,38 +22,28 @@ def inv_lerp(a: float, b: float, v: float) -> float:
 
 
 class PixelStrip:
-    def __init__(self, stripLength, edgeCount, brightness=255, gpio=18, hz=800000, dma=10, invert=False, channel=0):
-        self.pixelCount = stripLength * edgeCount
+    def __init__(self, ledsCount: int, indicatorCount: int = 2, gpio: int = 18, brightness: int = 255, hz=800000, dma: int = 10, invert: bool = False, channel: int = 0):
+        self.ledsCount = ledsCount
+        self.indicatorCount = indicatorCount
+        self.indicatorNumPixels = int(self.ledsCount / self.indicatorCount)
         self.strip = Adafruit_NeoPixel(
             self.pixelCount, gpio, hz, dma, invert, brightness, channel)
         self.strip.begin()
-        self.stripLength = stripLength
-        self.edgeCount = edgeCount
-        self.edgeLength = self.stripLength / self.edgeCount
-        self.blankColor = Color(0, 0, 0)
-        self.edgeHalfBuffer = []
-        for i in range(int(self.edgeLength / 2)):
-            self.edgeHalfBuffer.append(self.blankColor)
-        self.edge = []
-        for i in range(int(self.edgeLength)):
-            self.edge.append(self.blankColor)
 
     def show(self):
         self.strip.show()
 
-    def setPixel(self, n: int, color: Color):
-        self.strip.setPixelColor(int(n), color)
+    def setPixel(self, i: int, color: Color):
+        self.strip.setPixelColor(i, color)
 
-    def fill(self, color=Color(0, 0, 0)):
-        for i in range(int(self.edgeLength / 2)):
-            self.edgeHalfBuffer[i] = color
-        self.writeEdges(self.edgeHalfBuffer)
+    def clear(self, indicatorIndex):
+        self.fill(indicatorIndex, Color(0, 0, 0))
+
+    def fill(self, indicatorIndex: int, color: Color):
+        start = indicatorIndex * self.indicatorNumPixels
+        end = start + self.indicatorNumPixels
+
+        for i in range(start, end):
+            print(i)
+            self.setPixel(i, color)
         self.show()
-
-    def writeEdges(self, colors):
-        for i in range(self.edgeCount):
-            for p in range(int(self.edgeLength / 2)):
-                self.setPixel(i * self.edgeLength + p, colors[p])
-                # might need to -1 after "- p"
-                self.setPixel(i * self.edgeLength +
-                              self.edgeLength - p - 1, colors[p])

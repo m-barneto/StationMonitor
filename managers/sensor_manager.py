@@ -4,12 +4,10 @@ import RPi.GPIO as GPIO  # type: ignore
 
 from utils.config import Config
 from utils.sensor_event import OccupiedEvent, SensorEvent, SensorState
+from utils.utils import PixelStrip
 
 
 class SensorManager:
-    last_sensor_event: SensorEvent = None
-    last_empty_event: SensorEvent = None
-
     def __init__(self, SENSOR_PIN: int, zone: str, q: asyncio.Queue) -> None:
         # Setup our sensor/gpio pin info
         self.SENSOR_PIN = SENSOR_PIN
@@ -23,9 +21,9 @@ class SensorManager:
 
         # Start sensor off with an empty event
         self.sensor_state: SensorState = SensorState.EMPTY
-        SensorManager.last_sensor_event = SensorEvent(
+        self.last_sensor_event = SensorEvent(
             self.zone, self.sensor_state)
-        SensorManager.last_empty_event = SensorEvent(
+        self.last_empty_event = SensorEvent(
             self.zone, self.sensor_state)
 
     async def loop(self) -> None:
@@ -46,11 +44,11 @@ class SensorManager:
                 self.zone, self.last_empty_event.rpi_time, datetime.now(timezone.utc).timestamp())
             await self.event_queue.put(occupied_event)
         elif SensorState(current_state) == SensorState.EMPTY:
-            SensorManager.last_empty_event = SensorEvent(
+            self.last_empty_event = SensorEvent(
                 self.zone, current_state)
 
         self.sensor_state = current_state
-        SensorManager.last_sensor_event = SensorEvent(self.zone, current_state)
+        self.last_sensor_event = SensorEvent(self.zone, current_state)
 
         # if current_state != self.sensor_state:
         #    # Create our event
@@ -62,4 +60,4 @@ class SensorManager:
 #
         #    # update our sensor_state
         #    self.sensor_state = current_state
-        #    SensorManager.last_sensor_event = deepcopy(event)
+        #    self.last_sensor_event = deepcopy(event)

@@ -6,7 +6,12 @@ from managers.sensor_manager import SensorManager
 from managers.led_manager import LedManager
 
 from utils.config import Config
+from utils.utils import PixelStrip
 
+
+leds = PixelStrip(Config.get()["leds"]["numLeds"],
+                  Config.get()["leds"]["numIndicators"],
+                  Config.get()["leds"]["gpioPin"])
 
 try:
     q = asyncio.Queue()
@@ -14,13 +19,17 @@ try:
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
 
-    loop.create_task(LedManager().loop())
     loop.create_task(EventManager(q).loop())
 
     # Initialize sensors from config entries
     for sensor in Config.get()["sensors"]:
-        loop.create_task(SensorManager(
-            int(sensor["pin"]), sensor["zone"], q).loop())
+        s = SensorManager(
+            sensor["gpioPin"],
+            sensor["zone"],
+            q
+        )
+        loop.create_task(s.loop())
+        loop.create_task(LedManager(s, leds, sensor["indicatorIndex"]).loop())
 
     loop.run_forever()
 finally:

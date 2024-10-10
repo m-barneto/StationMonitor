@@ -8,11 +8,10 @@ from utils.sensor_event import SensorState
 
 
 class LedManager:
-    def __init__(self) -> None:
-        # Setup LEDs
-        LED_PIN = 18
-
-        self.strip = PixelStrip(48, 2, 255, LED_PIN)
+    def __init__(self, sensor: SensorManager, leds: PixelStrip, indicatorIndex: int) -> None:
+        self.sensor = sensor
+        self.leds = leds
+        self.index = indicatorIndex
 
     async def loop(self) -> None:
         while True:
@@ -21,15 +20,13 @@ class LedManager:
             await asyncio.sleep(.05)
 
     async def process_event(self) -> None:
-        event = SensorManager.last_sensor_event
+        event = self.sensor.last_sensor_event
         if event.state == SensorState.EMPTY.value:
-            self.strip.fill(Color(0, 255, 0))
+            self.leds.fill(self.index, Color(0, 255, 0))
             return
 
         event_duration = datetime.now(
-            timezone.utc).timestamp() - SensorManager.last_empty_event.rpi_time
-
-        print(event_duration)
+            timezone.utc).timestamp() - self.sensor.last_empty_event.rpi_time
 
         first_stage_mins = .1
         if event_duration <= first_stage_mins * 60:
@@ -39,13 +36,11 @@ class LedManager:
 
             # print(start, end)
             col = Color(int(lerp(0, 255, end)), int(lerp(0, 255, start)), 0)
-            self.strip.fill(col)
-            # print("before")
+            self.leds.fill(self.index, col)
         else:
             # get time sine wave
             # map from -1 to 1
-            v = math.sin(datetime.now(timezone.utc).timestamp() * 1000)
+            v = math.sin(datetime.now(timezone.utc).timestamp())
             t = int(inv_lerp(1, -1, v) * 255)
             col = Color(255, 255 - t, 255 - t)
-            # print("After")
-            self.strip.fill(col)
+            self.leds.fill(self.index, col)
