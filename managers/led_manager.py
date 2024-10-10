@@ -26,6 +26,7 @@ class LedManager:
             self.strip.fill(Color(0, 255, 0))
             return
 
+        print("Raa")
         event_duration = datetime.now(
             timezone.utc).timestamp() - event.rpi_time
 
