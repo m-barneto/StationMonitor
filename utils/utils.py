@@ -30,7 +30,7 @@ class PixelStrip:
         self.stripLength = stripLength
         self.edgeCount = edgeCount
         self.edgeLength = self.stripLength / self.edgeCount
-        self.blankColor = Color()
+        self.blankColor = Color(0, 0, 0)
         self.edgeHalfBuffer = []
         for i in range(self.edgeLength / 2):
             self.edgeHalfBuffer.append(self.blankColor)
@@ -44,7 +44,7 @@ class PixelStrip:
     def setPixel(self, n, color):
         self.strip.setPixelColor(n, color.getBits())
 
-    def fill(self, color=Color()):
+    def fill(self, color=Color(0, 0, 0)):
         for i in range(self.edgeLength / 2):
             self.edgeHalfBuffer[i] = color
         self.writeEdges(self.edgeHalfBuffer)
