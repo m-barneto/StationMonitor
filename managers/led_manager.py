@@ -35,6 +35,13 @@ class LedManager:
             val = event_duration / timer_duration
             # convert that to numpixels
             pixelsToHighlight = val * self.leds.indicatorNumPixels
+            pixelsFloored = int(pixelsToHighlight)
+            for i in range(pixelsFloored):
+                self.leds.setPixel(i, Color(0, 255, 0))
+
+            if pixelsToHighlight > pixelsFloored:
+                self.leds.setPixel(pixelsFloored + 1,
+                                   Color(0, 255 * pixelsToHighlight % 1, 0))
             print(pixelsToHighlight)
             pass
         else:
