@@ -27,7 +27,7 @@ class LedManager:
             return
 
         event_duration = datetime.now(
-            timezone.utc).timestamp() - event.rpi_time
+            timezone.utc).timestamp() - SensorManager.last_empty_event.rpi_time
 
         print(event_duration)
 
@@ -40,12 +40,12 @@ class LedManager:
             # print(start, end)
             col = Color(int(lerp(0, 255, end)), int(lerp(0, 255, start)), 0)
             self.strip.fill(col)
-            print("before")
+            # print("before")
         else:
             # get time sine wave
             # map from -1 to 1
             v = math.sin(datetime.now(timezone.utc).timestamp() * 1000)
             t = int(inv_lerp(1, -1, v) * 255)
             col = Color(255, 255 - t, 255 - t)
-            print("After")
+            # print("After")
             self.strip.fill(col)
