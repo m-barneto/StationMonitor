@@ -13,6 +13,10 @@
             "indicatorIndex": 0
         }
     ],
+    "indicator": {
+        "timerDuration": 60.0,
+        "flashSpeed": 1.0
+    },
     // How many times the sensor is polled per second
     "sensorPollRate": 10,
     // IP to send our event data to
