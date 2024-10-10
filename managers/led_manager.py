@@ -44,7 +44,6 @@ class LedManager:
                                    Color(0, int(255 * (pixelsToHighlight % 1)), 0))
 
             self.leds.show()
-            pass
         else:
             # get time sine wave
             # map from -1 to 1
