@@ -44,6 +44,5 @@ class PixelStrip:
         end = start + self.indicatorNumPixels
 
         for i in range(start, end):
-            print(i)
             self.setPixel(i, color)
         self.show()
