@@ -40,7 +40,7 @@ class LedManager:
                 self.leds.setPixel(self.index, i, Color(0, 255, 0))
 
             if pixelsToHighlight > pixelsFloored:
-                self.leds.setPixel(self.index, i + 1,
+                self.leds.setPixel(self.index, int(pixelsToHighlight + 0.5),
                                    Color(0, int(255 * (pixelsToHighlight % 1)), 0))
 
             self.leds.show()
