@@ -37,12 +37,13 @@ class LedManager:
             pixelsToHighlight = val * self.leds.indicatorNumPixels
             pixelsFloored = int(pixelsToHighlight)
             for i in range(pixelsFloored):
-                self.leds.setPixel(i, Color(0, 255, 0))
+                self.leds.setPixel(self.index, i, Color(0, 255, 0))
 
             if pixelsToHighlight > pixelsFloored:
-                self.leds.setPixel(pixelsFloored + 1,
+                self.leds.setPixel(self.index, pixelsFloored + 1,
                                    Color(0, int(255 * pixelsToHighlight % 1), 0))
             print(pixelsToHighlight)
+            self.leds.show()
             pass
         else:
             # get time sine wave
