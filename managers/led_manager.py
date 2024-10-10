@@ -41,7 +41,7 @@ class LedManager:
 
             if pixelsToHighlight > pixelsFloored:
                 self.leds.setPixel(pixelsFloored + 1,
-                                   Color(0, 255 * pixelsToHighlight % 1, 0))
+                                   Color(0, int(255 * pixelsToHighlight % 1), 0))
             print(pixelsToHighlight)
             pass
         else:
