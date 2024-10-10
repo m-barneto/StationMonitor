@@ -29,6 +29,8 @@ class LedManager:
         event_duration = datetime.now(
             timezone.utc).timestamp() - event.rpi_time
 
+        print(event_duration)
+
         first_stage_mins = .1
         if event_duration <= first_stage_mins * 60:
             # figure out how far into first stage we are 0-1
