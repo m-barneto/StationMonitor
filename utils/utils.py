@@ -22,7 +22,7 @@ def inv_lerp(a: float, b: float, v: float) -> float:
 
 
 class PixelStrip:
-    def __init__(self, ledsCount: int, indicatorCount: int = 2, gpio: int = 18, brightness: int = 255, hz=800000, dma: int = 10, invert: bool = False, channel: int = 0):
+    def __init__(self, ledsCount: int, indicatorCount: int = 2, gpio: int = 18, brightness: int = 10, hz=800000, dma: int = 10, invert: bool = False, channel: int = 0):
         self.ledsCount = ledsCount
         self.indicatorCount = indicatorCount
         self.indicatorNumPixels = int(self.ledsCount / self.indicatorCount)
