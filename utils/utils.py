@@ -52,7 +52,7 @@ class PixelStrip:
 
     def writeEdges(self, colors):
         for i in range(self.edgeCount):
-            for p in range(self.edgeLength / 2):
+            for p in range(int(self.edgeLength / 2)):
                 self.setPixel(i * self.edgeLength + p, colors[p])
                 # might need to -1 after "- p"
                 self.setPixel(i * self.edgeLength +
