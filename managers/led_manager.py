@@ -35,6 +35,8 @@ class LedManager:
             val = event_duration / timer_duration
             # convert that to numpixels
             pixelsToHighlight = val * self.leds.indicatorNumPixels
+            print(pixelsToHighlight)
+            await asyncio.sleep(1)
             pixelsFloored = int(pixelsToHighlight)
             for i in range(pixelsFloored):
                 self.leds.setPixel(self.index, i, Color(0, 255, 0))
