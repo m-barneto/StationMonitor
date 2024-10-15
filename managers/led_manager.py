@@ -39,7 +39,6 @@ class LedManager:
             pixelsFloored = int(pixelsToHighlight)
             print(pixelsToHighlight)
             print(pixelsFloored)
-            await asyncio.sleep(1)
             for i in range(pixelsFloored):
                 self.leds.setPixel(self.index, i, Color(0, 255, 0))
                 break
