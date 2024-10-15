@@ -40,11 +40,12 @@ class LedManager:
             print(pixelsToHighlight)
             print(pixelsFloored)
             for i in range(pixelsFloored):
-                self.leds.setPixel(self.index, i, Color(0, 255, 0))
+                self.leds.setPixel(self.index, i, Color(255, 255, 255))
 
             if pixelsToHighlight > pixelsFloored:
+                v = int(255 * (pixelsToHighlight % 1))
                 self.leds.setPixel(self.index, pixelsToHighlight,
-                                   Color(0, int(255 * (pixelsToHighlight % 1)), 0))
+                                   Color(v, v, v))
 
             self.leds.show()
         else:
@@ -52,5 +53,5 @@ class LedManager:
             # map from -1 to 1
             v = math.sin(datetime.now(timezone.utc).timestamp())
             t = int(inv_lerp(1, -1, v) * 255)
-            col = Color(255, 255 - t, 255 - t)
+            col = Color(255 - t, 255 - t, t)
             self.leds.fill(self.index, col)
