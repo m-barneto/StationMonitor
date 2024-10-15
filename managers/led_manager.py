@@ -2,6 +2,7 @@ import asyncio
 from datetime import datetime, timezone
 import math
 from rpi_ws281x import Adafruit_NeoPixel, Color  # type: ignore
+
 from managers.sensor_manager import SensorManager
 from utils.config import Config
 from utils.utils import PixelStrip, inv_lerp, lerp

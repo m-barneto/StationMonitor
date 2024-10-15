@@ -35,7 +35,7 @@ class PixelStrip:
 
     def setPixel(self, indicatorIndex: int, i: int, color: Color):
         self.strip.setPixelColor(
-            (indicatorIndex * self.indicatorNumPixels) + i, color)
+            int((indicatorIndex * self.indicatorNumPixels) + i), color)
 
     def clear(self, indicatorIndex):
         self.fill(indicatorIndex, Color(0, 0, 0))
