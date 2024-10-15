@@ -41,7 +41,6 @@ class LedManager:
             print(pixelsFloored)
             for i in range(pixelsFloored):
                 self.leds.setPixel(self.index, i, Color(0, 255, 0))
-                break
 
             if pixelsToHighlight > pixelsFloored:
                 self.leds.setPixel(self.index, pixelsToHighlight + 1,
