@@ -1,7 +1,7 @@
 **/client-env/
 **/server-env/
 **/venv/
-.config.jsonc
+config.jsonc
 
 .DS_Store
 .huskyrc.json
@@ -58,4 +58,3 @@ python-env-tools/**
 python_files/tests/*/.data/.coverage*
 python_files/tests/*/.data/*/.coverage*
 src/testTestingRootWkspc/coverageWorkspace/.coverage
-
