@@ -1,7 +1,7 @@
 **/client-env/
 **/server-env/
 **/venv/
-./config.jsonc
+.config.jsonc
 
 .DS_Store
 .huskyrc.json
