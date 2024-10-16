@@ -30,14 +30,20 @@ class LedManager:
         event_duration = datetime.now(
             timezone.utc).timestamp() - self.sensor.last_empty_event.rpi_time
 
+        print("==========")
         last_stage = Config.get()["leds"]["stages"][-1]
         if event_duration >= last_stage["duration"]:
             stage = last_stage
+            print("Current stage is last one")
         else:
             stage_index = self.get_led_stage_index(event_duration)
             stage = Config.get()["leds"]["stages"][stage_index]
+            print("Current stage is color " + stage["color"])
 
         timer_duration = last_stage["duration"]
+
+        print("Current Time: " + str(event_duration))
+        print("End Time: " + str(timer_duration))
         # await asyncio.sleep(2)
         if event_duration <= timer_duration:
             # figure out how far into timer we are
