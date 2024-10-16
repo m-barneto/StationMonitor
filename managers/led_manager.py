@@ -32,9 +32,9 @@ class LedManager:
 
         timer_duration = 1000
         stage_index = self.get_led_stage_index(event_duration)
-        print(stage_index)
+        last_stage = Config.get()["leds"]["stages"][-1]
+        print(last_stage)
         stage = Config.get()["leds"]["stages"][stage_index]
-        print(stage["color"])
         await asyncio.sleep(2)
         if event_duration <= timer_duration:
             # figure out how far into timer we are
