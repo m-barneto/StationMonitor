@@ -22,9 +22,11 @@ class LedManager:
             await asyncio.sleep(.01)
 
     async def process_event(self) -> None:
+        self.leds.fill(self.index, Color(255, 255, 255))
+        return
         event = self.sensor.last_sensor_event
         if event.state == SensorState.EMPTY.value:
-            self.leds.fill(self.index, Color(0, 255, 0))
+            self.leds.fill(self.index, Color(0, 0, 0))
             return
 
         event_duration = datetime.now(
