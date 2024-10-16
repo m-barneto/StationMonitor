@@ -31,7 +31,7 @@ class LedManager:
             timezone.utc).timestamp() - self.sensor.last_empty_event.rpi_time
 
         timer_duration = 1000
-        stage_index = self.get_led_stage_index(timer_duration)
+        stage_index = self.get_led_stage_index(event_duration)
         stage = Config.get()["leds"]["stages"][stage_index]
         print(stage["color"])
         await asyncio.sleep(2)
