@@ -1,7 +1,7 @@
 {
     "leds": {
         "numLeds": 30,
-        "numIndicators": 2,
+        "numIndicators": 1,
         "gpioPin": 18,
         // Range is 0-255
         "brightness": 255,
