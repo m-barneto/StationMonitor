@@ -63,7 +63,9 @@ class LedManager:
         index = 0
         print(str(time))
         for stage in Config.get()["leds"]["stages"]:
+            print(stage)
             if time <= float(stage["duration"]):
+                print("We were within stage " + str(index))
                 index += 1
             else:
                 print("Returning stage " + str(index))
