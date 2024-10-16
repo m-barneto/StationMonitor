@@ -20,7 +20,7 @@
             // Finally, from 6 to 8 mins the light will be blue
             {
                 "color": "#0000FF",
-                "duration": 480.0 //480.0
+                "duration": 10.0 //480.0
             }
         ],
         "flashing": {
