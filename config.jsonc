@@ -4,7 +4,7 @@
         "numIndicators": 2,
         "gpioPin": 18,
         // Range is 0-255
-        "brightness": 20,
+        "brightness": 255,
         // Stages for the light indicator
         "stages": [
             // First stage, white until 3 minutes in, then the next stage is hit
@@ -26,7 +26,7 @@
         "flashing": {
             "shouldFlash": true,
             // How quickly it goes from primary to secondary color
-            "flashFrequency": 3.0,
+            "flashFrequency": 100.0,
             "primaryColor": "#FFFFFF",
             "secondaryColor": "#0000FF"
         }
