@@ -60,13 +60,14 @@ class LedManager:
             self.leds.fill(self.index, col)
 
     def get_led_stage_index(self, time: float) -> int:
-        index = 0
+        index = len(Config.get()["leds"]["stages"])
         print(str(time))
-        for stage in Config.get()["leds"]["stages"]:
+        for stage in reversed(Config.get()["leds"]["stages"]):
             print(stage)
             if time <= float(stage["duration"]):
                 print("We were within stage " + str(index))
-                index += 1
+                index -= 1
             else:
                 print("Returning stage " + str(index))
-                return index
+                break
+        return index
