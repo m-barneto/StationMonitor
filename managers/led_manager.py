@@ -79,7 +79,7 @@ class LedManager:
                 print(primary.r, primary.g, primary.b)
                 print("SECONDARY")
                 print(secondary.r, secondary.g, secondary.b)
-                output = primary + secondary
+                output = Color(primary + secondary)
                 print("OUTPUT")
                 print(output.r, output.g, output.b)
 
