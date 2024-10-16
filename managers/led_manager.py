@@ -40,8 +40,6 @@ class LedManager:
             # convert that to numpixels
             pixelsToHighlight = val * self.leds.indicatorNumPixels
             pixelsFloored = int(pixelsToHighlight)
-            print(pixelsToHighlight)
-            print(pixelsFloored)
             for i in range(pixelsFloored):
                 self.leds.setPixel(self.index, i, Color(255, 255, 255))
 
