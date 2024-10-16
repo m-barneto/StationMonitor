@@ -26,7 +26,7 @@
         "flashing": {
             "shouldFlash": true,
             // How quickly it goes from primary to secondary color
-            "flashFrequency": 10.0,
+            "flashFrequency": 3.0,
             "primaryColor": "#FFFFFF",
             "secondaryColor": "#0000FF"
         }
