@@ -60,7 +60,7 @@ class LedManager:
             self.leds.fill(self.index, col)
 
     def get_led_stage_index(self, time: float) -> int:
-        index = len(Config.get()["leds"]["stages"])
+        index = len(Config.get()["leds"]["stages"]) - 1
         print(str(time))
         for stage in reversed(Config.get()["leds"]["stages"]):
             print(stage)
