@@ -63,7 +63,7 @@ class LedManager:
         index = len(Config.get()["leds"]["stages"]) - 1
         print("start index " + str(index))
         for stage in reversed(Config.get()["leds"]["stages"]):
-            if time <= float(stage["duration"]):
+            if time <= float(stage["duration"]) and index > 0:
                 index -= 1
             else:
                 break
