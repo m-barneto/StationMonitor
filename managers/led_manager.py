@@ -31,6 +31,9 @@ class LedManager:
             timezone.utc).timestamp() - self.sensor.last_empty_event.rpi_time
 
         timer_duration = float(Config.get()["indicator"]["timerDuration"])
+        stage_index = self.get_led_stage_index(timer_duration)
+        stage = Config.get()["leds"]["stages"][stage_index]
+        print(stage["color"])
         if event_duration <= timer_duration:
             # figure out how far into timer we are
             val = event_duration / timer_duration
@@ -55,3 +58,12 @@ class LedManager:
             t = int(inv_lerp(1, -1, v) * 255)
             col = Color(255 - t, 255 - t, t)
             self.leds.fill(self.index, col)
+
+    def get_led_stage_index(self, time: float) -> int:
+        index = 0
+        for stage in Config.get()["leds"]["stages"]:
+            if time <= stage["duration"]:
+                index += 1
+            else:
+                break
+        return index

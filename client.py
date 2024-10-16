@@ -11,7 +11,8 @@ from utils.utils import PixelStrip
 
 leds = PixelStrip(Config.get()["leds"]["numLeds"],
                   Config.get()["leds"]["numIndicators"],
-                  Config.get()["leds"]["gpioPin"])
+                  Config.get()["leds"]["gpioPin"],
+                  Config.get()["leds"]["brightness"])
 
 try:
     q = asyncio.Queue()

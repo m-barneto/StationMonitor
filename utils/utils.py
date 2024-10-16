@@ -1,6 +1,17 @@
 from rpi_ws281x import Adafruit_NeoPixel, Color  # type: ignore
 
 
+def hex_to_rgb(hex: str) -> tuple:
+    """Convert hex code to color tuple with rgb ranges from 0-1
+    Examples
+    --------
+        (1.0, 0.0, 1.0) == hex_to_rgb("#FF00FF")
+        (1.0, 0.101, 1.0) == hex_to_rgb("FF1AFF")
+    """
+    hex = hex.lstrip("#")
+    return tuple(int(hex[i:i + 2], 16) for i in (0, 2, 4))
+
+
 def lerp(a: float, b: float, t: float) -> float:
     """Linear interpolate on the scale given by a to b, using t as the point on that scale.
     Examples
