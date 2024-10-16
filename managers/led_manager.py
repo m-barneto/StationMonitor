@@ -45,6 +45,7 @@ class LedManager:
         print("Current Time: " + str(event_duration))
         print("End Stage Time: " + str(stage["duration"]))
         print("End Time: " + str(timer_duration))
+        print(hex_to_rgb(stage["color"]))
         # await asyncio.sleep(2)
         if event_duration <= timer_duration:
             # figure out how far into timer we are
@@ -66,6 +67,11 @@ class LedManager:
                 # map from -1 to 1
                 v = math.sin(datetime.now(timezone.utc).timestamp())
                 t = int(inv_lerp(1, -1, v) * 255)
+                primary = hex_to_rgb(
+                    Config.get()["leds"]["flashing"]["primaryColor"])
+                secondary = hex_to_rgb(
+                    Config.get()["leds"]["flashing"]["secondaryColor"])
+
                 col = Color(255 - t, 255 - t, t)
                 self.leds.fill(self.index, col)
             else:
@@ -73,13 +79,9 @@ class LedManager:
 
     def get_led_stage_index(self, time: float) -> int:
         index = len(Config.get()["leds"]["stages"])
-        print(time)
         for stage in reversed(Config.get()["leds"]["stages"]):
-            print(stage["duration"])
             if time <= float(stage["duration"]) and index > 0:
-                print("Going down")
                 index -= 1
             else:
-                print("Found last one!")
                 break
         return index
