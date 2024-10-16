@@ -43,6 +43,7 @@ class LedManager:
         timer_duration = last_stage["duration"]
 
         print("Current Time: " + str(event_duration))
+        print("End Stage Time: " + str(stage["duration"]))
         print("End Time: " + str(timer_duration))
         # await asyncio.sleep(2)
         if event_duration <= timer_duration:
