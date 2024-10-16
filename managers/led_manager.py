@@ -5,7 +5,7 @@ from rpi_ws281x import Adafruit_NeoPixel, Color  # type: ignore
 
 from managers.sensor_manager import SensorManager
 from utils.config import Config
-from utils.utils import PixelStrip, hex_to_rgb, inv_lerp, lerp
+from utils.utils import PixelStrip, clamp, hex_to_rgb, inv_lerp, lerp
 from utils.sensor_event import SensorState
 
 
@@ -79,7 +79,8 @@ class LedManager:
                 print(primary.r, primary.g, primary.b)
                 print("SECONDARY")
                 print(secondary.r, secondary.g, secondary.b)
-                output = Color(primary + secondary)
+                output = Color(clamp(primary.r + secondary.r, 0, 255), clamp(primary.g +
+                               secondary.g, 0, 255), clamp(primary.b + secondary.b, 0, 255))
                 print("OUTPUT")
                 print(output.r, output.g, output.b)
 
