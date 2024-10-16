@@ -64,9 +64,12 @@ class LedManager:
             if Config.get()["leds"]["flashing"]["shouldFlash"]:
                 # get time sine wave
                 # map from -1 to 1
-                v = math.sin(datetime.now(timezone.utc).timestamp())
+                v = math.sin(datetime.now(timezone.utc).timestamp(
+                ) * Config.get()["leds"]["flashing"]["flashFrequency"])
+
                 t = inv_lerp(1, -1, v)
                 y = inv_lerp(1, -1, -v)
+
                 primary = hex_to_rgb(
                     Config.get()["leds"]["flashing"]["primaryColor"], t)
                 secondary = hex_to_rgb(
@@ -76,6 +79,9 @@ class LedManager:
                 print(primary.r, primary.g, primary.b)
                 print("SECONDARY")
                 print(secondary.r, secondary.g, secondary.b)
+                output = primary + secondary
+                print("OUTPUT")
+                print(output.r, output.g, output.b)
 
                 # col = Color(255 - t, 255 - t, t)
                 self.leds.fill(self.index, primary)

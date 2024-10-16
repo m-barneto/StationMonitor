@@ -1,6 +1,17 @@
 from rpi_ws281x import Adafruit_NeoPixel, Color  # type: ignore
 
 
+def clamp(n, min, max):
+    """n is the number we would like to clip. min and max specify the range to be used for clipping the number.
+    """
+    if n < min:
+        return min
+    elif n > max:
+        return max
+    else:
+        return n
+
+
 def hex_to_rgb(hex: str, scalar: float = 1.0) -> Color:
     """Convert hex code to color tuple with rgb ranges from 0-255
     Examples
