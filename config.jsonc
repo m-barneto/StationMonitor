@@ -1,6 +1,6 @@
 {
     "leds": {
-        "numLeds": 48,
+        "numLeds": 30,
         "numIndicators": 2,
         "gpioPin": 18,
         // Range is 0-255
@@ -10,17 +10,17 @@
             // First stage, blue color until 2 minutes in, then the next stage is hit
             {
                 "color": "#0000FF",
-                "duration": 15 //180.0
+                "duration": 30 //180.0
             },
             // Up until 6 mins in, the color will be white
             {
                 "color": "#FFFFFF",
-                "duration": 30 //360.0
+                "duration": 45 //360.0
             },
             // Finally, from 6 to 8 mins the light will be yellow
             {
                 "color": "#FFFF00",
-                "duration": 45 //480.0
+                "duration": 60 //480.0
             }
         ],
         "flashing": {
