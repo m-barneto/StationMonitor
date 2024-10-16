@@ -78,7 +78,9 @@ class LedManager:
             print(index)
             print(stage["duration"])
             if time <= float(stage["duration"]) and index > 0:
+                print("Going down")
                 index -= 1
             else:
+                print("Found last one!")
                 break
         return index
