@@ -45,7 +45,8 @@ class LedManager:
         print("Current Time: " + str(event_duration))
         print("End Stage Time: " + str(stage["duration"]))
         print("End Time: " + str(timer_duration))
-        print(hex_to_rgb(stage["color"]).g)
+        c = hex_to_rgb(stage["color"])
+        print(c.r, c.g, c.b)
         # await asyncio.sleep(2)
         if event_duration <= timer_duration:
             # figure out how far into timer we are
