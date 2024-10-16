@@ -85,7 +85,7 @@ class LedManager:
                 print(output.r, output.g, output.b)
 
                 # col = Color(255 - t, 255 - t, t)
-                self.leds.fill(self.index, primary)
+                self.leds.fill(self.index, output)
             else:
                 self.leds.fill(self.index, hex_to_rgb(stage["color"]))
 
