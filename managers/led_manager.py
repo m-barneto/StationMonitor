@@ -101,5 +101,5 @@ class LedManager:
             if time > 0:
                 index += 1
                 if stage == Config.get()["leds"]["stages"][-1]:
-                    print("last stage??")
+                    return -1
         return index
