@@ -101,3 +101,4 @@ class LedManager:
                 return index
 
             index += 1
+        return 0
