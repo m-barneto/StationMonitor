@@ -33,7 +33,10 @@ class LedManager:
         print("Current Stage: " + str(stage))
 
         if stage != -1:
-            print(self.get_time_before_stage(stage))
+            print()
+            time_into_stage = event_duration - \
+                self.get_time_before_stage(stage)
+            print("Time into stage: " + "{:.2f}".format(time_into_stage))
             pass
         else:
             pass
