@@ -25,7 +25,6 @@ class LedManager:
         event = self.sensor.last_empty_event
         event_duration = datetime.now(timezone.utc).timestamp(
         ) - event.rpi_time
-        print("Event Duration: " + "{:.2f}".format(event_duration))
         stage_index = self.get_led_stage_index(event_duration)
         stage = Config.get()["leds"]["stages"][stage_index]
 
