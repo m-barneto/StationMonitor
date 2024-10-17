@@ -47,8 +47,27 @@ class LedManager:
             self.leds.show()
         else:
 
-            self.leds.fill(self.index, Color(255, 255, 255))
-            pass
+            if Config.get()["leds"]["flashing"]["shouldFlash"]:
+                # get time sine wave
+                # map from -1 to 1
+                v = math.sin(datetime.now(timezone.utc).timestamp(
+                ) * Config.get()["leds"]["flashing"]["flashFrequency"])
+
+                t = inv_lerp(1, -1, v)
+                y = inv_lerp(1, -1, -v)
+
+                primary = hex_to_rgb(
+                    Config.get()["leds"]["flashing"]["primaryColor"], t)
+                secondary = hex_to_rgb(
+                    Config.get()["leds"]["flashing"]["secondaryColor"], y)
+
+                output = Color(clamp(primary.r + secondary.r, 0, 255), clamp(primary.g +
+                               secondary.g, 0, 255), clamp(primary.b + secondary.b, 0, 255))
+
+                # col = Color(255 - t, 255 - t, t)
+                self.leds.fill(self.index, output)
+            else:
+                self.leds.fill(self.index, hex_to_rgb(stage["color"]))
 
         return
         event = self.sensor.last_sensor_event
