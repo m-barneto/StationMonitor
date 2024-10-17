@@ -32,6 +32,12 @@ class LedManager:
         stage = self.get_led_stage_index(event_duration)
         print("Current Stage: " + str(stage))
 
+        if stage != -1:
+            print(self.get_time_before_stage(stage))
+            pass
+        else:
+            pass
+
         return
         event = self.sensor.last_sensor_event
         if event.state == SensorState.EMPTY.value:
@@ -103,3 +109,9 @@ class LedManager:
                 if stage == Config.get()["leds"]["stages"][-1]:
                     return -1
         return index
+
+    def get_time_before_stage(self, stage: int):
+        time_before_stage = 0
+        for i in range(stage):
+            time_before_stage += Config.get()["leds"]["stages"][i]["duration"]
+        return time_before_stage
