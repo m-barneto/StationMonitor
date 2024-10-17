@@ -28,7 +28,7 @@ class LedManager:
         event = self.sensor.last_sensor_event
         event_duration = datetime.now(timezone.utc).timestamp(
         ) - self.sensor.last_empty_event.rpi_time
-        print("Current Time: " + str(event_duration))
+        print("Current Time: " + "{:.2f}".format(event_duration))
         stage = self.get_led_stage_index(event_duration)
         print("Current Stage: " + str(stage))
 
@@ -94,11 +94,9 @@ class LedManager:
                 self.leds.fill(self.index, hex_to_rgb(stage["color"]))
 
     def get_led_stage_index(self, time: float) -> int:
-        index = 1
+        index = 0
         for stage in Config.get()["leds"]["stages"]:
             time -= stage["duration"]
             if time > 0:
-                return index
-
-            index += 1
-        return 0
+                index += 1
+        return index
