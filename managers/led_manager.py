@@ -22,22 +22,32 @@ class LedManager:
             await asyncio.sleep(.01)
 
     async def process_event(self) -> None:
-
-        self.leds.fill(self.index, Color(255, 255, 255))
-
         event = self.sensor.last_sensor_event
         event_duration = datetime.now(timezone.utc).timestamp(
         ) - self.sensor.last_empty_event.rpi_time
         print("Current Time: " + "{:.2f}".format(event_duration))
-        stage = self.get_led_stage_index(event_duration)
-        print("Current Stage: " + str(stage))
+        stage_index = self.get_led_stage_index(event_duration)
+        stage = Config.get()["leds"]["stages"][stage_index]
+        print("Current Stage: " + str(stage_index))
 
-        if stage != -1:
+        if stage_index != -1:
             time_into_stage = event_duration - \
-                self.get_time_before_stage(stage)
-            print("Time into stage: " + "{:.2f}".format(time_into_stage))
-            pass
+                self.get_time_before_stage(stage_index)
+            val = time_into_stage / stage["duration"]
+            # convert that to numpixels
+            pixelsToHighlight = val * self.leds.indicatorNumPixels
+            pixelsFloored = int(pixelsToHighlight)
+            for i in range(pixelsFloored):
+                self.leds.setPixel(self.index, i, hex_to_rgb(stage["color"]))
+
+            if pixelsToHighlight > pixelsFloored:
+                self.leds.setPixel(self.index, pixelsToHighlight,
+                                   hex_to_rgb(stage["color"], pixelsToHighlight % 1))
+
+            self.leds.show()
         else:
+
+            self.leds.fill(self.index, Color(255, 255, 255))
             pass
 
         return
