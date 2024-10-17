@@ -1,4 +1,4 @@
-from rpi_ws281x import Adafruit_NeoPixel, Color, ws  # type: ignore
+from rpi_ws281x import Color, ws  # type: ignore Adafruit_NeoPixel,
 import neopixel
 import board
 
