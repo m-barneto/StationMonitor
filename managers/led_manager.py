@@ -22,7 +22,7 @@ class LedManager:
             await asyncio.sleep(.01)
 
     async def process_event(self) -> None:
-        event = self.sensor.last_sensor_event
+        event = self.sensor.last_empty_event
         event_duration = datetime.now(timezone.utc).timestamp(
         ) - event.rpi_time
         # print("Event Duration: " + "{:.2f}".format(event_duration))
