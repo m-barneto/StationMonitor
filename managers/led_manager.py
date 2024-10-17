@@ -94,7 +94,7 @@ class LedManager:
                 self.leds.fill(self.index, hex_to_rgb(stage["color"]))
 
     def get_led_stage_index(self, time: float) -> int:
-        index = 0
+        index = 1
         for stage in Config.get()["leds"]["stages"]:
             time -= stage["duration"]
             if time > 0:
