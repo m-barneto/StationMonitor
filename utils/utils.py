@@ -1,4 +1,4 @@
-from rpi_ws281x import Adafruit_NeoPixel, Color  # type: ignore
+from rpi_ws281x import Adafruit_NeoPixel, Color, ws  # type: ignore
 
 
 def clamp(n, min, max):
@@ -50,7 +50,7 @@ class PixelStrip:
         self.indicatorCount = indicatorCount
         self.indicatorNumPixels = int(self.ledsCount / self.indicatorCount)
         self.strip = Adafruit_NeoPixel(
-            self.ledsCount, gpio, hz, dma, invert, brightness, channel)
+            self.ledsCount, gpio, hz, dma, invert, brightness, channel, ws.WS2812_STRIP)
         self.strip.begin()
 
     def show(self):
