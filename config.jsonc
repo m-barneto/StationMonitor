@@ -1,6 +1,6 @@
 {
     "leds": {
-        "numLeds": 30,
+        "numLeds": 33,
         "numIndicators": 1,
         "gpioPin": 18,
         // Range is 0-255
