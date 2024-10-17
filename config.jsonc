@@ -38,7 +38,7 @@
             "zone": "A1",
             "gpioPin": 17,
             "indicatorIndex": 0,
-            "alarmDuration": 30.0
+            "alarmDuration": 0.5
         }
     ],
     // How many times the sensor is polled per second
