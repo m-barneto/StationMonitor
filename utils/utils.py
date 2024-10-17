@@ -1,5 +1,6 @@
 from rpi_ws281x import Adafruit_NeoPixel, Color, ws  # type: ignore
-# from neopixel import Adafruit_NeoPixel
+import neopixel
+import board
 
 
 def clamp(n, min, max):
@@ -50,16 +51,18 @@ class PixelStrip:
         self.ledsCount = ledsCount
         self.indicatorCount = indicatorCount
         self.indicatorNumPixels = int(self.ledsCount / self.indicatorCount)
-        self.strip = Adafruit_NeoPixel(
-            self.ledsCount, gpio, hz, dma, invert, brightness, channel, ws.WS2811_STRIP_GBR)
-        self.strip.begin()
+        # self.strip = Adafruit_NeoPixel(
+        #    self.ledsCount, gpio, hz, dma, invert, brightness, channel, ws.WS2811_STRIP_GBR)
+        self.strip = neopixel.NeoPixel(board.D18, ledsCount)
+        # self.strip.begin()
 
     def show(self):
         self.strip.show()
 
     def setPixel(self, indicatorIndex: int, i: int, color: Color):
-        self.strip.setPixelColor(
-            int((indicatorIndex * self.indicatorNumPixels) + i), color)
+        self.strip[int((indicatorIndex * self.indicatorNumPixels) + i)] = color
+        # self.strip.setPixelColor(
+        #    int((indicatorIndex * self.indicatorNumPixels) + i), color)
 
     def clear(self, indicatorIndex):
         self.fill(indicatorIndex, Color(0, 0, 0))
