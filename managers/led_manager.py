@@ -29,6 +29,8 @@ class LedManager:
         stage_index = self.get_led_stage_index(event_duration)
         stage = Config.get()["leds"]["stages"][stage_index]
 
+        print(stage_index)
+
         if stage_index != -1:
             time_into_stage = event_duration - \
                 self.get_time_before_stage(stage_index)
