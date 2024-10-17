@@ -53,6 +53,7 @@ class SensorManager:
             # Get time from start of event to now
             rpi_time = datetime.now(timezone.utc).timestamp()
             duration = rpi_time - self.last_empty_event.rpi_time
+            print(duration)
             if duration * 60 >= self.alarm_duration:
                 print("Sending alarm out for event over x mins")
                 alarm_event = AlarmEvent(
