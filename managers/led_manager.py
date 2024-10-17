@@ -95,8 +95,11 @@ class LedManager:
 
     def get_led_stage_index(self, time: float) -> int:
         index = 0
+
         for stage in Config.get()["leds"]["stages"]:
             time -= stage["duration"]
             if time > 0:
                 index += 1
+                if stage == Config.get()["leds"]["stages"][-1]:
+                    print("last stage??")
         return index
