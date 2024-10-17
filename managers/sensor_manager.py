@@ -3,12 +3,12 @@ from datetime import datetime, timezone
 import RPi.GPIO as GPIO  # type: ignore
 
 from utils.config import Config
-from utils.sensor_event import OccupiedEvent, SensorEvent, SensorState
+from utils.sensor_event import AlarmEvent, OccupiedEvent, SensorEvent, SensorState
 from utils.utils import PixelStrip
 
 
 class SensorManager:
-    def __init__(self, SENSOR_PIN: int, zone: str, q: asyncio.Queue) -> None:
+    def __init__(self, SENSOR_PIN: int, zone: str, alarm_duration: int, event_queue: asyncio.Queue, alarm_queue: asyncio.Queue) -> None:
         # Setup our sensor/gpio pin info
         self.SENSOR_PIN = SENSOR_PIN
         GPIO.setwarnings(False)
@@ -17,7 +17,9 @@ class SensorManager:
 
         # Assign our zone and event queue
         self.zone = zone
-        self.event_queue = q
+        self.event_queue = event_queue
+        self.alarm_queue = alarm_queue
+        self.alarm_duration = alarm_duration
 
         # Start sensor off with an empty event
         self.sensor_state: SensorState = SensorState.EMPTY
@@ -43,6 +45,17 @@ class SensorManager:
             occupied_event = OccupiedEvent(
                 self.zone, self.last_empty_event.rpi_time, datetime.now(timezone.utc).timestamp())
             await self.event_queue.put(occupied_event)
+        elif SensorState(self.sensor_state) == SensorState.OCCUPIED and SensorState(current_state) == SensorState.OCCUPIED:
+            # We are still occupied, check time to see if its over the config's alarm setting
+            # Get time from start of event to now
+            rpi_time = datetime.now(timezone.utc).timestamp()
+            duration = rpi_time - self.last_empty_event.rpi_time
+            if duration * 60 >= self.alarm_duration:
+                print("Sending alarm out for event over x mins")
+                alarm_event = AlarmEvent(
+                    self.zone, self.last_empty_event.rpi_time, rpi_time)
+                await self.alarm_queue.put(alarm_event)
+
         elif SensorState(current_state) == SensorState.EMPTY:
             self.last_empty_event = SensorEvent(
                 self.zone, current_state)

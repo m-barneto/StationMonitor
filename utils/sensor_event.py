@@ -24,3 +24,10 @@ class OccupiedEvent:
         self.start_time = start_time
         self.end_time = end_time
         self.duration = end_time - start_time
+
+
+class AlarmEvent:
+    def __init__(self, zone: str, start_time: float, rpi_time: float):
+        self.zone = zone
+        self.start_time = start_time
+        self.rpi_time = rpi_time
