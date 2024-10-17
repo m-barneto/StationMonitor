@@ -30,12 +30,12 @@ try:
         s = SensorManager(
             sensor["gpioPin"],
             sensor["zone"],
+            sensor["alarmDuration"]
             event_queue,
             alarm_queue
         )
         loop.create_task(s.loop())
-        loop.create_task(LedManager(
-            s, leds, sensor["indicatorIndex"], sensor["alarmDuration"]).loop())
+        loop.create_task(LedManager(s, leds, sensor["indicatorIndex"]).loop())
 
     loop.run_forever()
 finally:
