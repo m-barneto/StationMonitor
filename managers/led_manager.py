@@ -24,6 +24,14 @@ class LedManager:
     async def process_event(self) -> None:
 
         self.leds.fill(self.index, Color(255, 255, 255))
+
+        event = self.sensor.last_sensor_event
+        event_duration = datetime.now(timezone.utc).timestamp(
+        ) - self.sensor.last_empty_event.rpi_time
+        print("Current Time: " + str(event_duration))
+        stage = self.get_led_stage_index(event_duration)
+        print("Current Stage: " + str(stage))
+
         return
         event = self.sensor.last_sensor_event
         if event.state == SensorState.EMPTY.value:
@@ -86,10 +94,10 @@ class LedManager:
                 self.leds.fill(self.index, hex_to_rgb(stage["color"]))
 
     def get_led_stage_index(self, time: float) -> int:
-        index = len(Config.get()["leds"]["stages"])
-        for stage in reversed(Config.get()["leds"]["stages"]):
-            if time <= float(stage["duration"]) and index > 0:
-                index -= 1
-            else:
-                break
-        return index
+        index = 0
+        for stage in Config.get()["leds"]["stages"]:
+            time -= stage["duration"]
+            if time > 0:
+                return index
+
+            index += 1
