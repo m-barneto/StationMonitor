@@ -30,7 +30,7 @@ try:
         s = SensorManager(
             sensor["gpioPin"],
             sensor["zone"],
-            sensor["alarmDuration"]
+            sensor["alarmDuration"],
             event_queue,
             alarm_queue
         )
