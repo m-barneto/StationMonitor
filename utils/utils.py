@@ -50,7 +50,7 @@ class PixelStrip:
         self.indicatorCount = indicatorCount
         self.indicatorNumPixels = int(self.ledsCount / self.indicatorCount)
         self.strip = Adafruit_NeoPixel(
-            self.ledsCount, gpio, hz, dma, invert, brightness, channel, ws.SK6812_STRIP_GRBW)
+            self.ledsCount, gpio, hz, dma, invert, brightness, channel, ws.SK6812_STRIP_GBRW)
         self.strip.begin()
 
     def show(self):
