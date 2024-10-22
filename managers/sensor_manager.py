@@ -1,5 +1,5 @@
 import asyncio
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 import RPi.GPIO as GPIO  # type: ignore
 
 from utils.config import Config
@@ -52,7 +52,7 @@ class SensorManager:
             # Get time from start of event to now
             rpi_time = datetime.now(timezone.utc)
             duration = rpi_time - self.last_empty_event.rpi_time
-            if duration >= self.alarm_duration * 60:
+            if duration >= timedelta.seconds(self.alarm_duration * 60):
                 print("Sending alarm out for event over x mins")
                 alarm_event = AlarmEvent(
                     self.zone, self.last_empty_event.rpi_time, rpi_time)
