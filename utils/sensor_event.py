@@ -20,14 +20,19 @@ class SensorEvent:
 
 class OccupiedEvent:
     def __init__(self, zone: str, start_time: float, end_time: float):
-        self.zone = zone
-        self.start_time = start_time
-        self.end_time = end_time
-        self.duration = end_time - start_time
+        self.alarmType = "occupation"
+        self.body = {}
+        self.body["zone"] = zone
+        self.body["startTime"] = start_time
+        self.body["endTime"] = end_time
+        self.body["duration"] = end_time - start_time
+        self.body["triggeredAlarm"] = True
 
 
 class AlarmEvent:
     def __init__(self, zone: str, start_time: float, rpi_time: float):
-        self.zone = zone
-        self.start_time = start_time
-        self.rpi_time = rpi_time
+        self.alarmType = "alarm"
+        self.body["zone"] = zone
+        self.body["startTime"] = start_time
+        self.body["endTime"] = rpi_time
+        self.body["duration"] = rpi_time - start_time

@@ -44,7 +44,7 @@ class SensorManager:
             print("Sending event.")
 
             occupied_event = OccupiedEvent(
-                self.zone, self.last_empty_event.rpi_time, datetime.now(timezone.utc).timestamp())
+                self.zone, self.last_empty_event.rpi_time, datetime.now(timezone.utc).timestamp(), self.has_sent_alarm)
             await self.event_queue.put(occupied_event)
             self.has_sent_alarm = False
         elif SensorState(self.sensor_state) == SensorState.OCCUPIED and SensorState(current_state) == SensorState.OCCUPIED and not self.has_sent_alarm:
