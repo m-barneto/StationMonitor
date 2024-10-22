@@ -1,4 +1,4 @@
-from rpi_ws281x import Color, ws  # type: ignore Adafruit_NeoPixel,
+from rpi_ws281x import Adafruit_NeoPixel, Color, ws  # type: ignore 
 
 
 def clamp(n, min, max):
