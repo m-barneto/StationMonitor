@@ -22,10 +22,9 @@ class LedManager:
             await asyncio.sleep(.01)
 
     async def process_event(self) -> None:
-        event = self.sensor.last_sensor_event
+        event = self.sensor.last_empty_event
         event_duration = datetime.now(timezone.utc).timestamp(
-        ) - self.sensor.last_empty_event.rpi_time
-        print("Event Duration: " + "{:.2f}".format(event_duration))
+        ) - event.rpi_time
         stage_index = self.get_led_stage_index(event_duration)
         stage = Config.get()["leds"]["stages"][stage_index]
 
