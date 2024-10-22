@@ -24,7 +24,7 @@ class LedManager:
     async def process_event(self) -> None:
         event = self.sensor.last_empty_event
         event_duration = datetime.now(timezone.utc).timestamp(
-        ) - event.rpi_time
+        ) - event.rpi_time.timestamp()
         stage_index = self.get_led_stage_index(event_duration)
         stage = Config.get()["leds"]["stages"][stage_index]
 
