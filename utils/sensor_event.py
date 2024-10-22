@@ -32,6 +32,7 @@ class OccupiedEvent:
 class AlarmEvent:
     def __init__(self, zone: str, start_time: datetime, rpi_time: datetime):
         self.alarmType = "alarm"
+        self.body = {}
         self.body["zone"] = zone
         self.body["startTime"] = start_time
         self.body["endTime"] = rpi_time
