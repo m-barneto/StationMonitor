@@ -44,13 +44,13 @@ class SensorManager:
             print("Sending event.")
 
             occupied_event = OccupiedEvent(
-                self.zone, self.last_empty_event.rpi_time, datetime.now(timezone.utc).timestamp(), self.has_sent_alarm)
+                self.zone, self.last_empty_event.rpi_time, datetime.now(timezone.utc), self.has_sent_alarm)
             await self.event_queue.put(occupied_event)
             self.has_sent_alarm = False
         elif SensorState(self.sensor_state) == SensorState.OCCUPIED and SensorState(current_state) == SensorState.OCCUPIED and not self.has_sent_alarm:
             # We are still occupied, check time to see if its over the config's alarm setting
             # Get time from start of event to now
-            rpi_time = datetime.now(timezone.utc).timestamp()
+            rpi_time = datetime.now(timezone.utc)
             duration = rpi_time - self.last_empty_event.rpi_time
             if duration >= self.alarm_duration * 60:
                 print("Sending alarm out for event over x mins")

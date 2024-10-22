@@ -11,7 +11,7 @@ class SensorEvent:
     def __init__(self, zone: str, state: SensorState) -> None:
         # Set our rpi's utc timestamp
         # Seconds from epoch
-        self.rpi_time = datetime.now(timezone.utc).timestamp()
+        self.rpi_time = datetime.now(timezone.utc)
         # Load ID from config
         self.zone = zone
 
@@ -19,7 +19,7 @@ class SensorEvent:
 
 
 class OccupiedEvent:
-    def __init__(self, zone: str, start_time: float, end_time: float):
+    def __init__(self, zone: str, start_time: datetime, end_time: datetime):
         self.alarmType = "occupation"
         self.body = {}
         self.body["zone"] = zone
@@ -30,7 +30,7 @@ class OccupiedEvent:
 
 
 class AlarmEvent:
-    def __init__(self, zone: str, start_time: float, rpi_time: float):
+    def __init__(self, zone: str, start_time: datetime, rpi_time: datetime):
         self.alarmType = "alarm"
         self.body["zone"] = zone
         self.body["startTime"] = start_time
