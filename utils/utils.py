@@ -1,5 +1,4 @@
 from rpi_ws281x import Color, ws  # type: ignore Adafruit_NeoPixel,
-import board
 
 
 def clamp(n, min, max):
