@@ -60,7 +60,6 @@ class SensorManager:
                 self.has_sent_alarm = True
 
         elif SensorState(current_state) == SensorState.EMPTY:
-            print("empty")
             self.last_empty_event = SensorEvent(
                 self.zone, current_state)
             self.has_sent_alarm = False
