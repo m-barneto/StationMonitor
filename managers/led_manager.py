@@ -23,7 +23,7 @@ class LedManager:
 
     async def process_event(self) -> None:
         for i in range(self.leds.indicatorNumPixels):
-            self.leds.setPixel(self.index, i, hex_to_rgb("#FFFFFF"))
+            self.leds.setPixel(self.index, i, Color(255, 255, 255))
         return
         event = self.sensor.last_empty_event
         event_duration = datetime.now(timezone.utc).timestamp(
