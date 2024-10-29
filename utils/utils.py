@@ -50,7 +50,7 @@ class PixelStrip:
         self.indicatorCount = indicatorCount
         self.indicatorNumPixels = int(self.ledsCount / self.indicatorCount)
         self.strip = Pixels(
-            self.ledsCount, gpio, hz, dma, invert, brightness, channel)
+            self.ledsCount, gpio, hz, dma, invert, brightness, channel, ws.WS2812_STRIP)
         self.strip.begin()
 
     def show(self):
