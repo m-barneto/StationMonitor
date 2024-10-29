@@ -51,8 +51,8 @@ class SensorManager:
             rpi_time = datetime.now(timezone.utc)
             duration = rpi_time - self.last_empty_event.rpi_time
             if duration >= timedelta(minutes=self.alarm_duration):
-                print(f"Sending alarm out for event over {
-                      self.alarm_duration} mins")
+                print("Sending alarm out for event over",
+                      self.alarm_duration, "mins")
                 alarm_event = AlarmEvent(
                     self.zone, self.last_empty_event.rpi_time, rpi_time)
                 await self.alarm_queue.put(alarm_event)
