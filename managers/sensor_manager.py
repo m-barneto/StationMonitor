@@ -41,8 +41,6 @@ class SensorManager:
 
         # if previous state was occupied and now we're empty
         if SensorState(self.sensor_state) == SensorState.OCCUPIED and SensorState(current_state) == SensorState.EMPTY:
-            print("Sending event.")
-
             occupied_event = OccupiedEvent(
                 self.zone, self.last_empty_event.rpi_time, datetime.now(timezone.utc), self.has_sent_alarm)
             await self.event_queue.put(occupied_event)
@@ -53,7 +51,8 @@ class SensorManager:
             rpi_time = datetime.now(timezone.utc)
             duration = rpi_time - self.last_empty_event.rpi_time
             if duration >= timedelta(minutes=self.alarm_duration):
-                print("Sending alarm out for event over x mins")
+                print(f"Sending alarm out for event over {
+                      self.alarm_duration} mins")
                 alarm_event = AlarmEvent(
                     self.zone, self.last_empty_event.rpi_time, rpi_time)
                 await self.alarm_queue.put(alarm_event)
