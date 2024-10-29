@@ -4,7 +4,7 @@
         "numIndicators": 2,
         "gpioPin": 18,
         // Range is 0-255
-        "brightness": 120,
+        "brightness": 20,
         // Stages for the light indicator
         "stages": [
             // First stage, white until 3 minutes in, then the next stage is hit
