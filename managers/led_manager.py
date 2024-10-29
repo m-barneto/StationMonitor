@@ -22,9 +22,9 @@ class LedManager:
             await asyncio.sleep(.01)
 
     async def process_event(self) -> None:
-            for i in range(self.leds.indicatorNumPixels):
-                self.leds.setPixel(self.index, i, hex_to_rgb("#FFFFFF"))
-
+        for i in range(self.leds.indicatorNumPixels):
+            self.leds.setPixel(self.index, i, hex_to_rgb("#FFFFFF"))
+        return
         event = self.sensor.last_empty_event
         event_duration = datetime.now(timezone.utc).timestamp(
         ) - event.rpi_time.timestamp()
