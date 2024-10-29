@@ -22,6 +22,7 @@ class LedManager:
             await asyncio.sleep(.01)
 
     async def process_event(self) -> None:
+        print("settings leds")
         for i in range(self.leds.indicatorNumPixels):
             self.leds.setPixel(self.index, i, Color(255, 255, 255))
         self.leds.show()
