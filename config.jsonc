@@ -2,7 +2,7 @@
     "leds": {
         "numLeds": 30,
         "numIndicators": 2,
-        "gpioPin": 10,
+        "gpioPin": 18,
         // Range is 0-255
         "brightness": 120,
         // Stages for the light indicator
