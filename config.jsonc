@@ -10,17 +10,17 @@
             // First stage, white until 3 minutes in, then the next stage is hit
             {
                 "color": "#FFFFFF",
-                "duration": 0.1 // 3 mins
+                "duration": 1.0 // 3 mins
             },
             // Up until 6 mins in, the color will be yellow
             {
                 "color": "#FFFF00",
-                "duration": 0.1 // 6 mins
+                "duration": 1.0 // 6 mins
             },
             // Finally, from 6 to 8 mins the light will be blue
             {
                 "color": "#0000FF",
-                "duration": 0.1 // 8 mins
+                "duration": 1.0 // 8 mins
             }
         ],
         "flashing": {
