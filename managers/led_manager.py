@@ -73,7 +73,7 @@ class LedManager:
         index = 0
 
         for stage in Config.get()["leds"]["stages"]:
-            time -= stage["duration"]
+            time -= (stage["duration"] * 60)
             if time > 0:
                 index += 1
                 if stage == Config.get()["leds"]["stages"][-1]:
