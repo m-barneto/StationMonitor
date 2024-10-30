@@ -34,7 +34,7 @@ class LedManager:
         if stage_index != -1:
             time_into_stage = event_duration - \
                 self.get_time_before_stage(stage_index)
-            val = time_into_stage / stage["duration"]
+            val = time_into_stage / (stage["duration"] * 60)
             print("Fraction of stage", val)
             # convert that to numpixels
             pixelsToHighlight = val * self.leds.indicatorNumPixels
