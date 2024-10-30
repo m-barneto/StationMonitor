@@ -23,7 +23,8 @@ class LedManager:
 
     async def process_event(self) -> None:
         if SensorState(self.sensor.last_sensor_event.state) == SensorState.EMPTY:
-            print("Empty!")
+            self.leds.clear(self.index)
+            self.leds.show()
             return
         event = self.sensor.last_empty_event
         event_duration = datetime.now(timezone.utc).timestamp(
