@@ -39,7 +39,7 @@
             "gpioPin": 22,
             "indicatorIndex": 0,
             "alarmDuration": 1
-        }
+        },
         {
             "zone": "A2",
             "gpioPin": 27,
