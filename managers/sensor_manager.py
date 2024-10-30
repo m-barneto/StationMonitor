@@ -37,7 +37,7 @@ class SensorManager:
             await asyncio.sleep(float(1 / int(Config.get()["sensorPollRate"])))
 
     async def process_sensor(self) -> None:
-        current_state: SensorState = GPIO.input(self.SENSOR_PIN)
+        current_state: SensorState = not GPIO.input(self.SENSOR_PIN)
 
         # if previous state was occupied and now we're empty
         if SensorState(self.sensor_state) == SensorState.OCCUPIED and SensorState(current_state) == SensorState.EMPTY:
