@@ -41,6 +41,7 @@ class LedManager:
                 self.leds.setPixel(self.index, pixelsToHighlight + 1,
                                    hex_to_rgb(stage["color"], pixelsToHighlight % 1))
             self.leds.show()
+            print(pixelsFloored, pixelsToHighlight)
         else:
 
             if Config.get()["leds"]["flashing"]["shouldFlash"]:
