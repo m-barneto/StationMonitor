@@ -22,9 +22,6 @@ class LedManager:
             await asyncio.sleep(.01)
 
     async def process_event(self) -> None:
-        self.leds.fill(self.index, Color(255, 255, 255))
-        self.leds.show()
-        return
         self.leds.clear(self.index)
         self.leds.show()
 
