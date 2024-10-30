@@ -35,7 +35,6 @@ class LedManager:
             time_into_stage = event_duration - \
                 self.get_time_before_stage(stage_index)
             val = time_into_stage / (stage["duration"] * 60)
-            print("Fraction of stage", val)
             # convert that to numpixels
             pixelsToHighlight = val * self.leds.indicatorNumPixels
             pixelsFloored = int(pixelsToHighlight)
@@ -78,6 +77,7 @@ class LedManager:
                 index += 1
                 if stage == Config.get()["leds"]["stages"][-1]:
                     return -1
+        print("Current index", index)
         return index
 
     def get_time_before_stage(self, stage: int):
