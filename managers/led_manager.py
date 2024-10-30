@@ -31,6 +31,7 @@ class LedManager:
             time_into_stage = event_duration - \
                 self.get_time_before_stage(stage_index)
             val = time_into_stage / stage["duration"]
+            print("Fraction of stage", val)
             # convert that to numpixels
             pixelsToHighlight = val * self.leds.indicatorNumPixels
             pixelsFloored = int(pixelsToHighlight)
@@ -41,7 +42,6 @@ class LedManager:
                 self.leds.setPixel(self.index, pixelsToHighlight + 1,
                                    hex_to_rgb(stage["color"], pixelsToHighlight % 1))
             self.leds.show()
-            print(pixelsFloored, pixelsToHighlight)
         else:
 
             if Config.get()["leds"]["flashing"]["shouldFlash"]:
