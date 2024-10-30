@@ -4,23 +4,23 @@
         "numIndicators": 1,
         "gpioPin": 18,
         // Range is 0-255
-        "brightness": 100,
+        "brightness": 20,
         // Stages for the light indicator
         "stages": [
             // First stage, white until 3 minutes in, then the next stage is hit
             {
                 "color": "#FFFFFF",
-                "duration": 3.5 // 3 mins
+                "duration": 0.5 // 3 mins
             },
             // Up until 6 mins in, the color will be yellow
             {
                 "color": "#FFFF00",
-                "duration": 3.5 // 6 mins
+                "duration": 0.5 // 6 mins
             },
             // Finally, from 6 to 8 mins the light will be blue
             {
                 "color": "#0000FF",
-                "duration": 3.0 // 8 mins
+                "duration": 0.5 // 8 mins
             }
         ],
         "flashing": {
