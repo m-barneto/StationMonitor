@@ -36,7 +36,7 @@
         // Each sensor needs to have zone and pin declared
         {
             "zone": "A1",
-            "gpioPin": 22,
+            "gpioPin": 4,
             "indicatorIndex": 0,
             "alarmDuration": 1
         },
