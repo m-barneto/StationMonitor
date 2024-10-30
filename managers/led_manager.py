@@ -82,7 +82,6 @@ class LedManager:
                 index += 1
                 if stage == Config.get()["leds"]["stages"][-1]:
                     return -1
-        print("Current index", index)
         return index
 
     def get_time_before_stage(self, stage: int):
