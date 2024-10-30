@@ -1,7 +1,7 @@
 {
     "leds": {
         "numLeds": 30,
-        "numIndicators": 1,
+        "numIndicators": 2,
         "gpioPin": 18,
         // Range is 0-255
         "brightness": 20,
@@ -40,12 +40,12 @@
             "indicatorIndex": 0,
             "alarmDuration": 1
         }
-        // {
-        //     "zone": "A2",
-        //     "gpioPin": 27,
-        //     "indicatorIndex": 1,
-        //     "alarmDuration": 1
-        // }
+        {
+            "zone": "A2",
+            "gpioPin": 27,
+            "indicatorIndex": 1,
+            "alarmDuration": 1
+        }
     ],
     // How many times the sensor is polled per second
     "sensorPollRate": 10,
