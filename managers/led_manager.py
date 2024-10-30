@@ -38,7 +38,7 @@ class LedManager:
                 self.leds.setPixel(self.index, i, hex_to_rgb(stage["color"]))
 
             if pixelsToHighlight > pixelsFloored:
-                self.leds.setPixel(self.index, pixelsToHighlight,
+                self.leds.setPixel(self.index, pixelsToHighlight + 1,
                                    hex_to_rgb(stage["color"], pixelsToHighlight % 1))
             self.leds.show()
         else:
