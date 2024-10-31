@@ -29,7 +29,7 @@ class LedManager:
             inv_lerp(-1, 1, math.sin(datetime.now(timezone.utc).timestamp())) * 360,
             1,
             1)
-        col = Color(colt[0], colt[1], colt[2])
+        col = Color(int(colt[0] * 255), int(colt[1] * 255), int(colt[2] * 255))
         self.leds.fill(self.index, col)
 
         self.leds.show()
