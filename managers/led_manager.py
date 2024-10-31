@@ -24,15 +24,6 @@ class LedManager:
 
     async def process_event(self) -> None:
         self.leds.clear(self.index)
-
-        colt = colorsys.hsv_to_rgb(
-            inv_lerp(-1, 1, math.sin(datetime.now(timezone.utc).timestamp())) * 360,
-            1,
-            1)
-        col = Color(int(colt[0] * 255), int(colt[1] * 255), int(colt[2] * 255))
-        print(int(colt[0] * 255), int(colt[1] * 255), int(colt[2] * 255))
-        self.leds.fill(self.index, col)
-
         self.leds.show()
         return
 
