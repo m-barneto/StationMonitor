@@ -18,7 +18,8 @@ leds = PixelStrip(Config.get()["leds"]["numLeds"],
 
 
 while True:
-    leds.clear()
+    leds.clear(0)
+    leds.clear(1)
     leds.fill(0, Color(255, 255, 255))
     leds.fill(1, Color(255, 255, 255))
     leds.show()
