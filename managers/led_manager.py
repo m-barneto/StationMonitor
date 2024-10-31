@@ -30,7 +30,7 @@ class LedManager:
             1,
             1)
         col = Color(int(colt[0] * 255), int(colt[1] * 255), int(colt[2] * 255))
-        print(col)
+        print(int(colt[0] * 255), int(colt[1] * 255), int(colt[2] * 255))
         self.leds.fill(self.index, col)
 
         self.leds.show()
