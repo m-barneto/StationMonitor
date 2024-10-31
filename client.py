@@ -9,11 +9,19 @@ from managers.led_manager import LedManager
 from utils.config import Config
 from utils.utils import PixelStrip
 
+from rpi_ws281x import Color
 
 leds = PixelStrip(Config.get()["leds"]["numLeds"],
                   Config.get()["leds"]["numIndicators"],
                   Config.get()["leds"]["gpioPin"],
                   Config.get()["leds"]["brightness"])
+
+
+while True:
+    leds.clear()
+    leds.fill(0, Color(255, 255, 255))
+    leds.fill(1, Color(255, 255, 255))
+    leds.show()
 
 try:
     event_queue = asyncio.Queue()
