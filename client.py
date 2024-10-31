@@ -17,13 +17,6 @@ leds = PixelStrip(Config.get()["leds"]["numLeds"],
                   Config.get()["leds"]["brightness"])
 
 
-while True:
-    leds.clear(0)
-    leds.clear(1)
-    leds.fill(0, Color(255, 255, 255))
-    leds.fill(1, Color(255, 255, 255))
-    leds.show()
-
 try:
     event_queue = asyncio.Queue()
     alarm_queue = asyncio.Queue()
