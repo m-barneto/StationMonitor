@@ -1,4 +1,5 @@
 import asyncio
+import colorsys
 from datetime import datetime, timezone
 import math
 from rpi_ws281x import Adafruit_NeoPixel, Color  # type: ignore
@@ -23,7 +24,14 @@ class LedManager:
 
     async def process_event(self) -> None:
         self.leds.clear(self.index)
+
+        colt = colorsys.hsv_to_rgb(
+            math.sin(datetime.now(timezone.utc).timestamp()))
+        col = Color(colt[0], colt[1], colt[2])
+        self.leds.fill(self.index, col)
+
         self.leds.show()
+        return
 
         if SensorState(self.sensor.last_sensor_event.state) == SensorState.EMPTY:
             return
