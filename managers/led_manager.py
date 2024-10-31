@@ -25,7 +25,6 @@ class LedManager:
     async def process_event(self) -> None:
         self.leds.clear(self.index)
         self.leds.show()
-        return
 
         if SensorState(self.sensor.last_sensor_event.state) == SensorState.EMPTY:
             return
