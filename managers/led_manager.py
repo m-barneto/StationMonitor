@@ -26,7 +26,9 @@ class LedManager:
         self.leds.clear(self.index)
 
         colt = colorsys.hsv_to_rgb(
-            math.sin(datetime.now(timezone.utc).timestamp()))
+            inv_lerp(-1, 1, math.sin(datetime.now(timezone.utc).timestamp())) * 360,
+            1,
+            1)
         col = Color(colt[0], colt[1], colt[2])
         self.leds.fill(self.index, col)
 
