@@ -27,7 +27,7 @@
             "shouldFlash": true,
             // How quickly it goes from primary to secondary color
             "flashFrequency": 3.0,
-            "primaryColor": "#FFFFFF",
+            "primaryColor": "#00FF00",
             "secondaryColor": "#0000FF"
         }
     },
