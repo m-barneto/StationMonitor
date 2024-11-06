@@ -19,4 +19,4 @@ class ConfigManager:
         print("Updating config")
         with open("./config.jsonc", encoding="utf-8") as f:
             remote_config = pyjson5.load(f)
-            Config.__conf["leds"] = remote_config["leds"]
+            Config.conf["leds"] = remote_config["leds"]
