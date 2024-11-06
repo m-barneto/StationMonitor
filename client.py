@@ -2,6 +2,7 @@ import asyncio
 import RPi.GPIO as GPIO  # type: ignore
 
 from managers.alarm_manager import AlarmManager
+from managers.config_manager import ConfigManager
 from managers.event_manager import EventManager
 from managers.sensor_manager import SensorManager
 from managers.led_manager import LedManager
@@ -26,6 +27,7 @@ try:
 
     loop.create_task(EventManager(event_queue).loop())
     loop.create_task(AlarmManager(alarm_queue).loop())
+    loop.create_task(ConfigManager().loop())
 
     # Initialize sensors from config entries
     for sensor in Config.get()["sensors"]:

@@ -26,6 +26,7 @@ class EventManager:
             try:
                 # Sends the request while still allowing other loops to continue running
                 res = await loop.run_in_executor(None, requests.post, Config.get()["proxyServerIp"] + "/events", None, json.dumps(event.__dict__, default=str))
+                print(json.dumps(event.__dict__, default=str))
                 # This is our rate limiting sleep
                 await asyncio.sleep(float(1 / int(Config.get()["eventSendRate"])))
                 # Break out of loop to allow us to process the next event in the queue
