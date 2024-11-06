@@ -1,5 +1,6 @@
 import asyncio
 from datetime import datetime, timedelta, timezone
+import json
 import RPi.GPIO as GPIO  # type: ignore
 
 from utils.config import Config
@@ -43,6 +44,8 @@ class SensorManager:
         if SensorState(self.sensor_state) == SensorState.OCCUPIED and SensorState(current_state) == SensorState.EMPTY:
             occupied_event = OccupiedEvent(
                 self.zone, self.last_empty_event.rpi_time, datetime.now(timezone.utc), self.has_sent_alarm)
+
+            print(json.dumps(occupied_event.__dict__, default=str))
             await self.event_queue.put(occupied_event)
             self.has_sent_alarm = False
         elif SensorState(self.sensor_state) == SensorState.OCCUPIED and SensorState(current_state) == SensorState.OCCUPIED and not self.has_sent_alarm:
