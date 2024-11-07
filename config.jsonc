@@ -48,9 +48,21 @@
         }
     ],
     "sleep": {
+        //  US/Eastern
+        //  US/Central
+        //  US/Mountain
+        //  US/Pacific
+
+        //  US/Arizona
+        //  US/Indiana-Starke
+        //  US/Alaska
+        //  US/Hawaii
+        //  US/Samoa
         "timezone": "US/Eastern",
         "openTime": "06:00",
-        "closeTime": "20:00"
+        "closeTime": "20:00",
+        // Time in seconds between time checks
+        "sleepInterval": 5
     },
     // How many times the sensor is polled per second
     "sensorPollRate": 10,
