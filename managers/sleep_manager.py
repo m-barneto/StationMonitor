@@ -26,5 +26,6 @@ class SleepManager:
         close_time = datetime.strptime(
             Config.get()["sleep"]["closeTime"], "%H:%M").time()
         current_time = datetime.now(timezone).time()
-
+        print(current_time)
+        print(close_time)
         return open_time <= current_time and current_time <= close_time
