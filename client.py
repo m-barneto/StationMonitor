@@ -7,6 +7,7 @@ from managers.event_manager import EventManager
 from managers.sensor_manager import SensorManager
 from managers.led_manager import LedManager
 
+from managers.sleep_manager import SleepManager
 from utils.config import Config
 from utils.utils import PixelStrip
 
@@ -28,6 +29,7 @@ try:
     loop.create_task(EventManager(event_queue).loop())
     loop.create_task(AlarmManager(alarm_queue).loop())
     loop.create_task(ConfigManager().loop())
+    loop.create_task(SleepManager().loop())
 
     # Initialize sensors from config entries
     for sensor in Config.get()["sensors"]:
@@ -38,8 +40,9 @@ try:
             event_queue,
             alarm_queue
         )
+        l = LedManager(s, leds, sensor["indicatorIndex"])
         loop.create_task(s.loop())
-        loop.create_task(LedManager(s, leds, sensor["indicatorIndex"]).loop())
+        loop.create_task(l.loop())
 
     loop.run_forever()
 finally:

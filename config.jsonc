@@ -47,6 +47,11 @@
             "alarmDuration": 1
         }
     ],
+    "sleep": {
+        "timezone": "US/Eastern",
+        "openTime": "06:00",
+        "closeTime": "20:00"
+    },
     // How many times the sensor is polled per second
     "sensorPollRate": 10,
     // IP to send our event data to
