@@ -59,7 +59,7 @@
         //  US/Hawaii
         //  US/Samoa
         "timezone": "US/Eastern",
-        "openTime": "15:52",
+        "openTime": "15:54",
         "closeTime": "20:00",
         // Time in seconds between time checks
         "sleepInterval": 5
