@@ -16,7 +16,8 @@ class ConfigManager:
             await asyncio.sleep(1)  # 0 * 60
 
     async def update_config(self) -> None:
-        print("Updating config")
+        # print("Updating config")
+        print("working...")
         with open("./config.jsonc", encoding="utf-8") as f:
             remote_config = pyjson5.load(f)
             Config.conf["leds"] = remote_config["leds"]
