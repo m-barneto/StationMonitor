@@ -59,10 +59,10 @@
         //  US/Hawaii
         //  US/Samoa
         "timezone": "US/Eastern",
-        "openTime": "16:00",
-        "closeTime": "16:30",
+        "openTime": "08:00",
+        "closeTime": "20:00",
         // Time in seconds between time checks
-        "sleepInterval": 5
+        "sleepInterval": 60
     },
     // How many times the sensor is polled per second
     "sensorPollRate": 10,

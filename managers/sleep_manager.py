@@ -9,7 +9,6 @@ from utils.config import Config
 class SleepManager:
     async def loop(self) -> None:
         while True:
-            print("Open:", self.is_site_open())
             if self.is_site_open():
                 # if we're open then wait async
                 await asyncio.sleep(Config.get()["sleep"]["sleepInterval"])
@@ -26,6 +25,4 @@ class SleepManager:
         close_time = datetime.strptime(
             Config.get()["sleep"]["closeTime"], "%H:%M").time()
         current_time = datetime.now(timezone).time()
-        print(current_time)
-        print(close_time)
-        return open_time <= current_time and current_time <= close_time
+        return open_time <= current_time <= close_time
