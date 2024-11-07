@@ -14,9 +14,10 @@ class SleepManager:
         # get timezone in config
         timezone = ZoneInfo(Config.get()["sleep"]["timezone"])
         # Get open and close time as datetime.time
-        open_time = datetime.strptime(Config.get()["openTime"], "%H:%M").time()
+        open_time = datetime.strptime(
+            Config.get()["sleep"]["openTime"], "%H:%M").time()
         close_time = datetime.strptime(
-            Config.get()["closeTime"], "%H:%M").time()
+            Config.get()["sleep"]["closeTime"], "%H:%M").time()
 
         print("open", open_time)
         print("close", close_time)
