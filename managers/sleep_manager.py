@@ -9,6 +9,7 @@ from utils.config import Config
 class SleepManager:
     async def loop(self) -> None:
         while True:
+            print("Open:", self.is_site_open())
             if self.is_site_open():
                 # if we're open then wait async
                 await asyncio.sleep(Config.get()["sleep"]["sleepInterval"])
