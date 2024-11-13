@@ -19,7 +19,5 @@ class ConfigManager:
     async def update_config(self) -> None:
         print("Updating config")
         res = requests.get("http://192.168.17.202/config.jsonc")
-        print("response", res)
         remote_config = pyjson5.loads(res.text)
-        print("config", remote_config)
         Config.conf["leds"] = remote_config["leds"]
