@@ -35,14 +35,14 @@
     "sensors": [
         // Each sensor needs to have zone and pin declared
         {
-            "zone": "BAY-1",
-            "gpioPin": 17,
+            "zone": "WAIT-",
+            "gpioPin": 5,
             "indicatorIndex": 0,
             "alarmDuration": 1
         },
         {
-            "zone": "WAIT-1",
-            "gpioPin": 5,
+            "zone": "BAY-",
+            "gpioPin": 17,
             "indicatorIndex": 1,
             "alarmDuration": 1
         }
