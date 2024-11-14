@@ -9,13 +9,14 @@ from utils.config import Config
 
 class SleepManager:
     async def loop(self) -> None:
+        event_loop = asyncio.get_event_loop()
         while True:
             if self.is_site_open():
                 # if we're open then wait async
                 await asyncio.sleep(Config.get()["sleep"]["sleepInterval"])
             else:
                 # Not open, update the config incase its stuck due to malformed config
-                asyncio.run(ConfigManager.update_config())
+                event_loop.run_until_complete(ConfigManager.update_config)
                 time.sleep(Config.get()["sleep"]["sleepInterval"])
 
     def is_site_open(self) -> bool:
