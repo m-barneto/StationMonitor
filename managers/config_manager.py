@@ -18,8 +18,10 @@ class ConfigManager:
 
     async def update_config(self) -> None:
         print("Updating config")
-        print("Before:", pyjson5.dumps(Config.conf))
-        res = requests.get("http://192.168.17.202/config.jsonc")
-        remote_config = pyjson5.loads(res.text)
-        Config.conf["leds"] = remote_config["leds"]
-        print("After:", pyjson5.dumps(Config.conf))
+        try:
+            res = requests.get("http://192.168.17.202/config.jsonc")
+            remote_config = pyjson5.loads(res.text)
+            Config.conf["leds"] = remote_config["leds"]
+        except requests.exceptions.ConnectionError as e:
+            # sleep for a bit to avoid spamming a downed proxy
+            await asyncio.sleep(10 * 60)
