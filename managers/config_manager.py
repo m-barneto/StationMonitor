@@ -12,7 +12,7 @@ class ConfigManager:
 
     async def loop(self) -> None:
         while True:
-            await ConfigManager.update_config()
+            # await ConfigManager.update_config()
             # Every 10 minutes
             await asyncio.sleep(10 * 60)
 
