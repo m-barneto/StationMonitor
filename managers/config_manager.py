@@ -12,16 +12,18 @@ class ConfigManager:
 
     async def loop(self) -> None:
         while True:
-            await self.update_config()
+            await ConfigManager.update_config()
             # Every 10 minutes
             await asyncio.sleep(10 * 60)
 
-    async def update_config(self) -> None:
+    @staticmethod
+    async def update_config() -> None:
         print("Updating config")
         try:
             res = requests.get("http://192.168.17.202/config.jsonc")
             remote_config = pyjson5.loads(res.text)
             Config.conf["leds"] = remote_config["leds"]
+            Config.conf["sleep"] = remote_config["sleep"]
         except requests.exceptions.ConnectionError as e:
             # sleep for a bit to avoid spamming a downed proxy
             await asyncio.sleep(10 * 60)

@@ -3,6 +3,7 @@ from datetime import datetime
 import time
 from zoneinfo import ZoneInfo
 
+from managers.config_manager import ConfigManager
 from utils.config import Config
 
 
@@ -13,7 +14,8 @@ class SleepManager:
                 # if we're open then wait async
                 await asyncio.sleep(Config.get()["sleep"]["sleepInterval"])
             else:
-                # not open, wait syncronously
+                # Not open, update the config incase its stuck due to malformed config
+                await ConfigManager.update_config()
                 time.sleep(Config.get()["sleep"]["sleepInterval"])
 
     def is_site_open(self) -> bool:
