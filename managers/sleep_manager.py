@@ -15,7 +15,7 @@ class SleepManager:
                 await asyncio.sleep(Config.get()["sleep"]["sleepInterval"])
             else:
                 # Not open, update the config incase its stuck due to malformed config
-                await ConfigManager.update_config()
+                asyncio.run(ConfigManager.update_config())
                 time.sleep(Config.get()["sleep"]["sleepInterval"])
 
     def is_site_open(self) -> bool:
