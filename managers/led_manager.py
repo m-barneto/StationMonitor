@@ -20,7 +20,7 @@ class LedManager:
     async def loop(self) -> None:
         while True:
             if not SleepManager.is_open:
-                await asyncio.sleep(10)
+                await asyncio.sleep(Config.get()["sleep"]["sleepInterval"])
                 continue
             await self.process_event()
             # controls the update rate of our leds

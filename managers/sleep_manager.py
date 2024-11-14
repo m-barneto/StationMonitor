@@ -8,6 +8,9 @@ from utils.config import Config
 
 
 class SleepManager:
+    def __init__(self):
+        SleepManager.is_open = self.is_site_open()
+
     async def loop(self) -> None:
         while True:
             SleepManager.is_open = self.is_site_open()

@@ -34,7 +34,7 @@ class SensorManager:
     async def loop(self) -> None:
         while True:
             if not SleepManager.is_open:
-                await asyncio.sleep(10)
+                await asyncio.sleep(Config.get()["sleep"]["sleepInterval"])
                 continue
             # Get sensor state
             await self.process_sensor()
