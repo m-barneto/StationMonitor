@@ -1,5 +1,4 @@
 {
-    "indicate": false,
     "leds": {
         "numLeds": 30,
         "numIndicators": 2,
