@@ -3,6 +3,7 @@ from datetime import datetime, timedelta, timezone
 import json
 import RPi.GPIO as GPIO  # type: ignore
 
+from managers.sleep_manager import SleepManager
 from utils.config import Config
 from utils.sensor_event import AlarmEvent, OccupiedEvent, SensorEvent, SensorState
 from utils.utils import PixelStrip
@@ -32,6 +33,9 @@ class SensorManager:
 
     async def loop(self) -> None:
         while True:
+            if not SleepManager.is_open:
+                await asyncio.sleep(10)
+                continue
             # Get sensor state
             await self.process_sensor()
             # Sleep for configured interval

@@ -5,6 +5,7 @@ import math
 from rpi_ws281x import Adafruit_NeoPixel, Color  # type: ignore
 
 from managers.sensor_manager import SensorManager
+from managers.sleep_manager import SleepManager
 from utils.config import Config
 from utils.utils import PixelStrip, clamp, hex_to_rgb, inv_lerp, lerp
 from utils.sensor_event import SensorState
@@ -18,6 +19,9 @@ class LedManager:
 
     async def loop(self) -> None:
         while True:
+            if not SleepManager.is_open:
+                await asyncio.sleep(10)
+                continue
             await self.process_event()
             # controls the update rate of our leds
             await asyncio.sleep(.01)
