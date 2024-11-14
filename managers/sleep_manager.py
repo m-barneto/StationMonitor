@@ -16,6 +16,7 @@ class SleepManager:
                 await asyncio.sleep(Config.get()["sleep"]["sleepInterval"])
             else:
                 # Not open, update the config incase its stuck due to malformed config
+                print("Calling update config sync")
                 asyncio.ensure_future(ConfigManager.update_config())
                 # asyncio.run(ConfigManager.update_config)
                 time.sleep(Config.get()["sleep"]["sleepInterval"])
