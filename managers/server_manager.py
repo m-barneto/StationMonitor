@@ -18,6 +18,7 @@ class ServerManager:
     async def get_status(self, request) -> web.Response:
         status = {}
         status["rpiTime"] = self.sleep_manager.get_local_time()
+        status["eventsQueued"] = str(len(self.event_manager.event_queue))
         if self.event_manager.current_event:
             status["lastSendEvent"] = self.event_manager.current_event.body
         else:
@@ -26,7 +27,6 @@ class ServerManager:
 
         sensor_data = {}
         for s in self.sensors:
-            print(s.zone, s.sensor_state.name)
             duration = datetime.now(timezone.utc).timestamp(
             ) - s.last_empty_event.rpi_time.timestamp()
             if s.sensor_state == SensorState.EMPTY:
