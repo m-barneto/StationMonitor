@@ -33,7 +33,8 @@ try:
     loop.create_task(event_manager.loop())
     loop.create_task(AlarmManager(alarm_queue).loop())
     loop.create_task(ConfigManager().loop())
-    loop.create_task(SleepManager().loop())
+    sleep_manager = SleepManager()
+    loop.create_task(sleep_manager.loop())
 
     sensors = []
 
@@ -51,7 +52,7 @@ try:
         loop.create_task(s.loop())
         loop.create_task(l.loop())
 
-    server = ServerManager(sensors, event_manager)
+    server = ServerManager(sensors, event_manager, sleep_manager)
     loop.create_task(server.loop())
     loop.run_forever()
 finally:

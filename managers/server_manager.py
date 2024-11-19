@@ -4,17 +4,21 @@ from aiohttp import web
 
 from managers.event_manager import EventManager
 from managers.sensor_manager import SensorManager
+from managers.sleep_manager import SleepManager
 
 
 class ServerManager:
-    def __init__(self, sensors: list[SensorManager], event_manager: EventManager):
+    def __init__(self, sensors: list[SensorManager], event_manager: EventManager, sleep_manager: SleepManager):
         self.sensors = sensors
         self.event_manager = event_manager
+        self.sleep_manager = sleep_manager
 
     async def get_status(self, request) -> web.Response:
         status = {}
         status["currentEvent"] = self.event_manager.current_event
-        return web.Response(text=json.dumps(status, default=str))
+        status["isSleeping"] = not self.sleep_manager.is_open
+
+        return web.Response(text=json.dumps(status, default=str, indent=4))
 
     async def loop(self) -> None:
         app = web.Application()
