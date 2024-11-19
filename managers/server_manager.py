@@ -1,13 +1,18 @@
 import asyncio
+import json
 from aiohttp import web
+
+from managers.event_manager import EventManager
+from managers.sensor_manager import SensorManager
 
 
 class ServerManager:
-    def __init__(self):
-        pass
+    def __init__(self, sensors: list[SensorManager], event_manager: EventManager):
+        self.sensors = sensors
+        self.event_manager = event_manager
 
     async def get_status(self, request) -> web.Response:
-        return web.Response(text="Hello, World!")
+        return web.Response(text=json.dumps(self.event_manager.current_event.__dict__, default=str))
 
     async def loop(self) -> None:
         app = web.Application()

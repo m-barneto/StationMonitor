@@ -9,6 +9,7 @@ from utils.sensor_event import OccupiedEvent
 class EventManager:
     def __init__(self, q: asyncio.Queue) -> None:
         self.event_queue = q
+        self.current_event: OccupiedEvent = None
 
     async def loop(self) -> None:
         while True:
@@ -16,7 +17,7 @@ class EventManager:
 
     async def process_event(self):
         # Waits for an event to become available
-        event: OccupiedEvent = await self.event_queue.get()
+        self.current_event = await self.event_queue.get()
 
         # We have an event, send it to the server.
 
@@ -25,7 +26,7 @@ class EventManager:
         while True:
             try:
                 # Sends the request while still allowing other loops to continue running
-                res = await loop.run_in_executor(None, requests.post, Config.get()["proxyServerIp"] + "/events", None, json.dumps(event.__dict__, default=str))
+                res = await loop.run_in_executor(None, requests.post, Config.get()["proxyServerIp"] + "/events", None, json.dumps(self.current_event.__dict__, default=str))
                 # This is our rate limiting sleep
                 await asyncio.sleep(float(1 / int(Config.get()["eventSendRate"])))
                 # Break out of loop to allow us to process the next event in the queue

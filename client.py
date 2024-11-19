@@ -29,10 +29,13 @@ try:
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
 
-    loop.create_task(EventManager(event_queue).loop())
+    event_manager = EventManager(event_queue)
+    loop.create_task(event_manager.loop())
     loop.create_task(AlarmManager(alarm_queue).loop())
     loop.create_task(ConfigManager().loop())
     loop.create_task(SleepManager().loop())
+
+    sensors = []
 
     # Initialize sensors from config entries
     for sensor in Config.get()["sensors"]:
@@ -43,11 +46,12 @@ try:
             event_queue,
             alarm_queue
         )
+        sensors.append(s)
         l = LedManager(s, leds, sensor["indicatorIndex"])
         loop.create_task(s.loop())
         loop.create_task(l.loop())
 
-    server = ServerManager()
+    server = ServerManager(sensors, event_manager)
     loop.create_task(server.loop())
     loop.run_forever()
 finally:
