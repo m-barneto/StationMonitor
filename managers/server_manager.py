@@ -14,7 +14,7 @@ class ServerManager:
     async def get_status(self, request) -> web.Response:
         status = {}
         status["currentEvent"] = self.event_manager.current_event
-        return web.Response(text=json.dumps(status.__dict__, default=str))
+        return web.Response(text=json.dumps(status, default=str))
 
     async def loop(self) -> None:
         app = web.Application()
