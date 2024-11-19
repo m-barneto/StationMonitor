@@ -72,15 +72,3 @@ class SensorManager:
 
         self.sensor_state = current_state
         self.last_sensor_event = SensorEvent(self.zone, current_state)
-
-        # if current_state != self.sensor_state:
-        #    # Create our event
-        #    event = SensorEvent(self.zone, current_state)
-#
-        #    print(f"Produced event {event.zone} {event.rpi_time} {SensorState(event.state)}")
-        #    # Enqueue the event
-        #    await self.event_queue.put(event)
-#
-        #    # update our sensor_state
-        #    self.sensor_state = current_state
-        #    self.last_sensor_event = deepcopy(event)
