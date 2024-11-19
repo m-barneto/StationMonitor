@@ -20,10 +20,6 @@ class ServerManager:
         status["rpiTime"] = self.sleep_manager.get_local_time()
         status["eventsQueued"] = str(
             self.event_manager.event_queue.qsize() + self.event_manager.processing)
-        if self.event_manager.current_event:
-            status["lastSendEvent"] = self.event_manager.current_event.body
-        else:
-            status["lastSendEvent"] = None
         status["isSleeping"] = not self.sleep_manager.is_open
 
         sensor_data = {}
