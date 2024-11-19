@@ -49,5 +49,3 @@ class ServerManager:
         print("Web server started on http://localhost:8080")
         while True:
             await asyncio.sleep(1)
-
-        await asyncio.Event().wait()
