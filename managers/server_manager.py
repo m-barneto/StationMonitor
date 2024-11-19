@@ -20,11 +20,11 @@ class ServerManager:
 
         sensor_data = {}
         for s in self.sensors:
-            sensor_data[s.zone] = {s.sensor_state.name}
+            sensor_data[s.zone] = {"sensorState": s.sensor_state.name}
 
         status["sensorData"] = sensor_data
 
-        return web.Response(text=json.dumps(status, indent=4))
+        return web.Response(text=json.dumps(status, default=str, indent=4))
 
     async def loop(self) -> None:
         app = web.Application()
