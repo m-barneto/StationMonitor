@@ -6,6 +6,7 @@ from aiohttp import web
 from managers.event_manager import EventManager
 from managers.sensor_manager import SensorManager
 from managers.sleep_manager import SleepManager
+from utils.sensor_event import SensorState
 
 
 class ServerManager:
@@ -26,6 +27,10 @@ class ServerManager:
         sensor_data = {}
         for s in self.sensors:
             print(s.zone, s.sensor_state.name)
+            duration = datetime.now(timezone.utc).timestamp(
+            ) - s.last_empty_event.rpi_time.timestamp()
+            if s.sensor_state == SensorState.EMPTY:
+                duration = 0.0
             sensor_data[s.zone] = {
                 "sensorState": s.sensor_state.name,
                 "duration": datetime.now(timezone.utc).timestamp(
