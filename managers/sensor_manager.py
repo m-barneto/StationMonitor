@@ -70,5 +70,5 @@ class SensorManager:
                 self.zone, current_state)
             self.has_sent_alarm = False
 
-        self.sensor_state = current_state
+        self.sensor_state = SensorState(current_state)
         self.last_sensor_event = SensorEvent(self.zone, current_state)
