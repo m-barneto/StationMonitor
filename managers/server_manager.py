@@ -18,6 +18,12 @@ class ServerManager:
         status["currentEvent"] = self.event_manager.current_event
         status["isSleeping"] = not self.sleep_manager.is_open
 
+        sensor_data = {}
+        for s in self.sensors:
+            sensor_data[s.zone] = {s.sensor_state}
+
+        status["sensorData"] = sensor_data
+
         return web.Response(text=json.dumps(status, default=str, indent=4))
 
     async def loop(self) -> None:
