@@ -24,7 +24,7 @@ class ServerManager:
 
         status["sensorData"] = sensor_data
 
-        return web.Response(text=json.dumps(status, default=str, indent=4))
+        return web.Response(text=json.dumps(status, indent=4))
 
     async def loop(self) -> None:
         app = web.Application()
