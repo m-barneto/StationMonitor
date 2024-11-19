@@ -18,6 +18,8 @@ leds = PixelStrip(Config.get()["leds"]["numLeds"],
                   Config.get()["leds"]["gpioPin"],
                   Config.get()["leds"]["brightness"])
 
+# webserver :(
+
 
 try:
     event_queue = asyncio.Queue()
