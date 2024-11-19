@@ -20,7 +20,7 @@ class ServerManager:
 
         sensor_data = {}
         for s in self.sensors:
-            sensor_data[s.zone] = {s.sensor_state}
+            sensor_data[s.zone] = {str(s.sensor_state)}
 
         status["sensorData"] = sensor_data
 
