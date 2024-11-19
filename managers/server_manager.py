@@ -1,4 +1,5 @@
 import asyncio
+from datetime import datetime, timezone
 import json
 from aiohttp import web
 
@@ -17,15 +18,19 @@ class ServerManager:
         status = {}
         status["rpiTime"] = self.sleep_manager.get_local_time()
         if self.event_manager.current_event:
-            status["currentEvent"] = self.event_manager.current_event.body
+            status["lastSendEvent"] = self.event_manager.current_event.body
         else:
-            status["currentEvent"] = None
+            status["lastSendEvent"] = None
         status["isSleeping"] = not self.sleep_manager.is_open
 
         sensor_data = {}
         for s in self.sensors:
             print(s.zone, s.sensor_state.name)
-            sensor_data[s.zone] = {"sensorState": s.sensor_state.name}
+            sensor_data[s.zone] = {
+                "sensorState": s.sensor_state.name,
+                "duration": datetime.now(timezone.utc).timestamp(
+                ) - s.last_sensor_event.rpi_time.timestamp()
+            }
 
         status["sensorData"] = sensor_data
 
