@@ -16,7 +16,10 @@ class ServerManager:
     async def get_status(self, request) -> web.Response:
         status = {}
         status["rpiTime"] = self.sleep_manager.get_local_time()
-        status["currentEvent"] = self.event_manager.current_event
+        if self.event_manager.current_event:
+            status["currentEvent"] = self.event_manager.current_event.body
+        else:
+            status["currentEvent"] = None
         status["isSleeping"] = not self.sleep_manager.is_open
 
         sensor_data = {}
