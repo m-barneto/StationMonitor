@@ -10,6 +10,7 @@ class EventManager:
     def __init__(self, q: asyncio.Queue) -> None:
         self.event_queue = q
         self.current_event: OccupiedEvent = None
+        self.processing = 0
 
     async def loop(self) -> None:
         while True:
@@ -18,6 +19,7 @@ class EventManager:
     async def process_event(self):
         # Waits for an event to become available
         self.current_event = await self.event_queue.get()
+        self.processing = 1
 
         # We have an event, send it to the server.
 
@@ -35,3 +37,4 @@ class EventManager:
             except requests.exceptions.ConnectionError as e:
                 # sleep for a bit to avoid spamming a downed proxy
                 await asyncio.sleep(float(Config.get()["eventSendFailureCooldown"]))
+        self.processing = 0
