@@ -18,7 +18,7 @@ class ServerManager:
     async def get_status(self, request) -> web.Response:
         status = {}
         status["rpiTime"] = self.sleep_manager.get_local_time()
-        status["eventsQueued"] = str(len(self.event_manager.event_queue))
+        status["eventsQueued"] = str(self.event_manager.event_queue.qsize())
         if self.event_manager.current_event:
             status["lastSendEvent"] = self.event_manager.current_event.body
         else:
