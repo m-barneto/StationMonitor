@@ -7,6 +7,7 @@ from managers.event_manager import EventManager
 from managers.sensor_manager import SensorManager
 from managers.led_manager import LedManager
 
+from managers.server_manager import ServerManager
 from managers.sleep_manager import SleepManager
 from utils.config import Config
 from utils.utils import PixelStrip
@@ -46,6 +47,8 @@ try:
         loop.create_task(s.loop())
         loop.create_task(l.loop())
 
+    server = ServerManager()
+    loop.create_task(server.loop())
     loop.run_forever()
 finally:
     # Cleanup GPIO pin
