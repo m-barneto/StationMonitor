@@ -29,7 +29,7 @@ class ServerManager:
             sensor_data[s.zone] = {
                 "sensorState": s.sensor_state.name,
                 "duration": datetime.now(timezone.utc).timestamp(
-                ) - s.last_sensor_event.rpi_time.timestamp()
+                ) - s.last_empty_event.rpi_time.timestamp()
             }
 
         status["sensorData"] = sensor_data
