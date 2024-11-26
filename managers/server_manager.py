@@ -43,9 +43,9 @@ class ServerManager:
 
         runner = web.AppRunner(app)
         await runner.setup()
-        site = web.TCPSite(runner, '0.0.0.0', 8080)
+        site = web.TCPSite(runner, '0.0.0.0', 80)
         await site.start()
 
-        print("Web server started on http://localhost:8080")
+        print("Web server started on http://localhost:80")
         while True:
             await asyncio.sleep(1)
