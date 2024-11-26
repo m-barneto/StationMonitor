@@ -58,7 +58,7 @@
         //  US/Alaska
         //  US/Hawaii
         //  US/Samoa
-        "timezone": "US/Pacific",
+        "timezone": "US/Eastern",
         "openTime": "08:00",
         "closeTime": "20:00",
         // Time in seconds between time checks

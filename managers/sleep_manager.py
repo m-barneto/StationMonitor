@@ -26,3 +26,9 @@ class SleepManager:
             Config.get()["sleep"]["closeTime"], "%H:%M").time()
         current_time = datetime.now(timezone).time()
         return open_time <= current_time <= close_time
+
+    def get_local_time(self) -> str:
+        # get timezone in config
+        timezone = ZoneInfo(Config.get()["sleep"]["timezone"])
+        # Get open and close time as datetime.time
+        return datetime.now(timezone).time().strftime("%H:%M")

@@ -7,6 +7,7 @@ from managers.event_manager import EventManager
 from managers.sensor_manager import SensorManager
 from managers.led_manager import LedManager
 
+from managers.server_manager import ServerManager
 from managers.sleep_manager import SleepManager
 from utils.config import Config
 from utils.utils import PixelStrip
@@ -18,6 +19,8 @@ leds = PixelStrip(Config.get()["leds"]["numLeds"],
                   Config.get()["leds"]["gpioPin"],
                   Config.get()["leds"]["brightness"])
 
+# webserver :(
+
 
 try:
     event_queue = asyncio.Queue()
@@ -26,10 +29,14 @@ try:
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
 
-    loop.create_task(EventManager(event_queue).loop())
+    event_manager = EventManager(event_queue)
+    loop.create_task(event_manager.loop())
     loop.create_task(AlarmManager(alarm_queue).loop())
     loop.create_task(ConfigManager().loop())
-    loop.create_task(SleepManager().loop())
+    sleep_manager = SleepManager()
+    loop.create_task(sleep_manager.loop())
+
+    sensors = []
 
     # Initialize sensors from config entries
     for sensor in Config.get()["sensors"]:
@@ -40,10 +47,13 @@ try:
             event_queue,
             alarm_queue
         )
+        sensors.append(s)
         l = LedManager(s, leds, sensor["indicatorIndex"])
         loop.create_task(s.loop())
         loop.create_task(l.loop())
 
+    server = ServerManager(sensors, event_manager, sleep_manager)
+    loop.create_task(server.loop())
     loop.run_forever()
 finally:
     # Cleanup GPIO pin

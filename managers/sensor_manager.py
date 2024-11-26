@@ -48,8 +48,6 @@ class SensorManager:
         if SensorState(self.sensor_state) == SensorState.OCCUPIED and SensorState(current_state) == SensorState.EMPTY:
             occupied_event = OccupiedEvent(
                 self.zone, self.last_empty_event.rpi_time, datetime.now(timezone.utc), self.has_sent_alarm)
-
-            print(json.dumps(occupied_event.__dict__, default=str))
             await self.event_queue.put(occupied_event)
             self.has_sent_alarm = False
         elif SensorState(self.sensor_state) == SensorState.OCCUPIED and SensorState(current_state) == SensorState.OCCUPIED and not self.has_sent_alarm:
@@ -70,17 +68,5 @@ class SensorManager:
                 self.zone, current_state)
             self.has_sent_alarm = False
 
-        self.sensor_state = current_state
+        self.sensor_state = SensorState(current_state)
         self.last_sensor_event = SensorEvent(self.zone, current_state)
-
-        # if current_state != self.sensor_state:
-        #    # Create our event
-        #    event = SensorEvent(self.zone, current_state)
-#
-        #    print(f"Produced event {event.zone} {event.rpi_time} {SensorState(event.state)}")
-        #    # Enqueue the event
-        #    await self.event_queue.put(event)
-#
-        #    # update our sensor_state
-        #    self.sensor_state = current_state
-        #    self.last_sensor_event = deepcopy(event)
