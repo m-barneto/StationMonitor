@@ -48,6 +48,7 @@ try:
         l = LedManager(s, led)
         loop.create_task(s.loop())
         loop.create_task(l.loop())
+        continue
 
     server = ServerManager(sensors, event_manager, sleep_manager)
     loop.create_task(server.loop())

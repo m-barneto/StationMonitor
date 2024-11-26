@@ -58,6 +58,7 @@ class PixelStrip:
         self.strip.show()
 
     def setPixel(self, i: int, color: Color):
+        print("Setting pixel", i, color)
         self.strip.setPixelColor(i, color)
 
     def clear(self):
@@ -65,6 +66,5 @@ class PixelStrip:
 
     def fill(self, color: Color):
         for i in range(self.ledsCount):
-            print("Setting pixel", i, color)
             self.setPixel(i, color)
         self.show()
