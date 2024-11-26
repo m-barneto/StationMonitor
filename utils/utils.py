@@ -63,6 +63,6 @@ class PixelStrip:
         self.fill(Color(0, 0, 0))
 
     def fill(self, color: Color):
-        for i in range(self.indicatorNumPixels):
+        for i in range(self.ledsCount):
             self.setPixel(i, color)
         self.show()
