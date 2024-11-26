@@ -14,14 +14,6 @@ from utils.utils import PixelStrip
 
 from rpi_ws281x import Color
 
-led = PixelStrip(Config.get()["leds"]["numLeds"],
-                 Config.get()["leds"]["numIndicators"],
-                 Config.get()["leds"]["gpioPin"],
-                 Config.get()["leds"]["brightness"])
-
-# webserver :(
-
-
 try:
     event_queue = asyncio.Queue()
     alarm_queue = asyncio.Queue()
@@ -47,8 +39,12 @@ try:
             event_queue,
             alarm_queue
         )
+
+        led = PixelStrip(Config.get()["leds"]["numLedPerIndicator"],
+                         sensor["indicatorGpio"],
+                         Config.get()["leds"]["brightness"])
         sensors.append(s)
-        l = LedManager(s, leds, sensor["indicatorIndex"])
+        l = LedManager(s, led, sensor["indicatorIndex"])
         loop.create_task(s.loop())
         loop.create_task(l.loop())
 

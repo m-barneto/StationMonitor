@@ -45,28 +45,24 @@ def inv_lerp(a: float, b: float, v: float) -> float:
 
 
 class PixelStrip:
-    def __init__(self, ledsCount: int, indicatorCount: int = 2, gpio: int = 18, brightness: int = 255, hz=800000, dma: int = 10, invert: bool = False, channel: int = 0):
+    def __init__(self, ledsCount: int, gpio: int = 18, brightness: int = 255, hz=800000, dma: int = 10, invert: bool = False, channel: int = 0):
         self.ledsCount = ledsCount
-        self.indicatorCount = indicatorCount
-        self.indicatorNumPixels = int(self.ledsCount / self.indicatorCount)
         self.strip = Adafruit_NeoPixel(
             self.ledsCount, gpio, hz, dma, invert, brightness, channel)
         self.strip.begin()
-        for i in range(indicatorCount):
-            self.clear(i)
+        self.clear()
         self.show()
 
     def show(self):
         self.strip.show()
 
-    def setPixel(self, indicatorIndex: int, i: int, color: Color):
-        self.strip.setPixelColor(
-            int((indicatorIndex * self.indicatorNumPixels) + i), color)
+    def setPixel(self, i: int, color: Color):
+        self.strip.setPixelColor(i, color)
 
-    def clear(self, indicatorIndex):
-        self.fill(indicatorIndex, Color(0, 0, 0))
+    def clear(self):
+        self.fill(Color(0, 0, 0))
 
-    def fill(self, indicatorIndex: int, color: Color):
+    def fill(self, color: Color):
         for i in range(self.indicatorNumPixels):
-            self.setPixel(indicatorIndex, i, color)
+            self.setPixel(i, color)
         self.show()
