@@ -26,7 +26,8 @@ class LedManager:
             await asyncio.sleep(.01)
 
     async def process_event(self) -> None:
-        self.leds.clear(Color(255, 255, 255))
+        # self.leds.clear()
+        self.leds.fill(Color(255, 255, 255))
         self.leds.show()
 
         if SensorState(self.sensor.last_sensor_event.state) == SensorState.EMPTY:
