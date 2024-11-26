@@ -46,7 +46,8 @@ class LedManager:
             pixelsToHighlight = val * self.leds.ledsCount
             pixelsFloored = int(pixelsToHighlight)
             for i in range(pixelsFloored):
-                self.leds.setPixel(i, hex_to_rgb(stage["color"]))
+                self.leds.setPixel(i, Color(255, 255, 255))
+                # self.leds.setPixel(i, hex_to_rgb(stage["color"]))
 
             if pixelsToHighlight > pixelsFloored:
                 self.leds.setPixel(pixelsFloored,
