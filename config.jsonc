@@ -44,7 +44,7 @@
             "gpioPin": 17,
             "indicatorIndex": 1,
             "alarmDuration": 20,
-            "indicatorGpio": 12
+            "indicatorGpio": 18
         }
     ],
     "sleep": {
