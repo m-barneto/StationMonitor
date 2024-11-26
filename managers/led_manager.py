@@ -26,7 +26,7 @@ class LedManager:
             await asyncio.sleep(.01)
 
     async def process_event(self) -> None:
-        self.leds.clear()
+        self.leds.clear(Color(255, 255, 255))
         self.leds.show()
 
         if SensorState(self.sensor.last_sensor_event.state) == SensorState.EMPTY:
@@ -46,8 +46,7 @@ class LedManager:
             pixelsFloored = int(pixelsToHighlight)
             for i in range(pixelsFloored):
                 print(i)
-                self.leds.setPixel(i, Color(255, 255, 255))
-                # self.leds.setPixel(i, hex_to_rgb(stage["color"]))
+                self.leds.setPixel(i, hex_to_rgb(stage["color"]))
 
             if pixelsToHighlight > pixelsFloored:
                 self.leds.setPixel(pixelsFloored,
