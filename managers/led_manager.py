@@ -38,7 +38,6 @@ class LedManager:
         stage_index = self.get_led_stage_index(event_duration)
         stage = Config.get()["leds"]["stages"][stage_index]
 
-        print("LIIIIGHTS")
         self.leds.fill(Color(255, 255, 255))
         self.leds.show()
 

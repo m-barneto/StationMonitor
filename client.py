@@ -43,6 +43,7 @@ try:
         led = PixelStrip(Config.get()["leds"]["numLedPerIndicator"],
                          sensor["indicatorGpio"],
                          Config.get()["leds"]["brightness"])
+        print("setting up", sensor["gpioPin"], "at", sensor["indicatorGpio"])
         sensors.append(s)
         l = LedManager(s, led)
         loop.create_task(s.loop())
