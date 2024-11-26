@@ -36,6 +36,7 @@ class LedManager:
         event_duration = datetime.now(timezone.utc).timestamp(
         ) - event.rpi_time.timestamp()
         stage_index = self.get_led_stage_index(event_duration)
+        print("led stage:", stage_index)
         stage = Config.get()["leds"]["stages"][stage_index]
         if stage_index != -1:
             time_into_stage = event_duration - \
