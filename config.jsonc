@@ -37,7 +37,7 @@
             "gpioPin": 5,
             "indicatorIndex": 0,
             "alarmDuration": 20,
-            "indicatorGpio": 18
+            "indicatorGpio": 12
         },
         {
             "zone": "WAIT-1",
