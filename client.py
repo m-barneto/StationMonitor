@@ -12,7 +12,32 @@ from managers.sleep_manager import SleepManager
 from utils.config import Config
 from utils.utils import PixelStrip
 
-from rpi_ws281x import Color
+# from rpi_ws281x import Color
+from rpi_ws281x import Adafruit_NeoPixel, Color, ws  # type: ignore
+
+NUMLEDS = 15
+
+leds = Adafruit_NeoPixel(NUMLEDS, 12, 800000, 10, False, 50, 0)
+leds.begin()
+
+pink = Color(255, 0, 255)
+blue = Color(0, 0, 255)
+white = Color(150, 150, 150)
+
+
+while True:
+    for i in range(int(NUMLEDS / 4)):
+        # print(i)
+        index = i * 4
+        if index + 4 >= NUMLEDS:
+            continue
+        leds.setPixelColor(index, blue)
+        leds.setPixelColor(index + 1, pink)
+        leds.setPixelColor(index + 2, white)
+        leds.setPixelColor(index + 3, pink)
+        # leds.setPixelColor(index + 4, blue)
+    leds.show()
+
 
 try:
     event_queue = asyncio.Queue()
