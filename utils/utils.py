@@ -51,7 +51,7 @@ class PixelStrip:
             self.ledsCount, gpio, hz, dma, invert, brightness, channel)
         print("Strip", "count", ledsCount, "pin", gpio)
         self.strip.begin()
-        self.clear()
+        self.fill(Color(255, 255, 255))
         self.show()
 
     def show(self):
