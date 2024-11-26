@@ -44,7 +44,7 @@ try:
                          sensor["indicatorGpio"],
                          Config.get()["leds"]["brightness"])
         sensors.append(s)
-        l = LedManager(s, led, sensor["indicatorIndex"])
+        l = LedManager(s, led)
         loop.create_task(s.loop())
         loop.create_task(l.loop())
 

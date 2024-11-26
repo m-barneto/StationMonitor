@@ -12,10 +12,9 @@ from utils.sensor_event import SensorState
 
 
 class LedManager:
-    def __init__(self, sensor: SensorManager, leds: PixelStrip, indicatorIndex: int) -> None:
+    def __init__(self, sensor: SensorManager, leds: PixelStrip) -> None:
         self.sensor = sensor
         self.leds = leds
-        self.index = indicatorIndex
 
     async def loop(self) -> None:
         while True:
@@ -27,7 +26,7 @@ class LedManager:
             await asyncio.sleep(.01)
 
     async def process_event(self) -> None:
-        self.leds.clear(self.index)
+        self.leds.clear()
         self.leds.show()
 
         if SensorState(self.sensor.last_sensor_event.state) == SensorState.EMPTY:
@@ -43,13 +42,13 @@ class LedManager:
                 self.get_time_before_stage(stage_index)
             val = time_into_stage / (stage["duration"] * 60)
             # convert that to numpixels
-            pixelsToHighlight = val * self.leds.indicatorNumPixels
+            pixelsToHighlight = val * self.leds.ledsCount
             pixelsFloored = int(pixelsToHighlight)
             for i in range(pixelsFloored):
-                self.leds.setPixel(self.index, i, hex_to_rgb(stage["color"]))
+                self.leds.setPixel(i, hex_to_rgb(stage["color"]))
 
             if pixelsToHighlight > pixelsFloored:
-                self.leds.setPixel(self.index, pixelsToHighlight,
+                self.leds.setPixel(pixelsToHighlight,
                                    hex_to_rgb(stage["color"], pixelsToHighlight % 1))
             self.leds.show()
         else:
@@ -71,9 +70,9 @@ class LedManager:
                 output = Color(clamp(primary.r + secondary.r, 0, 255), clamp(primary.g +
                                secondary.g, 0, 255), clamp(primary.b + secondary.b, 0, 255))
 
-                self.leds.fill(self.index, output)
+                self.leds.fill(output)
             else:
-                self.leds.fill(self.index, hex_to_rgb(stage["color"]))
+                self.leds.fill(hex_to_rgb(stage["color"]))
 
     def get_led_stage_index(self, time: float) -> int:
         index = 0
