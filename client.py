@@ -27,7 +27,6 @@ white = Color(150, 150, 150)
 
 while True:
     for i in range(int(NUMLEDS)):
-        print(i)
         leds.setPixelColor(i, blue)
         # leds.setPixelColor(index + 4, blue)
     leds.show()
