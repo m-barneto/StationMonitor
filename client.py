@@ -15,7 +15,7 @@ from utils.utils import PixelStrip
 # from rpi_ws281x import Color
 from rpi_ws281x import Adafruit_NeoPixel, Color, ws  # type: ignore
 
-NUMLEDS = 15
+NUMLEDS = 30
 
 leds = Adafruit_NeoPixel(NUMLEDS, 12, 800000, 10, False, 50, 0)
 leds.begin()
