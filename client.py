@@ -27,7 +27,7 @@ white = Color(150, 150, 150)
 
 while True:
     for i in range(int(NUMLEDS / 4)):
-        # print(i)
+        print(i)
         index = i * 4
         if index + 4 >= NUMLEDS:
             continue
