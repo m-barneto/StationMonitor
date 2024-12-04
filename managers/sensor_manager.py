@@ -14,7 +14,7 @@ class SensorManager:
         self.SENSOR_PIN = SENSOR_PIN
         GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BCM)
-        GPIO.setup(SENSOR_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(SENSOR_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
         # Assign our zone and event queue
         self.zone = zone
