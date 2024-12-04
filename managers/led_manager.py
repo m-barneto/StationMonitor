@@ -28,9 +28,9 @@ class LedManager:
 
     async def process_event(self) -> None:
         self.leds.clear(self.index)
-        self.leds.show()
 
         if SensorState(self.sensor.last_sensor_event.state) == SensorState.EMPTY:
+            self.leds.show()
             return
 
         event = self.sensor.last_empty_event
@@ -51,9 +51,7 @@ class LedManager:
             if pixelsToHighlight > pixelsFloored:
                 self.leds.setPixel(self.index, pixelsToHighlight,
                                    hex_to_rgb(stage["color"], pixelsToHighlight % 1))
-            self.leds.show()
         else:
-
             if Config.get()["leds"]["flashing"]["shouldFlash"]:
                 # get time sine wave
                 # map from -1 to 1
@@ -74,6 +72,7 @@ class LedManager:
                 self.leds.fill(self.index, output)
             else:
                 self.leds.fill(self.index, hex_to_rgb(stage["color"]))
+        self.leds.show()
 
     def get_led_stage_index(self, time: float) -> int:
         index = 0
