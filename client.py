@@ -12,15 +12,14 @@ from managers.sleep_manager import SleepManager
 from utils.config import Config
 from utils.utils import PixelStrip
 
-from rpi_ws281x import Color
-
-leds = PixelStrip(Config.get()["leds"]["numLeds"],
-                  Config.get()["leds"]["numIndicators"],
-                  Config.get()["leds"]["gpioPin"],
-                  Config.get()["leds"]["brightness"])
-
 
 try:
+    # Initialize our led strip
+    leds = PixelStrip(Config.get()["leds"]["numLeds"],
+                      Config.get()["leds"]["numIndicators"],
+                      Config.get()["leds"]["gpioPin"],
+                      Config.get()["leds"]["brightness"])
+
     # Initialize our queues
     event_queue = asyncio.Queue()
     alarm_queue = asyncio.Queue()
