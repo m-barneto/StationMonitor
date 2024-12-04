@@ -18,10 +18,8 @@ class ConfigManager:
 
     @staticmethod
     async def update_config() -> None:
-        print("Trying to update config")
         try:
             res = requests.get("http://192.168.17.202/config.jsonc")
-            print("Updating config")
             remote_config = pyjson5.loads(res.text)
             Config.conf["leds"] = remote_config["leds"]
             Config.conf["sleep"] = remote_config["sleep"]
