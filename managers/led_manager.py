@@ -115,7 +115,9 @@ class LedManager:
 
     def get_time_before_stage(self, stage: int):
         time_before_stage = 0
+        # Go through each stage before the input stage
         for i in range(stage):
+            # Add up time from previous stages
             time_before_stage += (Config.get()
                                   ["leds"]["stages"][i]["duration"] * 60)
         return time_before_stage
