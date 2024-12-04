@@ -14,7 +14,7 @@ class SensorManager:
         self.SENSOR_PIN = SENSOR_PIN
         GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BCM)
-        GPIO.setup(SENSOR_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(SENSOR_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
         # Assign our zone and event queue
         self.zone = zone
@@ -44,7 +44,6 @@ class SensorManager:
         # Get current state of sensor
         current_state: SensorState = GPIO.input(self.SENSOR_PIN)
         print(SensorState(current_state))
-        print(current_state)
 
         # if previous state was occupied and now we're empty
         if SensorState(self.sensor_state) == SensorState.OCCUPIED and SensorState(current_state) == SensorState.EMPTY:
