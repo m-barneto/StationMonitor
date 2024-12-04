@@ -30,13 +30,13 @@ try:
 
     # Manager that sends out requests containing event data
     event_manager = EventManager(event_queue)
-    loop.create_task(event_manager.loop())
+    # loop.create_task(event_manager.loop())
 
     # Sends out requests for alarm events when duration is exceeded
-    loop.create_task(AlarmManager(alarm_queue).loop())
+    # loop.create_task(AlarmManager(alarm_queue).loop())
 
     # Syncs config from lenovo
-    loop.create_task(ConfigManager().loop())
+    # loop.create_task(ConfigManager().loop())
 
     # Handles sleep state when site is closed
     sleep_manager = SleepManager()
@@ -65,7 +65,7 @@ try:
 
     # Web server that displays current status of sensors to web
     server = ServerManager(sensors, event_manager, sleep_manager)
-    loop.create_task(server.loop())
+    # loop.create_task(server.loop())
 
     # Start our event loop
     loop.run_forever()
