@@ -24,7 +24,7 @@ class LedManager:
                 continue
             await self.process_event()
             # controls the update rate of our leds
-            await asyncio.sleep(.01)
+            await asyncio.sleep(.05)
 
     async def process_event(self) -> None:
         self.leds.clear(self.index)
