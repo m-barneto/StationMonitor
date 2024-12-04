@@ -15,24 +15,6 @@ from utils.utils import PixelStrip
 # from rpi_ws281x import Color
 from rpi_ws281x import Adafruit_NeoPixel, Color, ws  # type: ignore
 
-NUMLEDS = 15
-
-# leds = Adafruit_NeoPixel(NUMLEDS, 18, 800000, 10, False, 255, 0)
-# leds.begin()
-leds = PixelStrip(NUMLEDS)
-leds.clear()
-pink = Color(255, 0, 255)
-blue = Color(0, 0, 255)
-white = Color(150, 150, 150)
-
-
-while True:
-    for i in range(int(NUMLEDS)):
-        leds.setPixel(i, blue)
-        # leds.setPixelColor(index + 4, blue)
-    leds.show()
-
-
 try:
     event_queue = asyncio.Queue()
     alarm_queue = asyncio.Queue()
