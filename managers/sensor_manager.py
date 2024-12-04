@@ -43,6 +43,7 @@ class SensorManager:
     async def process_sensor(self) -> None:
         # Get current state of sensor
         current_state: SensorState = GPIO.input(self.SENSOR_PIN)
+        print(SensorState(current_state))
 
         # if previous state was occupied and now we're empty
         if SensorState(self.sensor_state) == SensorState.OCCUPIED and SensorState(current_state) == SensorState.EMPTY:
