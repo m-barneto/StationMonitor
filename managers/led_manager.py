@@ -31,7 +31,6 @@ class LedManager:
             await asyncio.sleep(.05)
 
     async def process_event(self) -> None:
-        return
         # Clear led strip
         self.leds.clear(self.index)
 
