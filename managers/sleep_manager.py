@@ -13,7 +13,9 @@ class SleepManager:
 
     async def loop(self) -> None:
         while True:
+            # Update is_open class variable
             SleepManager.is_open = self.is_site_open()
+            # Sleep for configured amount of time
             await asyncio.sleep(Config.get()["sleep"]["sleepInterval"])
 
     def is_site_open(self) -> bool:
