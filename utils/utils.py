@@ -2,7 +2,9 @@ from rpi_ws281x import Adafruit_NeoPixel, Color, ws  # type: ignore
 
 
 def clamp(n, min, max):
-    """n is the number we would like to clip. min and max specify the range to be used for clipping the number.
+    """ Clamp n between min and max.
+    n is the number we would like to clip. 
+    min and max specify the range to be used for clipping the number.
     """
     if n < min:
         return min
@@ -46,14 +48,23 @@ def inv_lerp(a: float, b: float, v: float) -> float:
 
 class PixelStrip:
     def __init__(self, ledsCount: int, indicatorCount: int = 2, gpio: int = 18, brightness: int = 255, hz=800000, dma: int = 10, invert: bool = False, channel: int = 0):
+        """
+        Initializes LED strip and handles sub strips based on number of indicators
+        """
         self.ledsCount = ledsCount
         self.indicatorCount = indicatorCount
         self.indicatorNumPixels = int(self.ledsCount / self.indicatorCount)
+
+        # Init main strip
         self.strip = Adafruit_NeoPixel(
             self.ledsCount, gpio, hz, dma, invert, brightness, channel)
         self.strip.begin()
+
+        # Clear entire main strip
         for i in range(indicatorCount):
             self.clear(i)
+
+        # Show cleared main strip
         self.show()
 
     def show(self):
