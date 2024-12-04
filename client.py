@@ -14,7 +14,7 @@ from utils.utils import PixelStrip
 
 from rpi_ws281x import Color
 
-led = PixelStrip(Config.get()["leds"]["numLeds"],
+leds = PixelStrip(Config.get()["leds"]["numLeds"],
                  Config.get()["leds"]["numIndicators"],
                  Config.get()["leds"]["gpioPin"],
                  Config.get()["leds"]["brightness"])
