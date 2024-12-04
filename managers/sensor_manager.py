@@ -6,7 +6,6 @@ import RPi.GPIO as GPIO  # type: ignore
 from managers.sleep_manager import SleepManager
 from utils.config import Config
 from utils.sensor_event import AlarmEvent, OccupiedEvent, SensorEvent, SensorState
-from utils.utils import PixelStrip
 
 
 class SensorManager:
@@ -42,31 +41,39 @@ class SensorManager:
             await asyncio.sleep(float(1 / int(Config.get()["sensorPollRate"])))
 
     async def process_sensor(self) -> None:
+        # Get current state of sensor
         current_state: SensorState = GPIO.input(self.SENSOR_PIN)
 
         # if previous state was occupied and now we're empty
         if SensorState(self.sensor_state) == SensorState.OCCUPIED and SensorState(current_state) == SensorState.EMPTY:
+            # Car has left, send out the occupied event and reset alarm
             occupied_event = OccupiedEvent(
                 self.zone, self.last_empty_event.rpi_time, datetime.now(timezone.utc), self.has_sent_alarm)
             await self.event_queue.put(occupied_event)
             self.has_sent_alarm = False
         elif SensorState(self.sensor_state) == SensorState.OCCUPIED and SensorState(current_state) == SensorState.OCCUPIED and not self.has_sent_alarm:
             # We are still occupied, check time to see if its over the config's alarm setting
+
             # Get time from start of event to now
             rpi_time = datetime.now(timezone.utc)
             duration = rpi_time - self.last_empty_event.rpi_time
+
             if duration >= timedelta(minutes=self.alarm_duration):
                 print("Sending alarm out for event over",
                       self.alarm_duration, "mins")
+
+                # Send out alarm event and set has_sent_alarm to true to prevent resending out alarms for same event
                 alarm_event = AlarmEvent(
                     self.zone, self.last_empty_event.rpi_time, rpi_time)
                 await self.alarm_queue.put(alarm_event)
                 self.has_sent_alarm = True
-
         elif SensorState(current_state) == SensorState.EMPTY:
+            # Previous state is empty, update last_empty_event and reset has_sent_alarm
             self.last_empty_event = SensorEvent(
                 self.zone, current_state)
             self.has_sent_alarm = False
 
+        # Update the stored sensor_state
         self.sensor_state = SensorState(current_state)
+        # Update last_sensor_event with the current state
         self.last_sensor_event = SensorEvent(self.zone, current_state)
