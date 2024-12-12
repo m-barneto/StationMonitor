@@ -38,13 +38,15 @@
             "zone": "BAY-1",
             "gpioPin": 5,
             "indicatorIndex": 0,
-            "alarmDuration": 20
+            "alarmDuration": 20,
+            "indicatorPin": 18
         },
         {
             "zone": "WAIT-1",
             "gpioPin": 17,
             "indicatorIndex": 1,
-            "alarmDuration": 20
+            "alarmDuration": 20,
+            "indicatorPin": 13
         }
     ],
     "sleep": {

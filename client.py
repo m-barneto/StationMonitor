@@ -14,11 +14,6 @@ from utils.utils import PixelStrip
 
 
 try:
-    # Initialize our led strip
-    leds = PixelStrip(Config.get()["leds"]["numLeds"],
-                      Config.get()["leds"]["numIndicators"],
-                      Config.get()["leds"]["gpioPin"],
-                      Config.get()["leds"]["brightness"])
 
     # Initialize our queues
     event_queue = asyncio.Queue()
@@ -45,8 +40,20 @@ try:
     # List to store sensor managers in
     sensors = []
 
+    channel = 0
     # Initialize sensors from config entries
     for sensor in Config.get()["sensors"]:
+        # Initialize our led strip
+        leds = PixelStrip(15,
+                          1,
+                          sensor["indicatorPin"],
+                          Config.get()["leds"]["brightness"],
+                          800000,
+                          10,
+                          False,
+                          channel)
+        channel += 1
+
         s = SensorManager(
             sensor["gpioPin"],
             sensor["zone"],
@@ -57,7 +64,7 @@ try:
         sensors.append(s)
 
         # Setup led manager for this sensor
-        l = LedManager(s, leds, sensor["indicatorIndex"])
+        l = LedManager(s, leds, 0)
 
         # Initialize our event loops for the sensor managers
         loop.create_task(s.loop())
