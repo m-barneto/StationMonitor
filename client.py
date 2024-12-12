@@ -47,6 +47,7 @@ try:
                           sensor["indicatorPin"],
                           sensor["pwmChannel"],
                           Config.get()["leds"]["brightness"])
+        print(leds)
 
         s = SensorManager(
             sensor["gpioPin"],
