@@ -40,19 +40,13 @@ try:
     # List to store sensor managers in
     sensors = []
 
-    channel = 0
     # Initialize sensors from config entries
     for sensor in Config.get()["sensors"]:
         # Initialize our led strip
-        leds = PixelStrip(15,
-                          1,
+        leds = PixelStrip(Config.get()["leds"]["numLeds"],
                           sensor["indicatorPin"],
-                          Config.get()["leds"]["brightness"],
-                          800000,
-                          10,
-                          False,
-                          channel)
-        channel += 1
+                          sensor["pwmChannel"],
+                          Config.get()["leds"]["brightness"])
 
         s = SensorManager(
             sensor["gpioPin"],
@@ -64,7 +58,7 @@ try:
         sensors.append(s)
 
         # Setup led manager for this sensor
-        l = LedManager(s, leds, 0)
+        l = LedManager(s, leds)
 
         # Initialize our event loops for the sensor managers
         loop.create_task(s.loop())

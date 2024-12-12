@@ -1,8 +1,6 @@
 {
     "leds": {
-        "numLeds": 30,
-        "numIndicators": 2,
-        "gpioPin": 18,
+        "numLeds": 15,
         // Range is 0-255
         "brightness": 255,
         // Stages for the light indicator
@@ -37,16 +35,16 @@
         {
             "zone": "BAY-1",
             "gpioPin": 5,
-            "indicatorIndex": 0,
             "alarmDuration": 20,
-            "indicatorPin": 18
+            "indicatorPin": 18,
+            "pwmChannel": 0
         },
         {
             "zone": "WAIT-1",
             "gpioPin": 17,
-            "indicatorIndex": 1,
             "alarmDuration": 20,
-            "indicatorPin": 13
+            "indicatorPin": 13,
+            "pwmChannel": 1
         }
     ],
     "sleep": {

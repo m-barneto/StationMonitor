@@ -12,10 +12,9 @@ from utils.sensor_event import SensorState
 
 
 class LedManager:
-    def __init__(self, sensor: SensorManager, leds: PixelStrip, indicatorIndex: int) -> None:
+    def __init__(self, sensor: SensorManager, leds: PixelStrip) -> None:
         self.sensor = sensor
         self.leds = leds
-        self.index = indicatorIndex
 
     async def loop(self) -> None:
         while True:
@@ -32,7 +31,7 @@ class LedManager:
 
     async def process_event(self) -> None:
         # Clear led strip
-        self.leds.clear(self.index)
+        self.leds.clear()
 
         # If event is empty, show cleared led strip and return early
         if SensorState(self.sensor.last_sensor_event.state) == SensorState.EMPTY:
@@ -61,11 +60,11 @@ class LedManager:
             # Fill led strip to the %
             pixelsFloored = int(pixelsToHighlight)
             for i in range(pixelsFloored):
-                self.leds.setPixel(self.index, i, hex_to_rgb(stage["color"]))
+                self.leds.setPixel(i, hex_to_rgb(stage["color"]))
 
             # Take the last led and modulate the brightness for a smooth animation
             if pixelsToHighlight > pixelsFloored:
-                self.leds.setPixel(self.index, pixelsToHighlight,
+                self.leds.setPixel(pixelsToHighlight,
                                    hex_to_rgb(stage["color"], pixelsToHighlight % 1))
         else:
             # We're in the flashing stage
@@ -91,10 +90,10 @@ class LedManager:
                                secondary.g, 0, 255), clamp(primary.b + secondary.b, 0, 255))
 
                 # Display final color
-                self.leds.fill(self.index, output)
+                self.leds.fill(output)
             else:
                 # Fill with color of final stage
-                self.leds.fill(self.index, hex_to_rgb(stage["color"]))
+                self.leds.fill(hex_to_rgb(stage["color"]))
         # Display our led strip data
         self.leds.show()
 
