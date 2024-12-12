@@ -55,7 +55,7 @@ class LedManager:
             # Get % of led bar to fill
             val = time_into_stage / (stage["duration"] * 60)
             # convert that to numpixels
-            pixelsToHighlight = val * self.leds.indicatorNumPixels
+            pixelsToHighlight = val * self.leds.ledsCount
 
             # Fill led strip to the %
             pixelsFloored = int(pixelsToHighlight)
