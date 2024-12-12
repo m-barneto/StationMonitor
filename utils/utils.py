@@ -67,7 +67,7 @@ class PixelStrip:
         self.strip.show()
 
     def setPixel(self, i: int, color: Color):
-        self.strip.setPixelColor(i, color)
+        self.strip.setPixelColor(int(i), color)
 
     def clear(self):
         self.fill(Color(0, 0, 0))
