@@ -67,7 +67,9 @@
     // How many times the sensor is polled per second
     "sensorPollRate": 10,
     // IP to send our event data to
-    "proxyServerIp": "http://192.168.17.202:8000",
+    "proxyEventRoute": "http://192.168.17.202:8070/beam/event",
+    "proxyAlarmRoute": "http://192.168.17.202:8070/beam/alarm",
+    "proxyStatusUpdateRoute": "http://192.168.17.202:8070/beam/status",
     // How many events to send to server per second
     "eventSendRate": 2,
     // If we fail to send an event, how many seconds to wait before trying again

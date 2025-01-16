@@ -1,4 +1,5 @@
 import asyncio
+from copy import deepcopy
 
 import pyjson5
 import requests
@@ -21,8 +22,14 @@ class ConfigManager:
         try:
             res = requests.get("http://192.168.17.202/config.jsonc")
             remote_config = pyjson5.loads(res.text)
-            Config.conf["leds"] = remote_config["leds"]
-            Config.conf["sleep"] = remote_config["sleep"]
+            orig = deepcopy(Config.conf)
+
+            Config.conf = remote_config
+            Config.conf["sensors"] = orig["sensors"]
+
+            print("Remote:", pyjson5.dumps(remote_config))
+            print("Original:", orig)
+            print("New:", pyjson5.dumps(Config.conf))
         except requests.exceptions.ConnectionError as e:
             # sleep for a bit to avoid spamming a downed proxy
             await asyncio.sleep(10 * 60)
