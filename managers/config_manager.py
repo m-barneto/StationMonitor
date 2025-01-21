@@ -26,10 +26,6 @@ class ConfigManager:
 
             Config.conf = remote_config
             Config.conf["sensors"] = orig["sensors"]
-
-            print("Remote:", pyjson5.dumps(remote_config))
-            print("Original:", orig)
-            print("New:", pyjson5.dumps(Config.conf))
         except requests.exceptions.ConnectionError as e:
             # sleep for a bit to avoid spamming a downed proxy
             await asyncio.sleep(10 * 60)
