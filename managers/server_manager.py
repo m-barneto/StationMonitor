@@ -3,9 +3,11 @@ from datetime import datetime, timezone
 import json
 from aiohttp import web
 
+from managers.config_manager import ConfigManager
 from managers.event_manager import EventManager
 from managers.sensor_manager import SensorManager
 from managers.sleep_manager import SleepManager
+from utils.config import Config
 from utils.sensor_event import SensorState
 
 
@@ -41,6 +43,10 @@ class ServerManager:
             }
         # Add our sensor data to the response dict
         status["sensorData"] = sensor_data
+
+        # Add our loaded config to response
+
+        status["config"] = Config.conf
 
         # Return dict as formatted json
         return web.Response(text=json.dumps(status, default=str, indent=4))
