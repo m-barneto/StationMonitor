@@ -13,22 +13,23 @@ from utils.sensor_event import SensorState
 
 class ServerManager:
     def __init__(self, sensors: list[SensorManager], event_manager: EventManager, sleep_manager: SleepManager):
-        self.sensors = sensors
-        self.event_manager = event_manager
-        self.sleep_manager = sleep_manager
+        ServerManager.sensors = sensors
+        ServerManager.event_manager = event_manager
+        ServerManager.sleep_manager = sleep_manager
 
-    async def get_status(self, request) -> web.Response:
+    @staticmethod
+    def status_dict():
         # Create dict containing info we want to include in response
         status = {}
         # Add data that pertains to the rpi system
-        status["rpiTime"] = self.sleep_manager.get_local_time()
+        status["rpiTime"] = ServerManager.sleep_manager.get_local_time()
         status["eventsQueued"] = str(
-            self.event_manager.event_queue.qsize() + self.event_manager.processing)
-        status["isSleeping"] = not self.sleep_manager.is_open
+            ServerManager.event_manager.event_queue.qsize() + ServerManager.event_manager.processing)
+        status["isSleeping"] = not ServerManager.sleep_manager.is_open
 
         # Add data for individual sensors
         sensor_data = {}
-        for s in self.sensors:
+        for s in ServerManager.sensors:
             # Current sensor event duration
             duration = datetime.now(timezone.utc).timestamp(
             ) - s.last_empty_event.rpi_time.timestamp()
@@ -47,6 +48,11 @@ class ServerManager:
         # Add our loaded config to response
 
         status["config"] = Config.conf
+        
+        return status
+
+    async def get_status(self, request) -> web.Response:
+        status = ServerManager.status_dict()
 
         # Return dict as formatted json
         return web.Response(text=json.dumps(status, default=str, indent=4))
@@ -56,6 +62,8 @@ class ServerManager:
         app = web.Application()
         # Add index route for status
         app.router.add_get('/', self.get_status)
+
+        app.router.add_get("/status", self.get_status)
 
         # Setup the web app runner
         runner = web.AppRunner(app)

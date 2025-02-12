@@ -15,7 +15,7 @@ class ConfigManager:
         while True:
             await ConfigManager.update_config()
             # Every 10 minutes
-            await asyncio.sleep(10 * 60)
+            await asyncio.sleep(int(Config.conf["updateConfigInterval"]) * 60)
 
     @staticmethod
     async def update_config() -> None:
@@ -28,4 +28,4 @@ class ConfigManager:
             Config.conf["sensors"] = orig["sensors"]
         except requests.exceptions.ConnectionError as e:
             # sleep for a bit to avoid spamming a downed proxy
-            await asyncio.sleep(10 * 60)
+            await asyncio.sleep(60)

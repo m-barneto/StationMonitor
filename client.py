@@ -4,6 +4,7 @@ import RPi.GPIO as GPIO  # type: ignore
 from managers.alarm_manager import AlarmManager
 from managers.config_manager import ConfigManager
 from managers.event_manager import EventManager
+from managers.health_manager import HealthManager
 from managers.sensor_manager import SensorManager
 from managers.led_manager import LedManager
 
@@ -68,6 +69,9 @@ try:
     # Web server that displays current status of sensors to web
     server = ServerManager(sensors, event_manager, sleep_manager)
     loop.create_task(server.loop())
+
+    status_updater = HealthManager()
+    loop.create_task(status_updater.loop())
 
     # Start our event loop
     loop.run_forever()

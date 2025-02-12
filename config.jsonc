@@ -73,5 +73,7 @@
     // How many events to send to server per second
     "eventSendRate": 2,
     // If we fail to send an event, how many seconds to wait before trying again
-    "eventSendFailureCooldown": 5
+    "eventSendFailureCooldown": 5,
+    "updateConfigInterval": 10,
+    "updateHealthStatusInterval": 5
 }
