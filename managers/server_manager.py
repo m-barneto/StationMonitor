@@ -44,10 +44,6 @@ class ServerManager:
             }
         # Add our sensor data to the response dict
         status["sensorData"] = sensor_data
-
-        # Add our loaded config to response
-
-        status["config"] = Config.conf
         
         return status
 
@@ -56,6 +52,10 @@ class ServerManager:
 
         # Return dict as formatted json
         return web.Response(text=json.dumps(status, default=str, indent=4))
+    
+    async def get_config(self, request) -> web.Response:
+        # Return dict as formatted json
+        return web.Response(text=json.dumps(Config.conf, default=str, indent=4))
 
     async def loop(self) -> None:
         # Setup our web application
@@ -64,6 +64,8 @@ class ServerManager:
         app.router.add_get('/', self.get_status)
 
         app.router.add_get("/status", self.get_status)
+
+        app.router.add_get("/config", self.get_config)
 
         # Setup the web app runner
         runner = web.AppRunner(app)
