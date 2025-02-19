@@ -6,12 +6,10 @@ from managers.config_manager import ConfigManager
 from managers.event_manager import EventManager
 from managers.health_manager import HealthManager
 from managers.sensor_manager import SensorManager
-from managers.led_manager import LedManager
 
 from managers.server_manager import ServerManager
 from managers.sleep_manager import SleepManager
 from utils.config import Config
-from utils.utils import PixelStrip
 
 
 try:
@@ -41,15 +39,8 @@ try:
     # List to store sensor managers in
     sensors = []
 
-    # Initialize sensors from config entries
+    # Initialize sensors from config entries, excluded led config
     for sensor in Config.get()["sensors"]:
-        # Initialize our led strip
-        leds = PixelStrip(Config.get()["leds"]["numLeds"],
-                          sensor["indicatorPin"],
-                          sensor["pwmChannel"],
-                          Config.get()["leds"]["brightness"])
-        print(leds)
-
         s = SensorManager(
             sensor["gpioPin"],
             sensor["zone"],
@@ -58,13 +49,8 @@ try:
             alarm_queue
         )
         sensors.append(s)
-
-        # Setup led manager for this sensor
-        l = LedManager(s, leds)
-
-        # Initialize our event loops for the sensor managers
+        # Initialize sensor manager, led manager removed.
         loop.create_task(s.loop())
-        loop.create_task(l.loop())
 
     # Web server that displays current status of sensors to web
     server = ServerManager(sensors, event_manager, sleep_manager)
