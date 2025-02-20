@@ -1,8 +1,8 @@
 import asyncio
+
 from copy import deepcopy
 
 import pyjson5
-import requests
 
 from utils.config import Config
 
