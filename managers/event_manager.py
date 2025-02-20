@@ -28,9 +28,8 @@ class EventManager:
         while True:
             try:
                 # Sends the request while still allowing other loops to continue running
-                res1 = await loop.run_in_executor(None, requests.post, "http://127.0.0.1/data", None, json.loads(json.dumps(self.current_event.__dict__, default=str)))
-                res2 = await loop.run_in_executor(None, requests.post, Config.get()["proxyEventRoute"], None, json.loads(json.dumps(self.current_event.__dict__, default=str)))
-                
+                #proxyEventRoute to be switched to localhost:8000/data
+                res = await loop.run_in_executor(None, requests.post, Config.get()["proxyEventRoute"], None, json.loads(json.dumps(self.current_event.__dict__, default=str)))
                 # This is our rate limiting sleep
                 await asyncio.sleep(float(1 / int(Config.get()["eventSendRate"])))
                 # Break out of loop to allow us to process the next event in the queue
