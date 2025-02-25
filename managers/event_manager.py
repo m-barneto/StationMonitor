@@ -5,6 +5,7 @@ import requests
 from utils.config import Config
 from utils.sensor_event import OccupiedEvent
 
+from functools import partial
 
 class EventManager:
     def __init__(self, q: asyncio.Queue) -> None:
@@ -28,7 +29,7 @@ class EventManager:
         while True:
             try:
                 # Sends the request while still allowing other loops to continue running
-                res = await loop.run_in_executor(None, requests.post, Config.get()["proxyEventRoute"], None, json.loads(json.dumps(self.current_event.__dict__, default=str)))
+                res = await loop.run_in_executor(None, partial(requests.post, url=Config.get()["proxyEventRoute"], json=json.loads(json.dumps(self.current_event.__dict__, default=str)), auth=("automsvc", "speed0Meter!")))
                 
                 # This is our rate limiting sleep
                 await asyncio.sleep(float(1 / int(Config.get()["eventSendRate"])))
