@@ -29,6 +29,8 @@ class SensorManager:
             self.zone, self.sensor_state)
         self.last_empty_event = SensorEvent(
             self.zone, self.sensor_state)
+        self.first_empty_event = SensorEvent(
+            self.zone, self.sensor_state)
 
     async def loop(self) -> None:
         while True:
@@ -46,6 +48,8 @@ class SensorManager:
 
         # if previous state was occupied and now we're empty
         if SensorState(self.sensor_state) == SensorState.OCCUPIED and SensorState(current_state) == SensorState.EMPTY:
+            self.first_empty_event = SensorEvent(
+                self.zone, current_state)
             # Car has left, send out the occupied event and reset alarm
             occupied_event = OccupiedEvent(
                 self.zone, self.last_empty_event.rpi_time, datetime.now(timezone.utc), self.has_sent_alarm)

@@ -34,8 +34,9 @@ class ServerManager:
             duration = datetime.now(timezone.utc).timestamp(
             ) - s.last_empty_event.rpi_time.timestamp()
             # If sensor is empty, set duration to 0
-            #if s.sensor_state == SensorState.EMPTY:
-            #    duration = 0.0
+            if s.sensor_state == SensorState.EMPTY:
+                duration = datetime.now(timezone.utc).timestamp(
+                ) - s.first_empty_event.rpi_time.timestamp()
 
             # Add data to dict using zone id as key
             sensor_data[s.zone] = {
