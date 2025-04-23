@@ -27,6 +27,8 @@ def decode_distance_packet(packet):
     }
 
 def get_port_from_serial(serial_number: str):
+    import serial.tools.list_ports
+    
     ports = serial.tools.list_ports.comports()
 
     for port in ports:
