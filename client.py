@@ -14,10 +14,6 @@ from sensors.distance_sensor import DistanceSensor, get_port_from_serial
 from utils.config import Config
 from utils.utils import PixelStrip
 
-import wiringpi
-
-wiringpi.wiringPiSetup()
-
 try:
     get_port_from_serial("test")
     # Initialize our queues

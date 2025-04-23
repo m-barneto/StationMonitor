@@ -2,7 +2,6 @@
 import asyncio
 
 import serial
-import wiringpi
 
 def decode_distance_packet(packet):
     """Decode distance measurement packet"""
@@ -50,8 +49,8 @@ class DistanceSensor:
     async def loop(self) -> None:
         while True:
             print("Opening serial port: ", self.port)
-            #with serial.Serial(self.port, 9600, timeout=1) as ser:
-            with wiringpi.serialOpen(self.port, 9600) as ser:
+            with serial.Serial(self.port, 9600, timeout=1) as ser:
+            #with wiringpi.serialOpen(self.port, 9600) as ser:
                 buffer = bytearray()
 
                 while True:
