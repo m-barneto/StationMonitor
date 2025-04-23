@@ -26,12 +26,14 @@ def decode_distance_packet(packet):
         'valid': valid
     }
 
-def get_port_from_serial(serial: str):
-    import usb.core
-    dev = usb.core.find(find_all=True)
-    for usb in dev:
-        print(usb.serial_number)
-        print(usb.port_number)
+def get_port_from_serial(serial_number: str):
+    ports = serial.tools.list_ports.comports()
+
+    for port in ports:
+        print(f"Device: {port.device}")  # e.g., /dev/ttyUSB0
+        print(f"  Description: {port.description}")
+        print(f"  VID: {port.vid}, PID: {port.pid}")
+        print(f"  Serial Number: {port.serial_number}")
     return ""
 
 
