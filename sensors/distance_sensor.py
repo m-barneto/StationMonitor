@@ -70,6 +70,7 @@ class DistanceSensor:
 
                         if len(buffer) - start_idx >= 14:
                             packet = buffer[start_idx:start_idx+14]
+                            print("Packet: ", packet)
                             decoded = decode_distance_packet(packet)
                             if not decoded:
                                 continue
@@ -82,6 +83,4 @@ class DistanceSensor:
                     if read_distance:
                         print(read_distance)
                         self.current_distance = int(read_distance)
-                    else:
-                        print("No distance read")
                     await asyncio.sleep(.5)
