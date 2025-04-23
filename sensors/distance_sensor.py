@@ -36,7 +36,7 @@ class DistanceSensor:
         self.current_distance: int = -1
 
     def is_occupied(self):
-        return self.current_distance + self.threshold < self.empty_distance
+        return self.current_distance < self.empty_distance
 
     async def loop(self) -> None:
         while True:
