@@ -70,7 +70,7 @@ class DistanceSensor:
 
                         if len(buffer) - start_idx >= 14:
                             packet = buffer[start_idx:start_idx+14]
-                            print("Packet: ", packet)
+                            print("Packet: ", packet.hex())
                             decoded = decode_distance_packet(packet)
                             if not decoded:
                                 continue
