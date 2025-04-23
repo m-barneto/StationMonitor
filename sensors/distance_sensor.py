@@ -77,5 +77,5 @@ class DistanceSensor:
                         else:
                             break
 
-                    self.current_distance = read_distance
+                    self.current_distance = int(read_distance)
                     await asyncio.sleep(.5)

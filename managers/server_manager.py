@@ -53,7 +53,7 @@ class ServerManager:
             dist_sensor_data[dist_sensor.zone] = {
                 "occupiedDistance": dist_sensor.occupied_distance,
                 "currentDistance": dist_sensor.current_distance,
-                "isOccupied": dist_sensor.is_occupied()
+                "isOccupied": str(dist_sensor.is_occupied())
             }
 
         status["distanceSensors"] = dist_sensor_data
