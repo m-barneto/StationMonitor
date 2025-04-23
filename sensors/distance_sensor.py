@@ -31,8 +31,7 @@ def get_port_from_serial(serial: str):
     dev = usb.core.find(find_all=True)
     for usb in dev:
         print(usb.serial_number)
-        print(usb.port_number)
-        print(usb.address)
+        print(usb)
     return ""
 
 
