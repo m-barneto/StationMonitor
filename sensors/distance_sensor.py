@@ -80,5 +80,8 @@ class DistanceSensor:
                         else:
                             break
                     if read_distance:
+                        print(read_distance)
                         self.current_distance = int(read_distance)
+                    else:
+                        print("No distance read")
                     await asyncio.sleep(.5)
