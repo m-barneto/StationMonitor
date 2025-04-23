@@ -26,6 +26,12 @@ def decode_distance_packet(packet):
         'valid': valid
     }
 
+def get_port_from_serial(serial: str):
+    import usb.core
+    dev = usb.core.find()
+    for usb in dev:
+        print(dev)
+    return ""
 
 
 class DistanceSensor:

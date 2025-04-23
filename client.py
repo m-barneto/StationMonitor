@@ -10,13 +10,13 @@ from managers.led_manager import LedManager
 
 from managers.server_manager import ServerManager
 from managers.sleep_manager import SleepManager
-from sensors.distance_sensor import DistanceSensor
+from sensors.distance_sensor import DistanceSensor, get_port_from_serial
 from utils.config import Config
 from utils.utils import PixelStrip
 
 
 try:
-
+    get_port_from_serial("test")
     # Initialize our queues
     event_queue = asyncio.Queue()
     alarm_queue = asyncio.Queue()
