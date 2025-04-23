@@ -30,7 +30,7 @@
         }
     },
     // Sensors list
-    "sensors": [
+    "reflectiveSensors": [
         // Each sensor needs to have zone and pin declared
         {
             "zone": "BAY-1",
@@ -45,6 +45,18 @@
             "alarmDuration": 20,
             "indicatorPin": 13,
             "pwmChannel": 1
+        }
+    ],
+    "distanceSensors": [
+        {
+            "zone": "BAY-2",
+            "port": "/dev/ttyUSB0",
+            "emptyDistance": 5000
+        },
+        {
+            "zone": "WAIT-2",
+            "port": "/dev/ttyUSB1",
+            "emptyDistance": 5000
         }
     ],
     "sleep": {

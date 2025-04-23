@@ -10,6 +10,7 @@ from managers.led_manager import LedManager
 
 from managers.server_manager import ServerManager
 from managers.sleep_manager import SleepManager
+from sensors.distance_sensor import DistanceSensor
 from utils.config import Config
 from utils.utils import PixelStrip
 
@@ -39,25 +40,25 @@ try:
     loop.create_task(sleep_manager.loop())
 
     # List to store sensor managers in
-    sensors = []
+    reflective_sensors = []
 
     # Initialize sensors from config entries
-    for sensor in Config.get()["sensors"]:
+    for ref_sensor in Config.get()["reflectiveSensors"]:
         # Initialize our led strip
         leds = PixelStrip(Config.get()["leds"]["numLeds"],
-                          sensor["indicatorPin"],
-                          sensor["pwmChannel"],
+                          ref_sensor["indicatorPin"],
+                          ref_sensor["pwmChannel"],
                           Config.get()["leds"]["brightness"])
         print(leds)
 
         s = SensorManager(
-            sensor["gpioPin"],
-            sensor["zone"],
-            sensor["alarmDuration"],
+            ref_sensor["gpioPin"],
+            ref_sensor["zone"],
+            ref_sensor["alarmDuration"],
             event_queue,
             alarm_queue
         )
-        sensors.append(s)
+        reflective_sensors.append(s)
 
         # Setup led manager for this sensor
         l = LedManager(s, leds)
@@ -66,8 +67,22 @@ try:
         loop.create_task(s.loop())
         loop.create_task(l.loop())
 
+
+    distance_sensors = []
+
+    for dist_sensor in Config.get()["distanceSensors"]:
+        s = DistanceSensor(
+            dist_sensor["zone"],
+            dist_sensor["port"],
+            int(dist_sensor["emptyDistance"])
+        )
+        
+        distance_sensors.append(s)
+
+        loop.create_task(s.loop())
+
     # Web server that displays current status of sensors to web
-    server = ServerManager(sensors, event_manager, sleep_manager)
+    server = ServerManager(reflective_sensors, event_manager, sleep_manager)
     loop.create_task(server.loop())
 
     status_updater = HealthManager()
