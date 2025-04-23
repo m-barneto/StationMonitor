@@ -51,7 +51,9 @@ class ServerManager:
 
         for dist_sensor in ServerManager.distance_sensors:
             dist_sensor_data[dist_sensor.zone] = {
-                "asd": 100
+                "emptyDistance": dist_sensor.empty_distance,
+                "currentDistance": dist_sensor.current_distance,
+                "isOccupied": dist_sensor.current_distance < dist_sensor.empty_distance
             }
 
         status["distanceSensors"] = dist_sensor_data
