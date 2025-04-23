@@ -29,11 +29,15 @@ def decode_distance_packet(packet):
 
 
 class DistanceSensor:
-    def __init__(self, zone: str, port: str, empty_distance: int):
+    def __init__(self, zone: str, port: str, empty_distance: int, threshold: int):
         self.zone: str = zone
         self.port: str = port
         self.empty_distance: int = empty_distance
+        self.threshold = threshold
         self.current_distance: int = -1
+
+    def is_occupied(self):
+        return self.current_distance + self.threshold < self.empty_distance
 
     async def loop(self) -> None:
         while True:
