@@ -51,14 +51,12 @@
         {
             "zone": "BAY-2",
             "port": "/dev/ttyUSB0",
-            "emptyDistance": 5000,
-            "threshold": 500
+            "emptyDistance": 5000
         },
         {
             "zone": "WAIT-2",
             "port": "/dev/ttyUSB1",
-            "emptyDistance": 5000,
-            "threshold": 500
+            "emptyDistance": 5000
         }
     ],
     "sleep": {
