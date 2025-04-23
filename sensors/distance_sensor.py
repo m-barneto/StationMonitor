@@ -28,7 +28,7 @@ def decode_distance_packet(packet):
 
 def get_port_from_serial(serial: str):
     import usb.core
-    dev = usb.core.find()
+    dev = usb.core.find(find_all=True)
     for usb in dev:
         print(dev)
     return ""
