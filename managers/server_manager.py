@@ -7,13 +7,15 @@ from managers.config_manager import ConfigManager
 from managers.event_manager import EventManager
 from managers.sensor_manager import SensorManager
 from managers.sleep_manager import SleepManager
+from sensors.distance_sensor import DistanceSensor
 from utils.config import Config
 from utils.sensor_event import SensorState
 
 
 class ServerManager:
-    def __init__(self, sensors: list[SensorManager], event_manager: EventManager, sleep_manager: SleepManager):
-        ServerManager.sensors = sensors
+    def __init__(self, reflective_sensors: list[SensorManager], distance_sensors: list[DistanceSensor], event_manager: EventManager, sleep_manager: SleepManager):
+        ServerManager.reflective_sensors = reflective_sensors
+        ServerManager.distance_sensors = distance_sensors
         ServerManager.event_manager = event_manager
         ServerManager.sleep_manager = sleep_manager
 
@@ -28,8 +30,8 @@ class ServerManager:
         status["isSleeping"] = not ServerManager.sleep_manager.is_open
 
         # Add data for individual sensors
-        sensor_data = {}
-        for s in ServerManager.sensors:
+        ref_sensor_data = {}
+        for s in ServerManager.reflective_sensors:
             # Current sensor event duration
             duration = datetime.now(timezone.utc).timestamp(
             ) - s.last_empty_event.rpi_time.timestamp()
@@ -38,12 +40,21 @@ class ServerManager:
                 duration = 0.0
 
             # Add data to dict using zone id as key
-            sensor_data[s.zone] = {
+            ref_sensor_data[s.zone] = {
                 "sensorState": s.sensor_state.name,
                 "duration": duration
             }
         # Add our sensor data to the response dict
-        status["sensorData"] = sensor_data
+        status["reflectiveSensors"] = ref_sensor_data
+
+        dist_sensor_data = {}
+
+        for dist_sensor in ServerManager.distance_sensors:
+            dist_sensor_data[dist_sensor.zone] = {
+                "asd": 100
+            }
+
+        status["distanceSensors"] = dist_sensor_data
         
         return status
 

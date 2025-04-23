@@ -68,5 +68,5 @@ class DistanceSensor:
                         else:
                             break
 
-                    print(f"{self.port}: {read_distance}")
+                    self.current_distance = read_distance
                     await asyncio.sleep(.5)
