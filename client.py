@@ -74,8 +74,7 @@ try:
         s = DistanceSensor(
             dist_sensor["zone"],
             dist_sensor["port"],
-            int(dist_sensor["emptyDistance"]),
-            int(dist_sensor["threshold"]),
+            int(dist_sensor["emptyDistance"])
         )
         
         distance_sensors.append(s)
