@@ -76,6 +76,6 @@ class DistanceSensor:
                             buffer = buffer[start_idx+14:]
                         else:
                             break
-
-                    self.current_distance = int(read_distance)
+                    if read_distance:
+                        self.current_distance = int(read_distance)
                     await asyncio.sleep(.5)
