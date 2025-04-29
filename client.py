@@ -22,6 +22,7 @@ try:
 
     # Create main event loop
     loop = asyncio.new_event_loop()
+    loop.set_debug(True)
     asyncio.set_event_loop(loop)
 
     # Manager that sends out requests containing event data
