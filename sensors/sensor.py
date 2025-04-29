@@ -13,6 +13,10 @@ class Sensor:
         self.alarm_queue = alarm_queue
         self.state = SensorState.UNKNOWN
     
+    def get_state(self) -> SensorState:
+        """Get the current state of the sensor."""
+        return self.state
+
     async def loop(self) -> None:
         """Main loop for the sensor. This should be overridden by subclasses."""
         while True:

@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 import serial
 
-from sensors.sensor import Sensor
+from sensors.sensor import Sensor, SensorState
 
 def parse_sensor_data(packet):
     #Dis1 = 3 bytes at positions 5,6 as 24-bit integer
@@ -92,4 +92,6 @@ class DistanceSensor(Sensor):
                     
                     dis1, dis2 = parse_sensor_data(packet)
                     self.current_distance = dis1
+                    self.state = SensorState.OCCUPIED if self.is_occupied() else SensorState.EMPTY
+                    print(f"Dynamic Distance: {dis1} mm | Stable Distance: {dis2} mm | State: {self.state.name}")
                     await asyncio.sleep(.25)

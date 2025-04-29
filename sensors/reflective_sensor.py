@@ -1,6 +1,6 @@
 import asyncio
 from dataclasses import dataclass
-from sensors.sensor import Sensor
+from sensors.sensor import Sensor, SensorState
 import RPi.GPIO as GPIO  # type: ignore
 
 @dataclass
@@ -20,5 +20,9 @@ class ReflectiveSensor(Sensor):
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(config.gpioPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
-    def update_state(self):
-        pass
+    async def loop(self) -> None:
+        while True:
+            # Get current state of sensor
+            self.current_reading = GPIO.input(self.zone)
+            self.state = SensorState.OCCUPIED if self.current_reading else SensorState.EMPTY
+            await asyncio.sleep(.25)
