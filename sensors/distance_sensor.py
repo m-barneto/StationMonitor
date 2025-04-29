@@ -94,4 +94,5 @@ class DistanceSensor(Sensor):
                     self.current_distance = dis1
                     self.state = SensorState.OCCUPIED if self.is_occupied() else SensorState.EMPTY
                     print(f"Dynamic Distance: {dis1} mm")
+                    ser.flush()
                     await asyncio.sleep(.25)
