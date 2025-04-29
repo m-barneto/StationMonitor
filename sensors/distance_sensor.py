@@ -8,7 +8,7 @@ from sensors.sensor import Sensor, SensorState
 
 def parse_sensor_data(packet):
     #Dis1 = 3 bytes at positions 5,6 as 24-bit integer
-    dis1 = int.from_bytes(packet[4:6], byteorder='big')
+    dis1 = int.from_bytes(packet[5:7], byteorder='big')
     #Dis2 = 2 bytes at positions 7,8 as 16-bit integer
     dis2 = int.from_bytes(packet[7:9], byteorder='big')
     return dis1, dis2
