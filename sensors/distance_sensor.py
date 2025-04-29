@@ -91,6 +91,5 @@ class DistanceSensor(Sensor):
                         continue  # Skip incomplete packets
                     
                     dis1, dis2 = parse_sensor_data(packet)
-                    print(f"Dynamic Distance: {dis1} mm | Stable Distance: {dis2} mm")
-                    self.current_distance = dis2
+                    self.current_distance = dis1
                     await asyncio.sleep(.25)
