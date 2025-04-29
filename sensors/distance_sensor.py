@@ -54,6 +54,7 @@ class DistanceSensor(Sensor):
         """Initialize the distance sensor with the given configuration."""
         Sensor.__init__(self, config.zone, event_queue, alarm_queue)
         self.port = config.port
+        self.occupied_distance = config.occupiedDistance
         if not self.port:
             print("Failed to find port for serial number: ", config.serial_number)
 
@@ -85,7 +86,6 @@ class DistanceSensor(Sensor):
                         if len(buffer) - start_idx >= 14:
                             packet = buffer[start_idx:start_idx+14]
                             
-                            print("Packet: ", packet.hex())
                             decoded = decode_distance_packet(packet)
                             if not decoded:
                                 continue
@@ -96,6 +96,5 @@ class DistanceSensor(Sensor):
                         else:
                             break
                     if read_distance:
-                        print(read_distance)
                         self.current_distance = int(read_distance)
                     await asyncio.sleep(.5)
