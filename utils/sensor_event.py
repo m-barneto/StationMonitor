@@ -1,10 +1,9 @@
 from datetime import datetime, timezone
 from enum import Enum
 
+from sensors.sensor import SensorState
 
-class SensorState(Enum):
-    EMPTY = 0
-    OCCUPIED = 1
+
 
 
 class SensorEvent:

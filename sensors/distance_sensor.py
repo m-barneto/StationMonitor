@@ -6,6 +6,13 @@ import serial
 
 from sensors.sensor import Sensor
 
+def parse_sensor_data(packet):
+    #Dis1 = 3 bytes at positions 5,6 as 24-bit integer
+    dis1 = int.from_bytes(packet[5:7], byteorder='big')
+    #Dis2 = 2 bytes at positions 7,8 as 16-bit integer
+    dis2 = int.from_bytes(packet[7:9], byteorder='big')
+    return dis1, dis2
+
 def decode_distance_packet(packet):
     """Decode distance measurement packet"""
     if len(packet) < 14:
@@ -65,37 +72,25 @@ class DistanceSensor(Sensor):
     async def loop(self) -> None:
         while True:
             print("Opening serial port: ", self.port)
-            with serial.Serial(self.port, 9600, timeout=1) as ser:
-            #with wiringpi.serialOpen(self.port, 9600) as ser:
-                buffer = bytearray()
-
+            with serial.Serial(
+                port='COM4',  # e.g., '/dev/ttyUSB0' for linux (depends but yea)
+                baudrate=9600,
+                bytesize=serial.EIGHTBITS,
+                parity=serial.PARITY_NONE,
+                stopbits=serial.STOPBITS_ONE
+            ) as ser:
                 while True:
-                    buffer.extend(ser.read(ser.in_waiting))
-                    read_distance: str = ""
-                    # Process complete packets (14 bytes)
-                    while len(buffer) >= 14:
-                        # Find packet start (AA 0F 10)
-                        start_idx = next((i for i in range(len(buffer)-2)
-                                        if buffer[i] == 0xAA
-                                        and buffer[i+1] == 0x0F
-                                        and buffer[i+2] == 0x10), -1)
-
-                        if start_idx == -1:
-                            buffer.clear()
-                            break
-
-                        if len(buffer) - start_idx >= 14:
-                            packet = buffer[start_idx:start_idx+14]
-                            
-                            decoded = decode_distance_packet(packet)
-                            if not decoded:
-                                continue
-                            
-                            read_distance = decoded["distance_mm"]
-
-                            buffer = buffer[start_idx+14:]
-                        else:
-                            break
-                    if read_distance:
-                        self.current_distance = int(read_distance)
-                    await asyncio.sleep(.5)
+                    # Find the start of the packet (0xAA)
+                    header = ser.read(1)
+                    if header != b'\xaa':
+                        continue
+                    
+                    # Read the remaining 14 bytes to complete the 15-byte packet
+                    packet = header + ser.read(14)
+                    if len(packet) != 15:
+                        continue  # Skip incomplete packets
+                    
+                    dis1, dis2 = parse_sensor_data(packet)
+                    print(f"Dynamic Distance: {dis1} mm | Stable Distance: {dis2} mm")
+                    self.current_distance = dis2
+                    await asyncio.sleep(.25)
