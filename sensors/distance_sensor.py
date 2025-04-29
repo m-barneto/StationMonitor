@@ -73,7 +73,7 @@ class DistanceSensor(Sensor):
         while True:
             print("Opening serial port: ", self.port)
             with serial.Serial(
-                port='COM4',  # e.g., '/dev/ttyUSB0' for linux (depends but yea)
+                port=self.port,  # e.g., '/dev/ttyUSB0' for linux (depends but yea)
                 baudrate=9600,
                 bytesize=serial.EIGHTBITS,
                 parity=serial.PARITY_NONE,
