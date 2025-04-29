@@ -1,9 +1,6 @@
 import asyncio
 from enum import Enum
 
-from utils.sensor_event import SensorState
-
-
 class SensorState(Enum):
     EMPTY = 0
     OCCUPIED = 1
