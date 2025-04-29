@@ -8,7 +8,7 @@ from sensors.sensor import Sensor, SensorState
 
 def parse_sensor_data(packet):
     #Dis1 = 3 bytes at positions 5,6 as 24-bit integer
-    dis1 = int.from_bytes(packet[5:7], byteorder='big')
+    dis1 = int.from_bytes(packet[4:6], byteorder='big')
     #Dis2 = 2 bytes at positions 7,8 as 16-bit integer
     dis2 = int.from_bytes(packet[7:9], byteorder='big')
     return dis1, dis2
@@ -93,5 +93,5 @@ class DistanceSensor(Sensor):
                     dis1, dis2 = parse_sensor_data(packet)
                     self.current_distance = dis1
                     self.state = SensorState.OCCUPIED if self.is_occupied() else SensorState.EMPTY
-                    print(f"Dynamic Distance: {dis1} mm | Stable Distance: {dis2} mm | State: {self.state.name}")
+                    
                     await asyncio.sleep(.25)
