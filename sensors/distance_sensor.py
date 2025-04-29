@@ -55,6 +55,7 @@ class DistanceSensor(Sensor):
         Sensor.__init__(self, config.zone, event_queue, alarm_queue)
         self.port = config.port
         self.occupied_distance = config.occupiedDistance
+        self.current_distance = -1
         if not self.port:
             print("Failed to find port for serial number: ", config.serial_number)
 
