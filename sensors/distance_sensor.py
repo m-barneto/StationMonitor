@@ -44,9 +44,9 @@ def get_port_from_serial(serial_number: str):
 @dataclass
 class DistanceSensorConfig:
     zone: str
-    serial_number: str
+    serialNumber: str
     port: str
-    occupied_distance: int
+    occupiedDistance: int
 
 
 class DistanceSensor(Sensor):
