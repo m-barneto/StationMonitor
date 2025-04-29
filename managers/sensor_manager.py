@@ -4,8 +4,9 @@ import json
 import RPi.GPIO as GPIO  # type: ignore
 
 from managers.sleep_manager import SleepManager
+from sensors.sensor import SensorState
 from utils.config import Config
-from utils.sensor_event import AlarmEvent, OccupiedEvent, SensorEvent, SensorState
+from utils.sensor_event import AlarmEvent, OccupiedEvent, SensorEvent
 
 
 class SensorManager:
