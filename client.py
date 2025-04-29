@@ -10,7 +10,7 @@ from managers.led_manager import LedManager
 
 from managers.server_manager import ServerManager
 from managers.sleep_manager import SleepManager
-from sensors.distance_sensor import DistanceSensor, get_port_from_serial
+from sensors.distance_sensor import DistanceSensor, DistanceSensorConfig, get_port_from_serial
 from utils.config import Config
 from utils.utils import PixelStrip
 
@@ -70,10 +70,12 @@ try:
     distance_sensors = []
 
     for dist_sensor in Config.get()["distanceSensors"]:
+        config: DistanceSensorConfig = DistanceSensorConfig(**dist_sensor)
+        print(config)
         s = DistanceSensor(
-            dist_sensor["zone"],
-            dist_sensor["port"],
-            int(dist_sensor["occupiedDistance"])
+            config,
+            event_queue,
+            alarm_queue
         )
         
         distance_sensors.append(s)

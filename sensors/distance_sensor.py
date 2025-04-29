@@ -1,7 +1,10 @@
 
 import asyncio
+from dataclasses import dataclass
 
 import serial
+
+from sensors.sensor import Sensor
 
 def decode_distance_packet(packet):
     """Decode distance measurement packet"""
@@ -27,6 +30,8 @@ def decode_distance_packet(packet):
     }
 
 def get_port_from_serial(serial_number: str):
+    """Get the port of the sensor based on its serial number."""
+
     import serial.tools.list_ports
 
     ports = serial.tools.list_ports.comports()
@@ -36,12 +41,20 @@ def get_port_from_serial(serial_number: str):
             return port.device
     return None
 
-class DistanceSensor:
-    def __init__(self, zone: str, port: str, occupied_distance: int):
-        self.zone: str = zone
-        self.port: str = port
-        self.occupied_distance: int = occupied_distance
-        self.current_distance: int = -1
+@dataclass
+class DistanceSensorConfig:
+    zone: str
+    serial_number: str
+    occupied_distance: int
+
+
+class DistanceSensor(Sensor):
+    def __init__(self, config: DistanceSensorConfig, event_queue: asyncio.Queue, alarm_queue: asyncio.Queue):
+        """Initialize the distance sensor with the given configuration."""
+        Sensor.__init__(self, config.zone, event_queue, alarm_queue)
+        self.port = get_port_from_serial(config.serial_number)
+        if not self.port:
+            print("Failed to find port for serial number: ", config.serial_number)
 
     def is_occupied(self):
         return self.current_distance < self.occupied_distance
@@ -70,6 +83,7 @@ class DistanceSensor:
 
                         if len(buffer) - start_idx >= 14:
                             packet = buffer[start_idx:start_idx+14]
+                            
                             print("Packet: ", packet.hex())
                             decoded = decode_distance_packet(packet)
                             if not decoded:
