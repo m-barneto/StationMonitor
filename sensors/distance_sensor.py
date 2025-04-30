@@ -54,7 +54,7 @@ class DistanceSensor(Sensor):
     def __init__(self, config: DistanceSensorConfig, event_queue: asyncio.Queue, alarm_queue: asyncio.Queue):
         """Initialize the distance sensor with the given configuration."""
         Sensor.__init__(self, config.zone, event_queue, alarm_queue)
-        self.port = config.port
+        self.port = get_port_from_serial(config.serialNumber)
         self.occupied_distance = config.occupiedDistance
         self.current_distance = -1
         if not self.port:
