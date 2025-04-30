@@ -117,7 +117,7 @@ class SensorManager:
                         zone_ctx.current_event_state = EventState.OCCUPIED_PENDING
                         event_state = EventState.OCCUPIED_PENDING
             
-            zone_ctx.previous_event_state = zone_ctx.current_event_state
+            zone_ctx.previous_event_state = event_state
         else:
             event_state = None
         return event_state
