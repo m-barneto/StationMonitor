@@ -6,7 +6,7 @@ import RPi.GPIO as GPIO  # type: ignore
 from managers.sleep_manager import SleepManager
 from sensors.sensor import Sensor, SensorState
 from utils.config import Config
-from utils.sensor_event import AlarmEvent, OccupiedEvent, SensorEvent
+from utils.sensor_event import AlarmEvent, EventData, OccupiedEvent, SensorEvent
 
 from enum import Enum
 
@@ -67,11 +67,14 @@ class SensorManager:
         
         match event_state:
             case EventState.OCCUPIED_STARTED:
-                print("Send start event from", zone_ctx.occupied_start_time)
-                print("Current time is", current_time)
+                # Create an occupied start event
+                occupied_start = EventData.occupied_start(zone, zone_ctx.occupied_start_time)
+                # Add the event to the queue
+                await self.event_queue.put(occupied_start)
             case EventState.OCCUPIED_ENDED:
-                print("Send end event from", zone_ctx.occupied_start_time)
-                print("To", current_time)
+                occupied_end = EventData.occupied_end(zone, zone_ctx.occupied_start_time, current_time, False)
+                # Add the event to the queue
+                await self.event_queue.put(occupied_end)
 
     def update_event_state(self, zone: str, sensor: Sensor) -> EventState | None:
         # Get the zone context

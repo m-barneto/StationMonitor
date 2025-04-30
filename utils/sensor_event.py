@@ -1,5 +1,8 @@
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
+from typing import Any, List
+import pyjson5
 
 from sensors.sensor import SensorState
 
@@ -36,3 +39,56 @@ class AlarmEvent:
         self.body["startTime"] = start_time
         self.body["endTime"] = rpi_time
         self.body["duration"] = rpi_time - start_time
+
+
+@dataclass
+class EventBody:
+    zone: str
+    startTime: str
+    endTime: str
+    triggeredAlarm: bool
+    duration: float
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'EventBody':
+        _zone = str(obj.get("zone"))
+        _startTime = str(obj.get("startTime"))
+        _endTime = str(obj.get("endTime"))
+        _triggeredAlarm = bool(obj.get("triggeredAlarm"))
+        _duration = float(obj.get("duration"))
+        return EventBody(_zone, _startTime, _endTime, _triggeredAlarm, _duration)
+
+@dataclass
+class EventData:
+    alarm_type: str
+    body: EventBody
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'EventData':
+        _alarm_type = str(obj.get("alarm_type"))
+        _body = EventBody.from_dict(obj.get("body"))
+        return EventData(_alarm_type, _body)
+    
+    @staticmethod
+    def occupied_start(zone: str, start_time: datetime) -> 'EventData':
+        _alarm_type = str("occupied")
+        _body = EventBody.from_dict({
+            "zone": zone,
+            "startTime": str(start_time),
+            "endTime": None,
+            "triggeredAlarm": False,
+            "duration": None
+        })
+        return EventData(_alarm_type, _body)
+    
+    @staticmethod
+    def occupied_end(zone: str, start_time: datetime, end_time: datetime, triggered_alarm: bool) -> 'EventData':
+        _alarm_type = str("occupied")
+        _body = EventBody.from_dict({
+            "zone": zone,
+            "startTime": str(start_time),
+            "endTime": str(end_time),
+            "triggeredAlarm": False,
+            "duration": (end_time - start_time).total_seconds()
+        })
+        return EventData(_alarm_type, _body)
