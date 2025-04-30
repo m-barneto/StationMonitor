@@ -22,6 +22,12 @@ class Stage:
     color: str
     duration: float
 
+    @staticmethod
+    def from_dict(obj: Any) -> 'Stage':
+        _color = str(obj.get("color"))
+        _duration = float(obj.get("duration"))
+        return Stage(_color, _duration)
+
 @dataclass
 class Leds:
     numLeds: int
@@ -43,6 +49,14 @@ class Sleep:
     openTime: str
     closeTime: str
     sleepInterval: int
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'Sleep':
+        _timezone = str(obj.get("timezone"))
+        _openTime = str(obj.get("openTime"))
+        _closeTime = str(obj.get("closeTime"))
+        _sleepInterval = int(obj.get("sleepInterval"))
+        return Sleep(_timezone, _openTime, _closeTime, _sleepInterval)
 
 
 @dataclass
