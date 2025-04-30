@@ -46,6 +46,7 @@ try:
     reflective_sensors = []
 
     # Initialize sensors from config entries
+    print(Config.get().reflectiveSensors)
     for ref_sensor in Config.get().reflectiveSensors:
         # Initialize our led strip
         #leds = PixelStrip(Config.get()["leds"]["numLeds"],
