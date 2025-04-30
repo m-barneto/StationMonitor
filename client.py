@@ -1,4 +1,5 @@
 import asyncio
+from typing import List
 import RPi.GPIO as GPIO  # type: ignore
 
 from managers.alarm_manager import AlarmManager
@@ -10,19 +11,19 @@ from managers.led_manager import LedManager
 
 from managers.server_manager import ServerManager
 from managers.sleep_manager import SleepManager
-from sensors.distance_sensor import DistanceSensor, DistanceSensorConfig, get_port_from_serial
+from sensors.distance_sensor import DistanceSensor, DistanceSensorConfig
+from sensors.reflective_sensor import ReflectiveSensor
+from sensors.sensor import Sensor
 from utils.config import Config
 from utils.utils import PixelStrip
 
 try:
-    get_port_from_serial("test")
     # Initialize our queues
     event_queue = asyncio.Queue()
     alarm_queue = asyncio.Queue()
 
     # Create main event loop
     loop = asyncio.new_event_loop()
-    loop.set_debug(True)
     asyncio.set_event_loop(loop)
 
     # Manager that sends out requests containing event data
@@ -39,38 +40,47 @@ try:
     sleep_manager = SleepManager()
     loop.create_task(sleep_manager.loop())
 
+    sensors: List[Sensor] = []
+
     # List to store sensor managers in
     reflective_sensors = []
 
     # Initialize sensors from config entries
-    for ref_sensor in Config.get()["reflectiveSensors"]:
+    for ref_sensor in Config.get().reflectiveSensors:
         # Initialize our led strip
-        leds = PixelStrip(Config.get()["leds"]["numLeds"],
-                          ref_sensor["indicatorPin"],
-                          ref_sensor["pwmChannel"],
-                          Config.get()["leds"]["brightness"])
-        print(leds)
-
-        s = SensorManager(
-            ref_sensor["gpioPin"],
-            ref_sensor["zone"],
-            ref_sensor["alarmDuration"],
+        #leds = PixelStrip(Config.get()["leds"]["numLeds"],
+        #                  ref_sensor["indicatorPin"],
+        #                  ref_sensor["pwmChannel"],
+        #                  Config.get()["leds"]["brightness"])
+        #
+        #
+#
+        #s = SensorManager(
+        #    ref_sensor["gpioPin"],
+        #    ref_sensor["zone"],
+        #    ref_sensor["alarmDuration"],
+        #    event_queue,
+        #    alarm_queue
+        #)
+        s = ReflectiveSensor(
+            ref_sensor,
             event_queue,
             alarm_queue
         )
         reflective_sensors.append(s)
+        sensors.append(s)
 
         # Setup led manager for this sensor
-        l = LedManager(s, leds)
+        #l = LedManager(s, leds)
 
         # Initialize our event loops for the sensor managers
         loop.create_task(s.loop())
-        loop.create_task(l.loop())
+        #loop.create_task(l.loop())
 
 
     distance_sensors = []
 
-    for dist_sensor in Config.get()["distanceSensors"]:
+    for dist_sensor in Config.get().distanceSensors:
         config: DistanceSensorConfig = DistanceSensorConfig(**dist_sensor)
         print(config)
         s = DistanceSensor(
@@ -80,6 +90,7 @@ try:
         )
         
         distance_sensors.append(s)
+        sensors.append(s)
 
         loop.create_task(s.loop())
 

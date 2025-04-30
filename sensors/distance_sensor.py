@@ -5,6 +5,7 @@ from dataclasses import dataclass
 import serial
 
 from sensors.sensor import Sensor, SensorState
+from utils.config import Config
 
 def parse_sensor_data(packet):
     #Dis1 = 3 bytes at positions 5,6 as 24-bit integer
@@ -94,4 +95,4 @@ class DistanceSensor(Sensor):
                     self.current_distance = dis1
                     self.state = SensorState.OCCUPIED if self.is_occupied() else SensorState.EMPTY
                     ser.flushInput()
-                    await asyncio.sleep(.25)
+                    await asyncio.sleep(float(1 / Config.get().sensorPollRate))

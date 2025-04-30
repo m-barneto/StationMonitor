@@ -4,77 +4,112 @@ import json
 import RPi.GPIO as GPIO  # type: ignore
 
 from managers.sleep_manager import SleepManager
-from sensors.sensor import SensorState
+from sensors.sensor import Sensor, SensorState
 from utils.config import Config
 from utils.sensor_event import AlarmEvent, OccupiedEvent, SensorEvent
 
+from enum import Enum
+
+class EventState(Enum):
+    EMPTY = 0
+    OCCUPIED_PENDING = 1
+    OCCUPIED_STARTED = 2
+    OCCUPIED_ENDED = 3
+    #ALARM = 4
+
+
+class SensorContext:
+    previous_event_state: EventState = EventState.EMPTY
+    current_event_state: EventState = EventState.EMPTY
+    occupied_start_time: datetime
+
 
 class SensorManager:
-    def __init__(self, SENSOR_PIN: int, zone: str, alarm_duration: int, event_queue: asyncio.Queue, alarm_queue: asyncio.Queue) -> None:
-        # Setup our sensor/gpio pin info
-        self.SENSOR_PIN = SENSOR_PIN
-        GPIO.setwarnings(False)
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(SENSOR_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-
-        # Assign our zone and event queue
-        self.zone = zone
+    def __init__(self, sensors: list[Sensor], event_queue: asyncio.Queue, alarm_queue: asyncio.Queue) -> None:
+        self.sensor_ctx: dict[str, SensorContext] = {}
         self.event_queue = event_queue
         self.alarm_queue = alarm_queue
-        self.alarm_duration = alarm_duration
-        self.has_sent_alarm = False
-
-        # Start sensor off with an empty event
-        self.sensor_state: SensorState = SensorState.EMPTY
-        self.last_sensor_event = SensorEvent(
-            self.zone, self.sensor_state)
-        self.last_empty_event = SensorEvent(
-            self.zone, self.sensor_state)
+        self.sensors = sensors
 
     async def loop(self) -> None:
         while True:
             if not SleepManager.is_open:
-                await asyncio.sleep(Config.get()["sleep"]["sleepInterval"])
+                await asyncio.sleep(Config.get().sleep.sleepInterval)
                 continue
-            # Get sensor state
-            await self.process_sensor()
+
+            # Get the current time
+            current_time = datetime.now(timezone.utc)
+
+            # Loop through all sensors and call their loop method
+            for sensor in self.sensors:
+                await self.process_sensor(current_time, sensor.zone, sensor)
+            
             # Sleep for configured interval
-            await asyncio.sleep(float(1 / int(Config.get()["sensorPollRate"])))
+            await asyncio.sleep(float(1 / int(Config.get().sensorPollRate)))
 
-    async def process_sensor(self) -> None:
+    async def process_sensor(self, current_time: datetime, zone: str, sensor: Sensor) -> None:
         # Get current state of sensor
-        current_state: SensorState = GPIO.input(self.SENSOR_PIN)
+        current_state: SensorState = sensor.get_state()
 
-        # if previous state was occupied and now we're empty
-        if SensorState(self.sensor_state) == SensorState.OCCUPIED and SensorState(current_state) == SensorState.EMPTY:
-            # Car has left, send out the occupied event and reset alarm
-            occupied_event = OccupiedEvent(
-                self.zone, self.last_empty_event.rpi_time, datetime.now(timezone.utc), self.has_sent_alarm)
-            await self.event_queue.put(occupied_event)
-            self.has_sent_alarm = False
-        elif SensorState(self.sensor_state) == SensorState.OCCUPIED and SensorState(current_state) == SensorState.OCCUPIED and not self.has_sent_alarm:
-            # We are still occupied, check time to see if its over the config's alarm setting
+        event_state: EventState | None = self.update_event_state(zone, sensor)
+        if event_state is None:
+            # Do nothing
+            return
+        
+        print("Event state: ", event_state)
 
-            # Get time from start of event to now
-            rpi_time = datetime.now(timezone.utc)
-            duration = rpi_time - self.last_empty_event.rpi_time
+    def update_event_state(self, zone: str, sensor: Sensor) -> EventState | None:
+        # Get the zone context
+        zone_ctx = self.sensor_ctx.get(zone)
+        if zone_ctx is None:
+            # If the context does not exist, return empty but print error
+            print(f"Error: No context found for zone {zone}.")
+            return None
+        
 
-            if duration >= timedelta(minutes=self.alarm_duration):
-                print("Sending alarm out for event over",
-                      self.alarm_duration, "mins")
+        # Get the sensor state
+        sensor_state: SensorState = sensor.get_state()
 
-                # Send out alarm event and set has_sent_alarm to true to prevent resending out alarms for same event
-                alarm_event = AlarmEvent(
-                    self.zone, self.last_empty_event.rpi_time, rpi_time)
-                await self.alarm_queue.put(alarm_event)
-                self.has_sent_alarm = True
-        elif SensorState(current_state) == SensorState.EMPTY:
-            # Previous state is empty, update last_empty_event and reset has_sent_alarm
-            self.last_empty_event = SensorEvent(
-                self.zone, current_state)
-            self.has_sent_alarm = False
+        event_state: EventState
 
-        # Update the stored sensor_state
-        self.sensor_state = SensorState(current_state)
-        # Update last_sensor_event with the current state
-        self.last_sensor_event = SensorEvent(self.zone, current_state)
+        # Check if the sensor state has changed
+        if sensor_state != zone_ctx.previous_event_state:
+            if sensor_state == SensorState.EMPTY:
+                if zone_ctx.previous_event_state == EventState.OCCUPIED_STARTED:
+                    # If the previous state was occupied and now it's empty, set to EMPTY
+                    zone_ctx.current_event_state = EventState.OCCUPIED_ENDED
+                    event_state = EventState.OCCUPIED_ENDED
+                elif zone_ctx.previous_event_state == EventState.OCCUPIED_ENDED:
+                    zone_ctx.current_event_state = EventState.EMPTY
+                    event_state = EventState.EMPTY
+                else:
+                    print("Something is weird, previous state to empty was not occupied ended")
+                    zone_ctx.current_event_state = EventState.EMPTY
+                    event_state = EventState.EMPTY
+
+            
+            elif sensor_state == SensorState.OCCUPIED:
+                # EMPTY -> OCCUPIED = OCCUPIED_PENDING
+                if zone_ctx.previous_event_state == EventState.EMPTY:
+                    # If the previous state was empty and now it's occupied, set to OCCUPIED_PENDING
+                    zone_ctx.current_event_state = EventState.OCCUPIED_PENDING
+                    event_state = EventState.OCCUPIED_PENDING
+
+                    # Assign the current time to occupied_start_time
+                    zone_ctx.occupied_start_time = datetime.now(timezone.utc)
+
+                # OCCUPIED_PENDING -> OCCUPIED = OCCUPIED_STARTED if duration is over min_duration
+                elif zone_ctx.previous_event_state == EventState.OCCUPIED_PENDING:
+                    duration = (zone_ctx.occupied_start_time - datetime.now(timezone.utc)).total_seconds()
+                    print("Duration of pending: ", duration)
+                    if duration >= Config.get().minOccupiedDuration:
+                        print("Duration of pending is over min duration")
+                        # If the previous state was occupied pending and now it's occupied, set to OCCUPIED_STARTED
+                        zone_ctx.current_event_state = EventState.OCCUPIED_STARTED
+                        event_state = EventState.OCCUPIED_STARTED
+                    else:
+                        # If the previous state was occupied pending but not for long enough, keep it as OCCUPIED_PENDING
+                        zone_ctx.current_event_state = EventState.OCCUPIED_PENDING
+                        event_state = EventState.OCCUPIED_PENDING
+        
+        return event_state

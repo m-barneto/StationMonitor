@@ -33,14 +33,14 @@
     "reflectiveSensors": [
         // Each sensor needs to have zone and pin declared
         {
-            "zone": "BAY-1",
+            "zone": "PLACEHOLDER-1",
             "gpioPin": 5,
             "alarmDuration": 20,
             "indicatorPin": 18,
             "pwmChannel": 0
         },
         {
-            "zone": "WAIT-1",
+            "zone": "PLACEHOLDER-2",
             "gpioPin": 17,
             "alarmDuration": 20,
             "indicatorPin": 13,
@@ -77,6 +77,8 @@
         // Time in seconds between time checks
         "sleepInterval": 60
     },
+    // Min duration for occupied event to be sent to server (seconds)
+    "minOccupiedDuration": 10,
     // How many times the sensor is polled per second
     "sensorPollRate": 10,
     // IP to send our event data to
