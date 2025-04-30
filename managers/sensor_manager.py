@@ -62,7 +62,7 @@ class SensorManager:
             # Do nothing
             return
         
-        print(zone, ": ", event_state)
+        print(zone, ":", event_state)
 
     def update_event_state(self, zone: str, sensor: Sensor) -> EventState | None:
         # Get the zone context
@@ -116,7 +116,7 @@ class SensorManager:
                         # If the previous state was occupied pending but not for long enough, keep it as OCCUPIED_PENDING
                         zone_ctx.current_event_state = EventState.OCCUPIED_PENDING
                         event_state = EventState.OCCUPIED_PENDING
-            
+                print("Occupied prev state: ", zone_ctx.previous_event_state)
             zone_ctx.previous_event_state = event_state
             zone_ctx.previous_sensor_state = sensor_state
         else:
