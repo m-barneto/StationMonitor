@@ -47,7 +47,7 @@ class EventBody:
     startTime: str
     endTime: str
     triggeredAlarm: bool
-    duration: float
+    duration: float | None
 
     @staticmethod
     def from_dict(obj: Any) -> 'EventBody':
@@ -55,7 +55,7 @@ class EventBody:
         _startTime = str(obj.get("startTime"))
         _endTime = str(obj.get("endTime"))
         _triggeredAlarm = bool(obj.get("triggeredAlarm"))
-        _duration = float(obj.get("duration"))
+        _duration = None if obj.get("duration") is None else float(obj.get("duration"))
         return EventBody(_zone, _startTime, _endTime, _triggeredAlarm, _duration)
 
 @dataclass
