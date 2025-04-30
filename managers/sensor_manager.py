@@ -89,7 +89,6 @@ class SensorManager:
                     zone_ctx.current_event_state = EventState.EMPTY
                     event_state = EventState.EMPTY
                 else:
-                    print("Something is weird, previous state to empty was not occupied ended")
                     zone_ctx.current_event_state = EventState.EMPTY
                     event_state = EventState.EMPTY
 
@@ -118,4 +117,5 @@ class SensorManager:
                         zone_ctx.current_event_state = EventState.OCCUPIED_PENDING
                         event_state = EventState.OCCUPIED_PENDING
         
+        zone_ctx.previous_event_state = zone_ctx.current_event_state
         return event_state
