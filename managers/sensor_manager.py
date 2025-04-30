@@ -106,8 +106,7 @@ class SensorManager:
 
                 # OCCUPIED_PENDING -> OCCUPIED = OCCUPIED_STARTED if duration is over min_duration
                 elif zone_ctx.previous_event_state == EventState.OCCUPIED_PENDING:
-                    duration = (zone_ctx.occupied_start_time - datetime.now(timezone.utc)).total_seconds()
-                    print("Duration of pending: ", duration)
+                    duration = (datetime.now(timezone.utc) - zone_ctx.occupied_start_time).total_seconds()
                     if duration >= Config.get().minOccupiedDuration:
                         print("Duration of pending is over min duration")
                         # If the previous state was occupied pending and now it's occupied, set to OCCUPIED_STARTED
@@ -117,7 +116,6 @@ class SensorManager:
                         # If the previous state was occupied pending but not for long enough, keep it as OCCUPIED_PENDING
                         zone_ctx.current_event_state = EventState.OCCUPIED_PENDING
                         event_state = EventState.OCCUPIED_PENDING
-                print("Occupied prev state: ", zone_ctx.previous_event_state)
             zone_ctx.previous_event_state = event_state
             zone_ctx.previous_sensor_state = sensor_state
         else:
