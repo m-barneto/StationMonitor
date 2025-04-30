@@ -23,7 +23,7 @@ class LedManager:
                 # Clear led strip
                 self.leds.clear()
                 self.leds.show()
-                await asyncio.sleep(Config.get()["sleep"]["sleepInterval"])
+                await asyncio.sleep(Config.get().sleep.sleepInterval)
                 continue
             await self.process_event()
             # controls the update rate of our leds
@@ -46,34 +46,34 @@ class LedManager:
         # Calculate what stage we're on based on duration
         stage_index = self.get_led_stage_index(event_duration)
         # Get stage info from config
-        stage = Config.get()["leds"]["stages"][stage_index]
+        stage = Config.get().leds.stages[stage_index]
         # If we aren't at the end/flashing stage
         if stage_index != -1:
             # Get amount of time we're into the stage
             time_into_stage = event_duration - \
                 self.get_time_before_stage(stage_index)
             # Get % of led bar to fill
-            val = time_into_stage / (stage["duration"] * 60)
+            val = time_into_stage / (stage.duration * 60)
             # convert that to numpixels
             pixelsToHighlight = val * self.leds.ledsCount
 
             # Fill led strip to the %
             pixelsFloored = int(pixelsToHighlight)
             for i in range(pixelsFloored):
-                self.leds.setPixel(i, hex_to_rgb(stage["color"]))
+                self.leds.setPixel(i, hex_to_rgb(stage.color))
 
             # Take the last led and modulate the brightness for a smooth animation
             if pixelsToHighlight > pixelsFloored:
                 self.leds.setPixel(pixelsToHighlight,
-                                   hex_to_rgb(stage["color"], pixelsToHighlight % 1))
+                                   hex_to_rgb(stage.color, pixelsToHighlight % 1))
         else:
             # We're in the flashing stage
             # If should flash
-            if Config.get()["leds"]["flashing"]["shouldFlash"]:
+            if Config.get().leds.flashing.shouldFlash:
                 # get time sine wave
                 # map from -1 to 1
                 v = math.sin(datetime.now(timezone.utc).timestamp(
-                ) * Config.get()["leds"]["flashing"]["flashFrequency"])
+                ) * Config.get().leds.flashing.flashFrequency)
 
                 # Get amount of color to be used for both colors based on time
                 t = inv_lerp(1, -1, v)
@@ -81,9 +81,9 @@ class LedManager:
 
                 # Get primary and secondary colors
                 primary = hex_to_rgb(
-                    Config.get()["leds"]["flashing"]["primaryColor"], t)
+                    Config.get().leds.flashing.primaryColor, t)
                 secondary = hex_to_rgb(
-                    Config.get()["leds"]["flashing"]["secondaryColor"], y)
+                    Config.get().leds.flashing.secondaryColor, y)
 
                 # Interpolate between the two
                 output = Color(clamp(primary.r + secondary.r, 0, 255), clamp(primary.g +
@@ -93,22 +93,22 @@ class LedManager:
                 self.leds.fill(output)
             else:
                 # Fill with color of final stage
-                self.leds.fill(hex_to_rgb(stage["color"]))
+                self.leds.fill(hex_to_rgb(stage.color))
         # Display our led strip data
         self.leds.show()
 
     def get_led_stage_index(self, time: float) -> int:
         index = 0
         # Iterate over all stages
-        for stage in Config.get()["leds"]["stages"]:
+        for stage in Config.get().leds.stages:
             # Subtract the stages duration from our current time
-            time -= (stage["duration"] * 60)
+            time -= (stage.duration * 60)
             # If we have time to spare
             if time > 0:
                 # Try the next stage
                 index += 1
                 # If we're on the last stage already return -1 since we've now gone over and should flash
-                if stage == Config.get()["leds"]["stages"][-1]:
+                if stage == Config.get().leds.stages[-1]:
                     return -1
         return index
 
@@ -118,5 +118,5 @@ class LedManager:
         for i in range(stage):
             # Add up time from previous stages
             time_before_stage += (Config.get()
-                                  ["leds"]["stages"][i]["duration"] * 60)
+                                  .leds.stages[i].duration * 60)
         return time_before_stage

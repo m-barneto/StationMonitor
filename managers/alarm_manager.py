@@ -26,11 +26,11 @@ class AlarmManager:
         while True:
             try:
                 # Sends the request while still allowing other loops to continue running
-                res = await loop.run_in_executor(None, partial(requests.post, url=Config.get()["proxyAlarmRoute"], json=json.loads(json.dumps(event.__dict__, default=str)), auth=("automsvc", "speed0Meter!")))
+                res = await loop.run_in_executor(None, partial(requests.post, url=Config.get().proxyAlarmRoute, json=json.loads(json.dumps(event.__dict__, default=str)), auth=("automsvc", "speed0Meter!")))
                 # This is our rate limiting sleep
-                await asyncio.sleep(float(1 / int(Config.get()["eventSendRate"])))
+                await asyncio.sleep(float(1 / int(Config.get().eventSendRate)))
                 # Break out of loop to allow us to process the next event in the queue
                 break
             except requests.exceptions.ConnectionError as e:
                 # sleep for a bit to avoid spamming a downed proxy
-                await asyncio.sleep(float(Config.get()["eventSendFailureCooldown"]))
+                await asyncio.sleep(float(Config.get().eventSendFailureCooldown))
