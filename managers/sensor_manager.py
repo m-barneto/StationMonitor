@@ -60,6 +60,7 @@ class SensorManager:
         event_state: EventState | None = self.update_event_state(zone, sensor)
         if event_state is None:
             # Do nothing
+            print("No event state change detected.")
             return
         
         print(zone, ": ", event_state)
