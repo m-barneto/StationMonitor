@@ -35,7 +35,7 @@ class SensorManager:
             # Initialize the sensor context for each sensor
             self.sensor_ctx[sensor.zone] = SensorContext()
             # Set the initial state of the sensor context to EMPTY
-            self.sensor_ctx[sensor.zone].previous_event_state = EventState.EMPTY
+            self.sensor_ctx[sensor.zone].previous_event_state = EventState.OCCUPIED_ENDED
             self.sensor_ctx[sensor.zone].current_event_state = EventState.EMPTY
 
     async def loop(self) -> None:
