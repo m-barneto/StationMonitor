@@ -58,7 +58,7 @@ class DistanceSensor(Sensor):
         self.occupied_distance = config.occupiedDistance
         self.current_distance = -1
         if not self.port:
-            print("Failed to find port for serial number: ", config.serial_number)
+            print("Failed to find port for serial number: ", config.serialNumber)
 
     def is_occupied(self):
         return self.current_distance < self.occupied_distance
