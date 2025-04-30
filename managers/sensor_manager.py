@@ -90,9 +90,7 @@ class SensorManager:
                     zone_ctx.current_event_state = EventState.EMPTY
                     event_state = EventState.EMPTY
                 else:
-                    print("weird shenanigans")
-                    zone_ctx.current_event_state = EventState.EMPTY
-                    event_state = EventState.EMPTY
+                    return None  # No state change needed
 
             
             elif sensor_state == SensorState.OCCUPIED:
