@@ -62,6 +62,17 @@ class SensorManager:
             # Do nothing
             return
         
+        # Get the zone context
+        zone_ctx = self.sensor_ctx.get(zone)
+        
+        match event_state:
+            case EventState.OCCUPIED_STARTED:
+                print("Send start event from", zone_ctx.occupied_start_time)
+                print("Current time is", current_time)
+            case EventState.OCCUPIED_ENDED:
+                print("Send end event from", zone_ctx.occupied_start_time)
+                print("To", current_time)
+                pass
         print(zone, ":", event_state)
 
     def update_event_state(self, zone: str, sensor: Sensor) -> EventState | None:
