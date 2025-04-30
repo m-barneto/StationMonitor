@@ -79,7 +79,7 @@ class SensorManager:
         event_state: EventState
 
         # Check if the sensor state has changed
-        if sensor_state != zone_ctx.previous_sensor_state:
+        if sensor_state != zone_ctx.previous_sensor_state or sensor_state != SensorState.EMPTY:
             if sensor_state == SensorState.EMPTY:
                 if zone_ctx.previous_event_state == EventState.OCCUPIED_STARTED:
                     # If the previous state was occupied and now it's empty, set to EMPTY
