@@ -63,16 +63,14 @@ class Sleep:
 class DistanceSensorConfig:
     zone: str
     serialNumber: str
-    port: str
     occupiedDistance: int
 
     @staticmethod
     def from_dict(obj: Any) -> 'DistanceSensorConfig':
         _zone = str(obj.get("zone"))
-        _port = str(obj.get("port"))
         _serialNumber = str(obj.get("serialNumber"))
         _occupiedDistance = int(obj.get("occupiedDistance"))
-        return DistanceSensorConfig(_zone, _port, _serialNumber, _occupiedDistance)
+        return DistanceSensorConfig(_zone, _serialNumber, _occupiedDistance)
 
 @dataclass
 class ReflectiveSensorConfig:
