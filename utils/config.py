@@ -9,6 +9,14 @@ class Flashing:
     primaryColor: str
     secondaryColor: str
 
+    @staticmethod
+    def from_dict(obj: Any) -> 'Flashing':
+        _shouldFlash = bool(obj.get("shouldFlash"))
+        _flashFrequency = float(obj.get("flashFrequency"))
+        _primaryColor = str(obj.get("primaryColor"))
+        _secondaryColor = str(obj.get("secondaryColor"))
+        return Flashing(_shouldFlash, _flashFrequency, _primaryColor, _secondaryColor)
+
 @dataclass
 class Stage:
     color: str
@@ -20,6 +28,14 @@ class Leds:
     brightness: int
     stages: List[Stage]
     flashing: Flashing
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'Leds':
+        _numLeds = int(obj.get("numLeds"))
+        _brightness = int(obj.get("brightness"))
+        _stages = [Stage.from_dict(y) for y in obj.get("stages")]
+        _flashing = Flashing.from_dict(obj.get("flashing"))
+        return Leds(_numLeds, _brightness, _stages, _flashing)
 
 @dataclass
 class Sleep:
@@ -36,6 +52,14 @@ class DistanceSensorConfig:
     port: str
     occupiedDistance: int
 
+    @staticmethod
+    def from_dict(obj: Any) -> 'DistanceSensorConfig':
+        _zone = str(obj.get("zone"))
+        _port = str(obj.get("port"))
+        _serialNumber = str(obj.get("serialNumber"))
+        _occupiedDistance = int(obj.get("occupiedDistance"))
+        return DistanceSensorConfig(_zone, _port, _serialNumber, _occupiedDistance)
+
 @dataclass
 class ReflectiveSensorConfig:
     zone: str
@@ -43,6 +67,15 @@ class ReflectiveSensorConfig:
     alarmDuration: int
     indicatorPin: int
     pwmChannel: int
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'ReflectiveSensorConfig':
+        _zone = str(obj.get("zone"))
+        _gpioPin = int(obj.get("gpioPin"))
+        _alarmDuration = int(obj.get("alarmDuration"))
+        _indicatorPin = int(obj.get("indicatorPin"))
+        _pwmChannel = int(obj.get("pwmChannel"))
+        return ReflectiveSensorConfig(_zone, _gpioPin, _alarmDuration, _indicatorPin, _pwmChannel)
 
 @dataclass
 class StationMonitorConfig:
@@ -60,6 +93,23 @@ class StationMonitorConfig:
     updateConfigInterval: int
     updateHealthStatusInterval: int
 
+    @staticmethod
+    def from_dict(obj: Any) -> 'StationMonitorConfig':
+        _leds = Leds.from_dict(obj.get("leds"))
+        _reflectiveSensors = [ReflectiveSensorConfig.from_dict(y) for y in obj.get("reflectiveSensors")]
+        _distanceSensors = [DistanceSensorConfig.from_dict(y) for y in obj.get("distanceSensors")]
+        _sleep = Sleep.from_dict(obj.get("sleep"))
+        _minOccupiedDuration = int(obj.get("minOccupiedDuration"))
+        _sensorPollRate = int(obj.get("sensorPollRate"))
+        _proxyEventRoute = str(obj.get("proxyEventRoute"))
+        _proxyAlarmRoute = str(obj.get("proxyAlarmRoute"))
+        _proxyStatusUpdateRoute = str(obj.get("proxyStatusUpdateRoute"))
+        _eventSendRate = int(obj.get("eventSendRate"))
+        _eventSendFailureCooldown = int(obj.get("eventSendFailureCooldown"))
+        _updateConfigInterval = int(obj.get("updateConfigInterval"))
+        _updateHealthStatusInterval = int(obj.get("updateHealthStatusInterval"))
+        return StationMonitorConfig(_leds, _reflectiveSensors, _distanceSensors, _sleep, _minOccupiedDuration, _sensorPollRate, _proxyEventRoute, _proxyAlarmRoute, _proxyStatusUpdateRoute, _eventSendRate, _eventSendFailureCooldown, _updateConfigInterval, _updateHealthStatusInterval)
+
 
 class Config:
     conf: StationMonitorConfig = None
@@ -68,5 +118,5 @@ class Config:
     def get() -> StationMonitorConfig:
         if Config.conf is None:
             with open("./config.jsonc", encoding="utf-8") as f:
-                Config.conf = pyjson5.load(f)
+                Config.conf = StationMonitorConfig.from_dict(pyjson5.load(f))
         return Config.conf
