@@ -80,7 +80,7 @@ class SensorManager:
 
         # Check if the sensor state has changed
         if sensor_state != zone_ctx.previous_sensor_state or sensor_state != SensorState.EMPTY:
-            print(json.dumps(zone_ctx.__dict__(), indent=4, default=str))
+            print(json.dumps(zone_ctx.__dict__, indent=4, default=str))
             if sensor_state == SensorState.EMPTY:
                 if zone_ctx.previous_event_state == EventState.OCCUPIED_STARTED:
                     print("RAAAAAH")
