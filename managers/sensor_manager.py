@@ -76,7 +76,7 @@ class SensorManager:
         # Get the sensor state
         sensor_state: SensorState = sensor.get_state()
 
-        event_state: EventState
+        event_state: EventState = None
 
         # Check if the sensor state has changed
         if sensor_state != zone_ctx.previous_sensor_state or sensor_state != SensorState.EMPTY:
