@@ -13,10 +13,11 @@ class ReflectiveSensor(Sensor):
         GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(config.gpioPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        self.gpio_pin = config.gpioPin
 
     async def loop(self) -> None:
         while True:
             # Get current state of sensor
-            self.current_reading = GPIO.input(self.zone)
+            self.current_reading = GPIO.input(self.gpioPin)
             self.state = SensorState.OCCUPIED if self.current_reading else SensorState.EMPTY
             await asyncio.sleep(float(1 / Config.get().sensorPollRate))
