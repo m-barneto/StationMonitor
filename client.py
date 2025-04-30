@@ -46,7 +46,6 @@ try:
     reflective_sensors = []
 
     # Initialize sensors from config entries
-    print(Config.get().reflectiveSensors)
     for ref_sensor in Config.get().reflectiveSensors:
         # Initialize our led strip
         #leds = PixelStrip(Config.get()["leds"]["numLeds"],
@@ -82,10 +81,9 @@ try:
     distance_sensors = []
 
     for dist_sensor in Config.get().distanceSensors:
-        config: DistanceSensorConfig = DistanceSensorConfig(**dist_sensor)
-        print(config)
+        print(dist_sensor)
         s = DistanceSensor(
-            config,
+            dist_sensor,
             event_queue,
             alarm_queue
         )
