@@ -84,10 +84,8 @@ class SensorManager:
                 if zone_ctx.previous_event_state == EventState.OCCUPIED_STARTED:
                     # If the previous state was occupied and now it's empty, set to EMPTY
                     zone_ctx.current_event_state = EventState.OCCUPIED_ENDED
-                    event_state = EventState.OCCUPIED_ENDED
                 elif zone_ctx.previous_event_state == EventState.OCCUPIED_ENDED:
                     zone_ctx.current_event_state = EventState.EMPTY
-                    event_state = EventState.EMPTY
 
             
             elif sensor_state == SensorState.OCCUPIED:
@@ -95,7 +93,6 @@ class SensorManager:
                 if zone_ctx.previous_event_state == EventState.EMPTY:
                     # If the previous state was empty and now it's occupied, set to OCCUPIED_PENDING
                     zone_ctx.current_event_state = EventState.OCCUPIED_PENDING
-                    event_state = EventState.OCCUPIED_PENDING
 
                     # Assign the current time to occupied_start_time
                     zone_ctx.occupied_start_time = datetime.now(timezone.utc)
@@ -106,13 +103,13 @@ class SensorManager:
                     if duration >= Config.get().minOccupiedDuration:
                         # If the previous state was occupied pending and now it's occupied, set to OCCUPIED_STARTED
                         zone_ctx.current_event_state = EventState.OCCUPIED_STARTED
-                        event_state = EventState.OCCUPIED_STARTED
                     else:
                         # If the previous state was occupied pending but not for long enough, keep it as OCCUPIED_PENDING
                         zone_ctx.current_event_state = EventState.OCCUPIED_PENDING
-                        event_state = EventState.OCCUPIED_PENDING
-            if event_state is not None:
-                zone_ctx.previous_event_state = event_state
+            
+            event_state = zone_ctx.current_event_state
+            zone_ctx.previous_event_state = zone_ctx.current_event_state
+
             zone_ctx.previous_sensor_state = sensor_state
         else:
             event_state = None
