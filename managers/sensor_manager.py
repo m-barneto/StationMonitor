@@ -79,7 +79,8 @@ class SensorManager:
         event_state: EventState = None
 
         # Check if the sensor state has changed
-        if sensor_state != SensorState.EMPTY or zone_ctx.previous_event_state != None:
+        if sensor_state != zone_ctx.previous_sensor_state or sensor_state != SensorState.EMPTY or zone_ctx.previous_event_state != EventState.OCCUPIED_ENDED:
+            print(".")
             if sensor_state == SensorState.EMPTY:
                 if zone_ctx.previous_event_state == EventState.OCCUPIED_STARTED:
                     print("RAAAAAH")
@@ -90,7 +91,9 @@ class SensorManager:
                     zone_ctx.current_event_state = EventState.EMPTY
                     event_state = EventState.EMPTY
                 else:
-                    return None  # No state change needed
+                    print("weird shenanigans")
+                    zone_ctx.current_event_state = EventState.EMPTY
+                    event_state = EventState.EMPTY
 
             
             elif sensor_state == SensorState.OCCUPIED:
@@ -119,5 +122,4 @@ class SensorManager:
             zone_ctx.previous_sensor_state = sensor_state
         else:
             event_state = None
-        print("Event state:", event_state)
         return event_state
