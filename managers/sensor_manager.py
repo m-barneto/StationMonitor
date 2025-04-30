@@ -62,7 +62,7 @@ class SensorManager:
             # Do nothing
             return
         
-        print("Event state: ", event_state)
+        print(zone, ": ", event_state)
 
     def update_event_state(self, zone: str, sensor: Sensor) -> EventState | None:
         # Get the zone context
