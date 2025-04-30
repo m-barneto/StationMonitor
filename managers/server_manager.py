@@ -8,12 +8,13 @@ from managers.event_manager import EventManager
 from managers.sensor_manager import SensorManager
 from managers.sleep_manager import SleepManager
 from sensors.distance_sensor import DistanceSensor
+from sensors.reflective_sensor import ReflectiveSensor
 from utils.config import Config
 from utils.sensor_event import SensorState
 
 
 class ServerManager:
-    def __init__(self, reflective_sensors: list[SensorManager], distance_sensors: list[DistanceSensor], event_manager: EventManager, sleep_manager: SleepManager):
+    def __init__(self, reflective_sensors: list[ReflectiveSensor], distance_sensors: list[DistanceSensor], event_manager: EventManager, sleep_manager: SleepManager):
         ServerManager.reflective_sensors = reflective_sensors
         ServerManager.distance_sensors = distance_sensors
         ServerManager.event_manager = event_manager
@@ -41,7 +42,7 @@ class ServerManager:
 
             # Add data to dict using zone id as key
             ref_sensor_data[s.zone] = {
-                "sensorState": s.sensor_state.name,
+                "sensorState": s.get_state(),
                 #"duration": duration
             }
         # Add our sensor data to the response dict
@@ -53,7 +54,7 @@ class ServerManager:
             dist_sensor_data[dist_sensor.zone] = {
                 "occupiedDistance": dist_sensor.occupied_distance,
                 "currentDistance": dist_sensor.current_distance,
-                "isOccupied": str(dist_sensor.is_occupied())
+                "isOccupied": str(dist_sensor.get_state())
             }
 
         status["distanceSensors"] = dist_sensor_data
