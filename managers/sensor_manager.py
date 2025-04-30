@@ -107,6 +107,8 @@ class SensorManager:
             
             zone_ctx.previous_event_state = zone_ctx.current_event_state
             zone_ctx.previous_sensor_state = sensor_state
+        
+        if zone_ctx.current_event_state != zone_ctx.previous_event_state:
+            return zone_ctx.current_event_state
         else:
-            event_state = None
-        return event_state
+            return None
