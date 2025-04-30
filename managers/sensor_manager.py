@@ -21,6 +21,7 @@ class EventState(Enum):
 class SensorContext:
     previous_event_state: EventState = EventState.EMPTY
     current_event_state: EventState = EventState.EMPTY
+    previous_sensor_state: SensorState = SensorState.EMPTY
     occupied_start_time: datetime
 
 
@@ -55,9 +56,8 @@ class SensorManager:
 
     async def process_sensor(self, current_time: datetime, zone: str, sensor: Sensor) -> None:
         # Get current state of sensor
-        current_state: SensorState = sensor.get_state()
-
         event_state: EventState | None = self.update_event_state(zone, sensor)
+
         if event_state is None:
             # Do nothing
             print("No event state change detected.")
@@ -80,7 +80,7 @@ class SensorManager:
         event_state: EventState
 
         # Check if the sensor state has changed
-        if sensor_state != zone_ctx.previous_event_state:
+        if sensor_state != zone_ctx.previous_sensor_state:
             if sensor_state == SensorState.EMPTY:
                 if zone_ctx.previous_event_state == EventState.OCCUPIED_STARTED:
                     # If the previous state was occupied and now it's empty, set to EMPTY
@@ -119,6 +119,7 @@ class SensorManager:
                         event_state = EventState.OCCUPIED_PENDING
             
             zone_ctx.previous_event_state = event_state
+            zone_ctx.previous_sensor_state = sensor_state
         else:
             event_state = None
         return event_state
