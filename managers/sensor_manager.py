@@ -116,6 +116,8 @@ class SensorManager:
                         # If the previous state was occupied pending but not for long enough, keep it as OCCUPIED_PENDING
                         zone_ctx.current_event_state = EventState.OCCUPIED_PENDING
                         event_state = EventState.OCCUPIED_PENDING
-        
-        zone_ctx.previous_event_state = zone_ctx.current_event_state
+            
+            zone_ctx.previous_event_state = zone_ctx.current_event_state
+        else:
+            event_state = None
         return event_state
