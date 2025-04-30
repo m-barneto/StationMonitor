@@ -93,6 +93,10 @@ try:
 
         loop.create_task(s.loop())
 
+    sensor_manager = SensorManager(sensors, event_queue, alarm_queue)
+    loop.create_task(sensor_manager.loop())
+
+
     # Web server that displays current status of sensors to web
     server = ServerManager(reflective_sensors, distance_sensors, event_manager, sleep_manager)
     loop.create_task(server.loop())
