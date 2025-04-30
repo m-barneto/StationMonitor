@@ -59,7 +59,7 @@ class ServerManager:
 
         status["distanceSensors"] = dist_sensor_data
 
-        status["events"] = list(ServerManager.event_manager.event_queue.queue)
+        status["events"] = list(ServerManager.event_manager.event_queue._queue)
         
         return status
 
