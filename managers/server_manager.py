@@ -33,16 +33,16 @@ class ServerManager:
         ref_sensor_data = {}
         for s in ServerManager.reflective_sensors:
             # Current sensor event duration
-            duration = datetime.now(timezone.utc).timestamp(
-            ) - s.last_empty_event.rpi_time.timestamp()
-            # If sensor is empty, set duration to 0
-            if s.sensor_state == SensorState.EMPTY:
-                duration = 0.0
+            ##duration = datetime.now(timezone.utc).timestamp(
+            ##) - s.last_empty_event.rpi_time.timestamp()
+            ### If sensor is empty, set duration to 0
+            ##if s.sensor_state == SensorState.EMPTY:
+            ##    duration = 0.0
 
             # Add data to dict using zone id as key
             ref_sensor_data[s.zone] = {
                 "sensorState": s.sensor_state.name,
-                "duration": duration
+                #"duration": duration
             }
         # Add our sensor data to the response dict
         status["reflectiveSensors"] = ref_sensor_data
