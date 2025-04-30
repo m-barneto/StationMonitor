@@ -34,7 +34,7 @@ try:
     loop.create_task(AlarmManager(alarm_queue).loop())
 
     # Syncs config from lenovo
-    loop.create_task(ConfigManager().loop())
+    #loop.create_task(ConfigManager().loop())
 
     # Handles sleep state when site is closed
     sleep_manager = SleepManager()
