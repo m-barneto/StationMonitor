@@ -30,6 +30,12 @@ class SensorManager:
         self.event_queue = event_queue
         self.alarm_queue = alarm_queue
         self.sensors = sensors
+        for sensor in sensors:
+            # Initialize the sensor context for each sensor
+            self.sensor_ctx[sensor.zone] = SensorContext()
+            # Set the initial state of the sensor context to EMPTY
+            self.sensor_ctx[sensor.zone].previous_event_state = EventState.EMPTY
+            self.sensor_ctx[sensor.zone].current_event_state = EventState.EMPTY
 
     async def loop(self) -> None:
         while True:
