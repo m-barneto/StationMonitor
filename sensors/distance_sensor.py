@@ -5,7 +5,7 @@ from dataclasses import dataclass
 import serial
 
 from sensors.sensor import Sensor, SensorState
-from utils.config import Config
+from utils.config import Config, DistanceSensorConfig
 
 def parse_sensor_data(packet):
     #Dis1 = 3 bytes at positions 5,6 as 24-bit integer
@@ -48,13 +48,6 @@ def get_port_from_serial(serial_number: str):
         if port.serial_number == serial_number:
             return port.device
     return None
-
-@dataclass
-class DistanceSensorConfig:
-    zone: str
-    serialNumber: str
-    port: str
-    occupiedDistance: int
 
 
 class DistanceSensor(Sensor):

@@ -3,15 +3,7 @@ from dataclasses import dataclass
 from sensors.sensor import Sensor, SensorState
 import RPi.GPIO as GPIO
 
-from utils.config import Config  # type: ignore
-
-@dataclass
-class ReflectiveSensorConfig:
-    zone: str
-    gpioPin: int
-    alarmDuration: int
-    indicatorPin: int
-    pwmChannel: int
+from utils.config import Config, ReflectiveSensorConfig  # type: ignore
 
 class ReflectiveSensor(Sensor):
     def __init__(self, config: ReflectiveSensorConfig, event_queue: asyncio.Queue, alarm_queue: asyncio.Queue):

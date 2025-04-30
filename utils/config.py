@@ -2,9 +2,6 @@ from dataclasses import dataclass
 from typing import Any, List
 import pyjson5
 
-from sensors.distance_sensor import DistanceSensorConfig
-from sensors.reflective_sensor import ReflectiveSensorConfig
-
 @dataclass
 class Flashing:
     shouldFlash: bool
@@ -31,6 +28,21 @@ class Sleep:
     closeTime: str
     sleepInterval: int
 
+
+@dataclass
+class DistanceSensorConfig:
+    zone: str
+    serialNumber: str
+    port: str
+    occupiedDistance: int
+
+@dataclass
+class ReflectiveSensorConfig:
+    zone: str
+    gpioPin: int
+    alarmDuration: int
+    indicatorPin: int
+    pwmChannel: int
 
 @dataclass
 class StationMonitorConfig:
