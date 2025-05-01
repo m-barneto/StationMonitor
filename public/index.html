@@ -23,11 +23,11 @@
                         let dataHtml = "<h1>Station Monitor</h1>";
                         dataHtml += `<h2>Station Time: ${data.rpiTime}</h2>`;
                         dataHtml += "<h2>Distance Sensors:</h2>";
-                        data.distanceSensors.forEach((element) => {
+                        data["distanceSensors"].forEach((element) => {
                             console.log(element);
                         });
                         dataHtml += "<h2>Reflective Sensors:</h2>";
-                        data.reflectiveSensors.forEach((element) => {
+                        data["reflectiveSensors"].forEach((element) => {
                             console.log(element);
                         });
                         document.querySelector("main").innerHTML = dataHtml;
