@@ -65,7 +65,9 @@ class ServerManager:
             events.append(event.__dict__)
         
         # Add the current event to the list of events
-        events.insert(0, ServerManager.event_manager.current_event.__dict__)
+        if ServerManager.event_manager.current_event is not None:
+            # Add the current event to the list of events
+            events.insert(0, ServerManager.event_manager.current_event.__dict__)
 
         status["events"] = events
         
