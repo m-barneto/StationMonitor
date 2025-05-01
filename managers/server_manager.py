@@ -94,7 +94,7 @@ class ServerManager:
         # Setup our web application
         app = web.Application()
         # Add index route for status
-        app.router.add_get('/', self.get_status)
+        app.router.add_get('/', self.get_interface)
 
         app.router.add_get("/status", self.get_status)
 
