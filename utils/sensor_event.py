@@ -58,6 +58,15 @@ class EventBody:
         _duration = None if obj.get("duration") is None else float(obj.get("duration"))
         return EventBody(_zone, _startTime, _endTime, _triggeredAlarm, _duration)
 
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "zone": self.zone,
+            "startTime": self.startTime,
+            "endTime": self.endTime,
+            "triggeredAlarm": self.triggeredAlarm,
+            "duration": self.duration
+        }
+
 @dataclass
 class EventData:
     alarm_type: str
@@ -68,6 +77,12 @@ class EventData:
         _alarm_type = str(obj.get("alarm_type"))
         _body = EventBody.from_dict(obj.get("body"))
         return EventData(_alarm_type, _body)
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "alarm_type": self.alarm_type,
+            "body": self.body.to_dict()
+        }
     
     @staticmethod
     def occupied_start(zone: str, start_time: datetime) -> 'EventData':
