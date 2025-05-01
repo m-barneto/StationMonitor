@@ -65,6 +65,8 @@ class SensorManager:
         # Get the zone context
         zone_ctx = self.sensor_ctx.get(zone)
         
+        print(f"Sensor {zone} state: {event_state}\nprevious state: {zone_ctx.previous_event_state}\ncurrent event state: {zone_ctx.current_event_state}")
+
         match event_state:
             case EventState.OCCUPIED_STARTED:
                 # Create an occupied start event
