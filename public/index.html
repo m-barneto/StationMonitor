@@ -15,7 +15,7 @@
             // Generate code to refresh the page every 5 seconds
             setTimeout(() => {
                 // Get data from the server to display on the page
-                fetch("")
+                fetch("/status")
                     .then((response) => response.json())
                     .then((data) => {
                         // Update the page with the new data
