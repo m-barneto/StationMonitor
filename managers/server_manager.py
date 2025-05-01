@@ -73,6 +73,13 @@ class ServerManager:
         
         return status
 
+    async def get_interface(self, request) -> web.Response:
+        # Return the interface html page
+        with open("./public/index.html", "r") as f:
+            print(f.name)
+            html = f.read()
+        return web.Response(text=html, content_type="text/html")
+
     async def get_status(self, request) -> web.Response:
         status = ServerManager.status_dict()
 
