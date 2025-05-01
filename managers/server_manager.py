@@ -59,7 +59,12 @@ class ServerManager:
 
         status["distanceSensors"] = dist_sensor_data
 
-        events = list(ServerManager.event_manager.event_queue._queue.__dict__)
+        events = list()
+        for event in ServerManager.event_manager.event_queue.queue:
+            # Add event to list
+            events.append(event.__dict__)
+        
+        # Add the current event to the list of events
         events.insert(0, ServerManager.event_manager.current_event.__dict__)
 
         status["events"] = events
