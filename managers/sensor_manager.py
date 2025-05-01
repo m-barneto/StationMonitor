@@ -65,7 +65,7 @@ class SensorManager:
         # Get the zone context
         zone_ctx = self.sensor_ctx.get(zone)
         
-        print(f"Sensor {zone} state: {event_state}\nprevious state: {zone_ctx.previous_event_state}\ncurrent event state: {zone_ctx.current_event_state}")
+        #print(f"Sensor {zone} state: {event_state}\nprevious state: {zone_ctx.previous_event_state}\ncurrent event state: {zone_ctx.current_event_state}")
 
         match event_state:
             case EventState.OCCUPIED_STARTED:
@@ -97,15 +97,15 @@ class SensorManager:
         # Check if the sensor state has changed
         if sensor_state != zone_ctx.previous_sensor_state or zone_ctx.current_event_state != zone_ctx.previous_event_state or zone_ctx.current_event_state != EventState.EMPTY and zone_ctx.current_event_state != EventState.OCCUPIED_STARTED:
             if sensor_state == SensorState.EMPTY:
+                print("Sensor is empty")
                 if zone_ctx.previous_event_state == EventState.OCCUPIED_STARTED:
                     # If the previous state was OCCUPIED_STARTED and now it's empty, set to OCCUPIED_ENDED
                     zone_ctx.current_event_state = EventState.OCCUPIED_ENDED
                 elif zone_ctx.previous_event_state == EventState.OCCUPIED_ENDED or zone_ctx.previous_event_state == EventState.OCCUPIED_PENDING:
                     # If the previous state was OCCUPIED_ENDED and now it's empty, set to EMPTY
+                    print("Sensor going from occ_end or occ_pending to empty")
                     zone_ctx.current_event_state = EventState.EMPTY
-                
-
-            
+                            
             elif sensor_state == SensorState.OCCUPIED:
                 # EMPTY -> OCCUPIED = OCCUPIED_PENDING
                 if zone_ctx.previous_event_state == EventState.EMPTY:
