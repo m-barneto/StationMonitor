@@ -14,7 +14,7 @@
         </main>
         <script>
             // Generate code to refresh the page every 5 seconds
-            setTimeout(() => {
+            setInterval(() => {
                 // Get data from the server to display on the page
                 fetch("/status")
                     .then((response) => response.json())
