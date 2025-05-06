@@ -61,7 +61,7 @@ class ServerManager:
                 "occupiedDistance": dist_sensor.occupied_distance,
                 "currentDistance": dist_sensor.current_distance,
                 "isOccupied": str(dist_sensor.get_state().name),
-                "duration": duration if start_event_time is not None else 0.0,
+                "duration": round(duration, 2) if start_event_time is not None else 0.0,
             }
 
         status["distanceSensors"] = dist_sensor_data
