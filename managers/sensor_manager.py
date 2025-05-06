@@ -34,9 +34,6 @@ class SensorManager:
         for sensor in sensors:
             # Initialize the sensor context for each sensor
             self.sensor_ctx[sensor.zone] = SensorContext()
-            # Set the initial state of the sensor context to EMPTY
-            #self.sensor_ctx[sensor.zone].previous_event_state = EventState.EMPTY
-            #self.sensor_ctx[sensor.zone].current_event_state = EventState.EMPTY
 
     async def loop(self) -> None:
         while True:
@@ -58,16 +55,14 @@ class SensorManager:
         
         # Get the zone context
         zone_ctx = self.sensor_ctx.get(zone)
-        print(f"Previous state: {zone_ctx.previous_event_state}")
+        
         # Get current state of sensor
         event_state: EventState | None = self.update_event_state(zone, sensor)
 
         if event_state is None:
             # Do nothing
             return
-        print(f"Event state: {event_state}\n\n")
         
-
         match event_state:
             case EventState.OCCUPIED_STARTED:
                 # Create an occupied start event
