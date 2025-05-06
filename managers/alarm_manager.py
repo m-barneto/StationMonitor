@@ -34,9 +34,11 @@ class AlarmManager:
                 continue
             print(f"Sensor {sensor.zone} is in OCCUPIED_STARTED state")
             # Get the duration of the current event
-            event_duration = self.sensor_manager.get_sensor_occupied_time(sensor.zone)
-            if event_duration is None:
+            event_start_time = self.sensor_manager.get_sensor_occupied_time(sensor.zone)
+            if event_start_time is None:
                 continue
+            
+            event_duration = (datetime.now(timezone.utc) - event_start_time).total_seconds()
 
             print(f"Sensor {sensor.zone} event duration: {event_duration} seconds")
 
