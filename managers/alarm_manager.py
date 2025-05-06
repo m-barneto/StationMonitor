@@ -20,19 +20,19 @@ class AlarmManager:
         # Iterate over all sensors and check if they've sent an alarm already
         
         for sensor in self.sensor_manager.sensors:
-            print(f"Checking sensor {sensor.zone} for alarm")
+            #print(f"Checking sensor {sensor.zone} for alarm")
             sensor_ctx = self.sensor_manager.get_sensor_ctx(sensor.zone)
             
             if sensor_ctx.alarm_sent:
                 # If the alarm has been sent, we don't need to do anything else
-                print(f"Alarm already sent for sensor {sensor.zone}, skipping")
+                #print(f"Alarm already sent for sensor {sensor.zone}, skipping")
                 continue
 
             # Check if sensor is in occupied started state
             if sensor_ctx.current_event_state != EventState.OCCUPIED_STARTED:
-                print(f"Sensor {sensor.zone} is not in OCCUPIED_STARTED state, its current event state is {sensor_ctx.current_event_state.name}")
+                #print(f"Sensor {sensor.zone} is not in OCCUPIED_STARTED state, its current event state is {sensor_ctx.current_event_state.name}")
                 continue
-            print(f"Sensor {sensor.zone} is in OCCUPIED_STARTED state")
+            #print(f"Sensor {sensor.zone} is in OCCUPIED_STARTED state")
             # Get the duration of the current event
             event_duration = self.sensor_manager.get_sensor_occupied_time(sensor.zone)
             if event_duration is None:
