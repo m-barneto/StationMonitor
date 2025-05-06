@@ -126,11 +126,12 @@ class SensorManager:
                         zone_ctx.current_event_state = EventState.OCCUPIED_PENDING
             
             event_state = zone_ctx.current_event_state
-            zone_ctx.previous_event_state = zone_ctx.current_event_state
-
-            zone_ctx.previous_sensor_state = sensor_state
         else:
             event_state = None
+        
+        zone_ctx.previous_event_state = zone_ctx.current_event_state
+        zone_ctx.previous_sensor_state = sensor_state
+        
         return event_state
     
     def get_sensor_ctx(self, zone: str) -> SensorContext | None:
