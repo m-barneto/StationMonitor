@@ -20,8 +20,8 @@
                     .then((response) => response.json())
                     .then((data) => {
                         // Update the page with the new data
-                        let dataHtml = "<h1>Station Monitor</h1>";
-                        dataHtml += `<h2>Station Time: ${data.rpiTime}</h2>`;
+                        let dataHtml = `<h1>Station Monitor<br/>Station Time: ${data.rpiTime}</h1>`;
+                        //dataHtml += `<h2>Station Time: ${data.rpiTime}</h2>`;
                         dataHtml += "<h2>Distance Sensors:</h2>";
                         dataHtml += "<ul>";
                         Object.keys(data["distanceSensors"]).forEach(
