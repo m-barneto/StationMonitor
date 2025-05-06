@@ -103,7 +103,7 @@ class EventData:
             "zone": zone,
             "startTime": str(start_time),
             "endTime": str(end_time),
-            "triggeredAlarm": False,
+            "triggeredAlarm": triggered_alarm,
             "duration": (end_time - start_time).total_seconds()
         })
         return EventData(_alarm_type, _body)
