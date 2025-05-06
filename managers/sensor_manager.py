@@ -19,9 +19,9 @@ class EventState(Enum):
 
 
 class SensorContext:
-    previous_event_state: EventState = EventState.OCCUPIED_PENDING
+    previous_event_state: EventState = EventState.EMPTY
     current_event_state: EventState = EventState.OCCUPIED_PENDING
-    previous_sensor_state: SensorState = SensorState.OCCUPIED
+    previous_sensor_state: SensorState = SensorState.EMPTY
     occupied_start_time: datetime
     alarm_sent: bool = False
 
@@ -35,7 +35,7 @@ class SensorManager:
             # Initialize the sensor context for each sensor
             self.sensor_ctx[sensor.zone] = SensorContext()
             # Set the initial state of the sensor context to EMPTY
-            self.sensor_ctx[sensor.zone].previous_event_state = EventState.OCCUPIED_ENDED
+            self.sensor_ctx[sensor.zone].previous_event_state = EventState.OCCUPIED_PENDING
             self.sensor_ctx[sensor.zone].current_event_state = EventState.EMPTY
 
     async def loop(self) -> None:
