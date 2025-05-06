@@ -93,7 +93,7 @@ class ServerManager:
     
     async def get_config(self, request) -> web.Response:
         # Return dict as formatted json
-        return web.Response(text=json.dumps(Config.conf, default=str, indent=4))
+        return web.Response(text=json.dumps(Config.conf, default=str, indent=4), content_type="application/json")
 
     async def loop(self) -> None:
         # Setup our web application
