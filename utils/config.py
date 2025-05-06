@@ -178,8 +178,8 @@ class StationMonitorConfig:
     def to_dict(obj: 'StationMonitorConfig') -> dict:
         return {
             "leds": Leds.to_dict(obj.leds),
-            "reflectiveSensors": [ReflectiveSensorConfig.to_dict(y) for y in obj.get("reflectiveSensors")],
-            "distanceSensors": [DistanceSensorConfig.to_dict(y) for y in obj.get("distanceSensors")],
+            "reflectiveSensors": [ReflectiveSensorConfig.to_dict(y) for y in obj.reflectiveSensors],
+            "distanceSensors": [DistanceSensorConfig.to_dict(y) for y in obj.distanceSensors],
             "sleep": Sleep.to_dict(obj.sleep),
             "minOccupiedDuration": obj.minOccupiedDuration,
             "sensorPollRate": obj.sensorPollRate,
