@@ -97,6 +97,7 @@ class SensorManager:
                 if zone_ctx.previous_event_state == EventState.OCCUPIED_STARTED:
                     # If the previous state was OCCUPIED_STARTED and now it's empty, set to OCCUPIED_ENDED
                     zone_ctx.current_event_state = EventState.OCCUPIED_ENDED
+                    zone_ctx.alarm_sent = False  # Reset alarm sent flag
                 elif zone_ctx.previous_event_state == EventState.OCCUPIED_ENDED or zone_ctx.previous_event_state == EventState.OCCUPIED_PENDING:
                     # If the previous state was OCCUPIED_ENDED and now it's empty, set to EMPTY
                     zone_ctx.current_event_state = EventState.EMPTY
@@ -116,7 +117,6 @@ class SensorManager:
                     if duration >= Config.get().minOccupiedDuration:
                         # If the previous state was occupied pending and now it's occupied, set to OCCUPIED_STARTED
                         zone_ctx.current_event_state = EventState.OCCUPIED_STARTED
-                        zone_ctx.alarm_sent = False  # Reset alarm sent flag
                     else:
                         # If the previous state was occupied pending but not for long enough, keep it as OCCUPIED_PENDING
                         zone_ctx.current_event_state = EventState.OCCUPIED_PENDING
