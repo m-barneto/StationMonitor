@@ -68,26 +68,30 @@ class DistanceSensor(Sensor):
     async def loop(self) -> None:
         while True:
             print("Opening serial port: ", self.port)
-            with serial.Serial(
-                port=self.port,  # e.g., '/dev/ttyUSB0' for linux (depends but yea)
-                baudrate=9600,
-                bytesize=serial.EIGHTBITS,
-                parity=serial.PARITY_NONE,
-                stopbits=serial.STOPBITS_ONE
-            ) as ser:
-                while True:
-                    # Find the start of the packet (0xAA)
-                    header = ser.read(1)
-                    if header != b'\xaa':
-                        continue
-                    
-                    # Read the remaining 14 bytes to complete the 15-byte packet
-                    packet = header + ser.read(14)
-                    if len(packet) != 15:
-                        continue  # Skip incomplete packets
-                    
-                    dis1, dis2 = parse_sensor_data(packet)
-                    self.current_distance = dis1
-                    self.state = SensorState.OCCUPIED if self.is_occupied() else SensorState.EMPTY
-                    ser.flushInput()
-                    await asyncio.sleep(float(1 / Config.get().sensorPollRate))
+            try:
+                with serial.Serial(
+                    port=self.port,  # e.g., '/dev/ttyUSB0' for linux (depends but yea)
+                    baudrate=9600,
+                    bytesize=serial.EIGHTBITS,
+                    parity=serial.PARITY_NONE,
+                    stopbits=serial.STOPBITS_ONE
+                ) as ser:
+                    while True:
+                        # Find the start of the packet (0xAA)
+                        header = ser.read(1)
+                        if header != b'\xaa':
+                            continue
+                        
+                        # Read the remaining 14 bytes to complete the 15-byte packet
+                        packet = header + ser.read(14)
+                        if len(packet) != 15:
+                            continue  # Skip incomplete packets
+                        
+                        dis1, dis2 = parse_sensor_data(packet)
+                        self.current_distance = dis1
+                        self.state = SensorState.OCCUPIED if self.is_occupied() else SensorState.EMPTY
+                        ser.flushInput()
+                        await asyncio.sleep(float(1 / Config.get().sensorPollRate))
+            except serial.SerialException as e:
+                print(f"Serial error: {e}. Retrying in 5 seconds...")
+                await asyncio.sleep(5)
