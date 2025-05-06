@@ -7,10 +7,9 @@ class SensorState(Enum):
     UNKNOWN = 2
 
 class Sensor:
-    def __init__(self, zone: str, event_queue: asyncio.Queue, alarm_queue: asyncio.Queue):
+    def __init__(self, zone: str, event_queue: asyncio.Queue):
         self.zone = zone
         self.event_queue = event_queue
-        self.alarm_queue = alarm_queue
         self.state = SensorState.UNKNOWN
     
     def get_state(self) -> SensorState:

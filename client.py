@@ -20,7 +20,6 @@ from utils.utils import PixelStrip
 try:
     # Initialize our queues
     event_queue = asyncio.Queue()
-    alarm_queue = asyncio.Queue()
 
     # Create main event loop
     loop = asyncio.new_event_loop()
@@ -31,7 +30,7 @@ try:
     loop.create_task(event_manager.loop())
 
     # Sends out requests for alarm events when duration is exceeded
-    loop.create_task(AlarmManager(alarm_queue).loop())
+    loop.create_task(AlarmManager(event_queue).loop())
 
     # Syncs config from lenovo
     #loop.create_task(ConfigManager().loop())
@@ -64,8 +63,7 @@ try:
         #)
         s = ReflectiveSensor(
             ref_sensor,
-            event_queue,
-            alarm_queue
+            event_queue
         )
         reflective_sensors.append(s)
         sensors.append(s)
@@ -84,8 +82,7 @@ try:
         print(dist_sensor)
         s = DistanceSensor(
             dist_sensor,
-            event_queue,
-            alarm_queue
+            event_queue
         )
         
         distance_sensors.append(s)
@@ -93,7 +90,7 @@ try:
 
         loop.create_task(s.loop())
 
-    sensor_manager = SensorManager(sensors, event_queue, alarm_queue)
+    sensor_manager = SensorManager(sensors, event_queue)
     loop.create_task(sensor_manager.loop())
 
 

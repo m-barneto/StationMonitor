@@ -26,10 +26,9 @@ class SensorContext:
 
 
 class SensorManager:
-    def __init__(self, sensors: list[Sensor], event_queue: asyncio.Queue, alarm_queue: asyncio.Queue) -> None:
+    def __init__(self, sensors: list[Sensor], event_queue: asyncio.Queue) -> None:
         self.sensor_ctx: dict[str, SensorContext] = {}
         self.event_queue = event_queue
-        self.alarm_queue = alarm_queue
         self.sensors = sensors
         for sensor in sensors:
             # Initialize the sensor context for each sensor

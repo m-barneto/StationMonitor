@@ -6,9 +6,9 @@ import RPi.GPIO as GPIO
 from utils.config import Config, ReflectiveSensorConfig  # type: ignore
 
 class ReflectiveSensor(Sensor):
-    def __init__(self, config: ReflectiveSensorConfig, event_queue: asyncio.Queue, alarm_queue: asyncio.Queue):
+    def __init__(self, config: ReflectiveSensorConfig, event_queue: asyncio.Queue):
         """Initialize the reflective sensor with the given configuration."""
-        Sensor.__init__(self, config.zone, event_queue, alarm_queue)
+        Sensor.__init__(self, config.zone, event_queue)
 
         GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BCM)
