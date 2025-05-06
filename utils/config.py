@@ -16,6 +16,15 @@ class Flashing:
         _primaryColor = str(obj.get("primaryColor"))
         _secondaryColor = str(obj.get("secondaryColor"))
         return Flashing(_shouldFlash, _flashFrequency, _primaryColor, _secondaryColor)
+    
+    @staticmethod
+    def to_dict(obj: 'Flashing') -> dict:
+        return {
+            "shouldFlash": obj.shouldFlash,
+            "flashFrequency": obj.flashFrequency,
+            "primaryColor": obj.primaryColor,
+            "secondaryColor": obj.secondaryColor
+        }
 
 @dataclass
 class Stage:
@@ -27,6 +36,13 @@ class Stage:
         _color = str(obj.get("color"))
         _duration = float(obj.get("duration"))
         return Stage(_color, _duration)
+    
+    @staticmethod
+    def to_dict(obj: 'Stage') -> dict:
+        return {
+            "color": obj.color,
+            "duration": obj.duration
+        }
 
 @dataclass
 class Leds:
@@ -42,6 +58,15 @@ class Leds:
         _stages = [Stage.from_dict(y) for y in obj.get("stages")]
         _flashing = Flashing.from_dict(obj.get("flashing"))
         return Leds(_numLeds, _brightness, _stages, _flashing)
+    
+    @staticmethod
+    def to_dict(obj: 'Leds') -> dict:
+        return {
+            "numLeds": obj.numLeds,
+            "brightness": obj.brightness,
+            "stages": [Stage.to_dict(y) for y in obj.get("stages")],
+            "flashing": obj.flashing.to_dict()
+        }
 
 @dataclass
 class Sleep:
@@ -57,6 +82,15 @@ class Sleep:
         _closeTime = str(obj.get("closeTime"))
         _sleepInterval = int(obj.get("sleepInterval"))
         return Sleep(_timezone, _openTime, _closeTime, _sleepInterval)
+    
+    @staticmethod
+    def to_dict(obj: 'Sleep') -> dict:
+        return {
+            "timezone": obj.timezone,
+            "openTime": obj.openTime,
+            "closeTime": obj.closeTime,
+            "sleepInterval": obj.sleepInterval
+        }
 
 
 @dataclass
@@ -71,6 +105,14 @@ class DistanceSensorConfig:
         _serialNumber = str(obj.get("serialNumber"))
         _occupiedDistance = int(obj.get("occupiedDistance"))
         return DistanceSensorConfig(_zone, _serialNumber, _occupiedDistance)
+    
+    @staticmethod
+    def to_dict(obj: 'DistanceSensorConfig') -> dict:
+        return {
+            "zone": obj.zone,
+            "serialNumber": obj.serialNumber,
+            "occupiedDistance": obj.occupiedDistance
+        }
 
 @dataclass
 class ReflectiveSensorConfig:
@@ -88,6 +130,16 @@ class ReflectiveSensorConfig:
         _indicatorPin = int(obj.get("indicatorPin"))
         _pwmChannel = int(obj.get("pwmChannel"))
         return ReflectiveSensorConfig(_zone, _gpioPin, _alarmDuration, _indicatorPin, _pwmChannel)
+
+    @staticmethod
+    def to_dict(obj: 'ReflectiveSensorConfig') -> dict:
+        return {
+            "zone": obj.zone,
+            "gpioPin": obj.gpioPin,
+            "alarmDuration": obj.alarmDuration,
+            "indicatorPin": obj.indicatorPin,
+            "pwmChannel": obj.pwmChannel
+        }
 
 @dataclass
 class StationMonitorConfig:
@@ -122,6 +174,23 @@ class StationMonitorConfig:
         _updateHealthStatusInterval = int(obj.get("updateHealthStatusInterval"))
         return StationMonitorConfig(_leds, _reflectiveSensors, _distanceSensors, _sleep, _minOccupiedDuration, _sensorPollRate, _proxyEventRoute, _proxyAlarmRoute, _proxyStatusUpdateRoute, _eventSendRate, _eventSendFailureCooldown, _updateConfigInterval, _updateHealthStatusInterval)
 
+    @staticmethod
+    def to_dict(obj: 'StationMonitorConfig') -> dict:
+        return {
+            "leds": obj.leds.to_dict(),
+            "reflectiveSensors": [ReflectiveSensorConfig.to_dict(y) for y in obj.get("reflectiveSensors")],
+            "distanceSensors": [DistanceSensorConfig.to_dict(y) for y in obj.get("distanceSensors")],
+            "sleep": obj.sleep.to_dict(),
+            "minOccupiedDuration": obj.minOccupiedDuration,
+            "sensorPollRate": obj.sensorPollRate,
+            "proxyEventRoute": obj.proxyEventRoute,
+            "proxyAlarmRoute": obj.proxyAlarmRoute,
+            "proxyStatusUpdateRoute": obj.proxyStatusUpdateRoute,
+            "eventSendRate": obj.eventSendRate,
+            "eventSendFailureCooldown": obj.eventSendFailureCooldown,
+            "updateConfigInterval": obj.updateConfigInterval,
+            "updateHealthStatusInterval": obj.updateHealthStatusInterval
+        }
 
 class Config:
     conf: StationMonitorConfig = None
