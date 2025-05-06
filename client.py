@@ -29,9 +29,6 @@ try:
     event_manager = EventManager(event_queue)
     loop.create_task(event_manager.loop())
 
-    # Sends out requests for alarm events when duration is exceeded
-    loop.create_task(AlarmManager(event_queue).loop())
-
     # Syncs config from lenovo
     #loop.create_task(ConfigManager().loop())
 
@@ -93,6 +90,8 @@ try:
     sensor_manager = SensorManager(sensors, event_queue)
     loop.create_task(sensor_manager.loop())
 
+    # Sends out requests for alarm events when duration is exceeded
+    loop.create_task(AlarmManager(sensor_manager, event_queue).loop())
 
     # Web server that displays current status of sensors to web
     server = ServerManager(reflective_sensors, distance_sensors, event_manager, sleep_manager)

@@ -23,6 +23,7 @@ class SensorContext:
     current_event_state: EventState = EventState.EMPTY
     previous_sensor_state: SensorState = SensorState.EMPTY
     occupied_start_time: datetime
+    alarm_sent: bool = False
 
 
 class SensorManager:
@@ -119,6 +120,7 @@ class SensorManager:
                     if duration >= Config.get().minOccupiedDuration:
                         # If the previous state was occupied pending and now it's occupied, set to OCCUPIED_STARTED
                         zone_ctx.current_event_state = EventState.OCCUPIED_STARTED
+                        zone_ctx.alarm_sent = False  # Reset alarm sent flag
                     else:
                         # If the previous state was occupied pending but not for long enough, keep it as OCCUPIED_PENDING
                         zone_ctx.current_event_state = EventState.OCCUPIED_PENDING
@@ -130,3 +132,14 @@ class SensorManager:
         else:
             event_state = None
         return event_state
+    
+    def get_sensor_ctx(self, zone: str) -> SensorContext | None:
+        return self.sensor_ctx.get(zone)
+    
+    def get_sensor_occupied_time(self, zone: str) -> datetime | None:
+        zone_ctx = self.sensor_ctx.get(zone)
+        if zone_ctx is not None:
+            if zone_ctx.current_event_state == EventState.OCCUPIED_STARTED:
+                # If the current event state is OCCUPIED_STARTED, return the occupied start time
+                return zone_ctx.occupied_start_time
+        return None
