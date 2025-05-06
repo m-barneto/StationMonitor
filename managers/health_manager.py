@@ -14,6 +14,7 @@ class HealthManager:
 
     async def loop(self) -> None:
         loop = asyncio.get_event_loop()
+        await asyncio.sleep(1)  # Give the server time to start up
         while True:
             try:
                 # Sends the request while still allowing other loops to continue running

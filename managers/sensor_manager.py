@@ -137,5 +137,5 @@ class SensorManager:
         if zone_ctx is not None:
             if zone_ctx.current_event_state == EventState.OCCUPIED_STARTED or zone_ctx.current_event_state == EventState.OCCUPIED_PENDING:
                 # If the current event state is OCCUPIED_STARTED, return the occupied start time
-                return None if zone_ctx.occupied_start_time is None else zone_ctx.occupied_start_time
+                return zone_ctx.occupied_start_time
         return None
