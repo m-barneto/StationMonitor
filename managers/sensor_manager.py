@@ -71,7 +71,7 @@ class SensorManager:
                 print("Sending start event", occupied_start)
                 await self.event_queue.put(occupied_start)
             case EventState.OCCUPIED_ENDED:
-                occupied_end = EventData.occupied_end(zone, zone_ctx.occupied_start_time, current_time, False)
+                occupied_end = EventData.occupied_end(zone, zone_ctx.occupied_start_time, current_time, zone_ctx.alarm_sent)
                 # Add the event to the queue
                 print("Sending end event", occupied_end)
                 await self.event_queue.put(occupied_end)
