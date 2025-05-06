@@ -51,7 +51,7 @@ class AlarmManager:
 
     async def send_alarm_event(self, zone: str, start_time: datetime) -> None:
         # Create the alarm event
-        alarm_event = EventData.alarm_event(zone, start_time, datetime.now(timezone.utc))
+        alarm_event = EventData.alarm_event(zone, start_time)
 
         # Send the alarm event to the queue
         await self.alarm_queue.put(alarm_event)

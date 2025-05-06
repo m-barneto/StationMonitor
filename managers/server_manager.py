@@ -14,9 +14,10 @@ from utils.sensor_event import SensorState
 
 
 class ServerManager:
-    def __init__(self, reflective_sensors: list[ReflectiveSensor], distance_sensors: list[DistanceSensor], event_manager: EventManager, sleep_manager: SleepManager):
+    def __init__(self, reflective_sensors: list[ReflectiveSensor], distance_sensors: list[DistanceSensor], sensor_manager: SensorManager, event_manager: EventManager, sleep_manager: SleepManager):
         ServerManager.reflective_sensors = reflective_sensors
         ServerManager.distance_sensors = distance_sensors
+        ServerManager.sensor_manager = sensor_manager
         ServerManager.event_manager = event_manager
         ServerManager.sleep_manager = sleep_manager
 
@@ -51,10 +52,16 @@ class ServerManager:
         dist_sensor_data = {}
 
         for dist_sensor in ServerManager.distance_sensors:
+            start_event_time = ServerManager.sensor_manager.get_sensor_occupied_time(dist_sensor.zone)
+            if start_event_time is not None:
+                # Calculate the duration of the event in seconds
+                duration = (datetime.now(timezone.utc) - start_event_time).total_seconds()
+
             dist_sensor_data[dist_sensor.zone] = {
                 "occupiedDistance": dist_sensor.occupied_distance,
                 "currentDistance": dist_sensor.current_distance,
-                "isOccupied": str(dist_sensor.get_state().name)
+                "isOccupied": str(dist_sensor.get_state().name),
+                "duration": duration if start_event_time is not None else 0.0,
             }
 
         status["distanceSensors"] = dist_sensor_data

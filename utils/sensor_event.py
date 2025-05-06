@@ -109,13 +109,13 @@ class EventData:
         return EventData(_alarm_type, _body)
     
     @staticmethod
-    def alarm_event(zone: str, start_time: datetime, alarm_time: datetime) -> 'EventData':
+    def alarm_event(zone: str, start_time: datetime) -> 'EventData':
         _alarm_type = str("alarm")
         _body = EventBody.from_dict({
             "zone": zone,
             "startTime": str(start_time),
-            "endTime": str(alarm_time),
+            "endTime": None,
             "triggeredAlarm": True,
-            "duration": (alarm_time - start_time).total_seconds()
+            "duration": None
         })
         return EventData(_alarm_type, _body)

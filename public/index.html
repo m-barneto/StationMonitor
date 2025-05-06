@@ -20,7 +20,7 @@
                     .then((response) => response.json())
                     .then((data) => {
                         // Update the page with the new data
-                        let dataHtml = `<h1>Station Monitor<br/>Station Time: ${data.rpiTime}</h1>`;
+                        let dataHtml = `<h1>Station Monitor ${data.rpiTime}</h1>`;
                         //dataHtml += `<h2>Station Time: ${data.rpiTime}</h2>`;
                         dataHtml += "<h2>Distance Sensors:</h2>";
                         dataHtml += "<ul>";
@@ -29,6 +29,7 @@
                                 let sensorData = `<li><p>${sensor}: <br/>`;
                                 sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspCurrent Distance: ${data["distanceSensors"][sensor]["currentDistance"]} mm <br/>`;
                                 sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspOccupied Distance: ${data["distanceSensors"][sensor]["occupiedDistance"]} mm <br/>`;
+                                sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspIs Occupied: ${data["distanceSensors"][sensor]["isOccupied"]} <br/>`;
                                 sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspIs Occupied: ${data["distanceSensors"][sensor]["isOccupied"]} <br/>`;
                                 sensorData += "</p></li>";
                                 dataHtml += sensorData;
