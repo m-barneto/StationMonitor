@@ -58,7 +58,7 @@ class SensorManager:
         
         # Get the zone context
         zone_ctx = self.sensor_ctx.get(zone)
-        print(f"Previous state: {zone_ctx.previous_event_state}\ncurrent event state: {zone_ctx.current_event_state}")
+        print(f"Previous state: {zone_ctx.previous_event_state}")
         # Get current state of sensor
         event_state: EventState | None = self.update_event_state(zone, sensor)
 
