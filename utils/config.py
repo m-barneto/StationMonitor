@@ -64,7 +64,7 @@ class Leds:
         return {
             "numLeds": obj.numLeds,
             "brightness": obj.brightness,
-            "stages": [Stage.to_dict(y) for y in obj.get("stages")],
+            "stages": [Stage.to_dict(y) for y in obj.stages],
             "flashing": obj.flashing.to_dict()
         }
 
