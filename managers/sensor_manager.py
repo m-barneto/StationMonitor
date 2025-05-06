@@ -19,7 +19,7 @@ class EventState(Enum):
 
 
 class SensorContext:
-    previous_event_state: EventState = EventState.EMPTY
+    previous_event_state: EventState = EventState.OCCUPIED_PENDING
     current_event_state: EventState = EventState.OCCUPIED_PENDING
     previous_sensor_state: SensorState = SensorState.EMPTY
     occupied_start_time: datetime
