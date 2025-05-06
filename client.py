@@ -76,7 +76,6 @@ try:
     distance_sensors = []
 
     for dist_sensor in Config.get().distanceSensors:
-        print(dist_sensor)
         s = DistanceSensor(
             dist_sensor,
             event_queue
