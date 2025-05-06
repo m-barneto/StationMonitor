@@ -35,7 +35,7 @@ class AlarmManager:
             if event_duration is None:
                 continue
 
-            if event_duration >= Config.get().alarmDuration:
+            if event_duration >= float(Config.get().alarmDuration * 60):
                 # If the event duration is greater than the alarm duration, send an alarm event
                 await self.send_alarm_event(sensor.zone, sensor_ctx.occupied_start_time)
                 # Set the alarm sent flag to True

@@ -147,6 +147,7 @@ class StationMonitorConfig:
     reflectiveSensors: List[ReflectiveSensorConfig]
     distanceSensors: List[DistanceSensorConfig]
     sleep: Sleep
+    alarmDuration: int
     minOccupiedDuration: int
     sensorPollRate: int
     proxyEventRoute: str
@@ -163,6 +164,7 @@ class StationMonitorConfig:
         _reflectiveSensors = [ReflectiveSensorConfig.from_dict(y) for y in obj.get("reflectiveSensors")]
         _distanceSensors = [DistanceSensorConfig.from_dict(y) for y in obj.get("distanceSensors")]
         _sleep = Sleep.from_dict(obj.get("sleep"))
+        _alarmDuration = int(obj.get("alarmDuration"))
         _minOccupiedDuration = int(obj.get("minOccupiedDuration"))
         _sensorPollRate = int(obj.get("sensorPollRate"))
         _proxyEventRoute = str(obj.get("proxyEventRoute"))
@@ -172,7 +174,7 @@ class StationMonitorConfig:
         _eventSendFailureCooldown = int(obj.get("eventSendFailureCooldown"))
         _updateConfigInterval = int(obj.get("updateConfigInterval"))
         _updateHealthStatusInterval = int(obj.get("updateHealthStatusInterval"))
-        return StationMonitorConfig(_leds, _reflectiveSensors, _distanceSensors, _sleep, _minOccupiedDuration, _sensorPollRate, _proxyEventRoute, _proxyAlarmRoute, _proxyStatusUpdateRoute, _eventSendRate, _eventSendFailureCooldown, _updateConfigInterval, _updateHealthStatusInterval)
+        return StationMonitorConfig(_leds, _reflectiveSensors, _distanceSensors, _sleep, _alarmDuration, _minOccupiedDuration, _sensorPollRate, _proxyEventRoute, _proxyAlarmRoute, _proxyStatusUpdateRoute, _eventSendRate, _eventSendFailureCooldown, _updateConfigInterval, _updateHealthStatusInterval)
 
     @staticmethod
     def to_dict(obj: 'StationMonitorConfig') -> dict:
