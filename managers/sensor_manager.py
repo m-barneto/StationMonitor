@@ -55,17 +55,18 @@ class SensorManager:
             await asyncio.sleep(float(1 / int(Config.get().sensorPollRate)))
 
     async def process_sensor(self, current_time: datetime, zone: str, sensor: Sensor) -> None:
+        
+        print(f"Previous state: {zone_ctx.previous_event_state}\ncurrent event state: {zone_ctx.current_event_state}")
         # Get current state of sensor
         event_state: EventState | None = self.update_event_state(zone, sensor)
 
         if event_state is None:
             # Do nothing
             return
-        
+        print(f"Event state: {event_state}\n\n")
         # Get the zone context
         zone_ctx = self.sensor_ctx.get(zone)
         
-        print(f"Sensor {zone} state: {event_state}\nprevious state: {zone_ctx.previous_event_state}\ncurrent event state: {zone_ctx.current_event_state}")
 
         match event_state:
             case EventState.OCCUPIED_STARTED:
