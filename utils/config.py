@@ -183,6 +183,7 @@ class StationMonitorConfig:
             "reflectiveSensors": [ReflectiveSensorConfig.to_dict(y) for y in obj.reflectiveSensors],
             "distanceSensors": [DistanceSensorConfig.to_dict(y) for y in obj.distanceSensors],
             "sleep": Sleep.to_dict(obj.sleep),
+            "alarmDuration": obj.alarmDuration,
             "minOccupiedDuration": obj.minOccupiedDuration,
             "sensorPollRate": obj.sensorPollRate,
             "proxyEventRoute": obj.proxyEventRoute,
