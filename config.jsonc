@@ -77,7 +77,7 @@
         "sleepInterval": 60
     },
     // How many minutes to wait before sending an alarm out
-    "alarmDuration": 20,
+    "alarmDuration": 1,
     // Min duration for occupied event to be sent to server (seconds)
     "minOccupiedDuration": 10,
     // How many times the sensor is polled per second
