@@ -1,14 +1,9 @@
 import asyncio
 from datetime import datetime, timezone
-from functools import partial
-import json
-from typing import List
-import requests
 
-from managers.sensor_manager import SensorManager
-from sensors.sensor import Sensor
+from managers.sensor_manager import EventState, SensorManager
 from utils.config import Config
-from utils.sensor_event import AlarmEvent, EventData
+from utils.sensor_event import EventData
 
 
 class AlarmManager:
@@ -32,7 +27,7 @@ class AlarmManager:
                 continue
 
             # Check if sensor is in occupied started state
-            if sensor_ctx.current_event_state != SensorManager.EventState.OCCUPIED_STARTED:
+            if sensor_ctx.current_event_state != EventState.OCCUPIED_STARTED:
                 continue
 
             # Get the duration of the current event
