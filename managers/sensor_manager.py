@@ -65,7 +65,7 @@ class SensorManager:
         # Get the zone context
         zone_ctx = self.sensor_ctx.get(zone)
         
-        #print(f"Sensor {zone} state: {event_state}\nprevious state: {zone_ctx.previous_event_state}\ncurrent event state: {zone_ctx.current_event_state}")
+        print(f"Sensor {zone} state: {event_state}\nprevious state: {zone_ctx.previous_event_state}\ncurrent event state: {zone_ctx.current_event_state}")
 
         match event_state:
             case EventState.OCCUPIED_STARTED:
@@ -96,7 +96,6 @@ class SensorManager:
 
         # Check if the sensor state has changed
         if sensor_state != zone_ctx.previous_sensor_state or zone_ctx.current_event_state != zone_ctx.previous_event_state or zone_ctx.current_event_state != EventState.EMPTY and zone_ctx.current_event_state != EventState.OCCUPIED_STARTED:
-            print(f"Sensor {zone} state changed from {zone_ctx.previous_sensor_state} to {sensor_state}")
 
             if sensor_state == SensorState.EMPTY:
                 if zone_ctx.previous_event_state == EventState.OCCUPIED_STARTED:

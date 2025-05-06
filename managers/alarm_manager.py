@@ -30,8 +30,7 @@ class AlarmManager:
 
             # Check if sensor is in occupied started state
             if sensor_ctx.current_event_state != EventState.OCCUPIED_STARTED:
-                print(f"Sensor {sensor.zone} is not in OCCUPIED_STARTED state, its current state is {sensor_ctx.current_event_state.name}")
-                print(f"Sensor {sensor.zone} previous sensor state: {sensor_ctx.previous_sensor_state.name}")
+                print(f"Sensor {sensor.zone} is not in OCCUPIED_STARTED state, its current event state is {sensor_ctx.current_event_state.name}")
                 continue
             print(f"Sensor {sensor.zone} is in OCCUPIED_STARTED state")
             # Get the duration of the current event
