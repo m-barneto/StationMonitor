@@ -9,7 +9,7 @@ from managers.sensor_manager import SensorManager
 from managers.sleep_manager import SleepManager
 from sensors.distance_sensor import DistanceSensor
 from sensors.reflective_sensor import ReflectiveSensor
-from utils.config import Config
+from utils.config import Config, StationMonitorConfig
 from utils.sensor_event import SensorState
 
 
@@ -93,7 +93,7 @@ class ServerManager:
     
     async def get_config(self, request) -> web.Response:
         # Return dict as formatted json
-        return web.Response(text=json.dumps(Config.conf.to_dict(), default=str, indent=4), content_type="application/json")
+        return web.Response(text=json.dumps(StationMonitorConfig.to_dict(Config.conf), default=str, indent=4), content_type="application/json")
 
     async def loop(self) -> None:
         # Setup our web application
