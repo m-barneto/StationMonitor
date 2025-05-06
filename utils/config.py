@@ -65,7 +65,7 @@ class Leds:
             "numLeds": obj.numLeds,
             "brightness": obj.brightness,
             "stages": [Stage.to_dict(y) for y in obj.stages],
-            "flashing": obj.flashing.to_dict()
+            "flashing": Flashing.to_dict(obj.flashing)
         }
 
 @dataclass
