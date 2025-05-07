@@ -27,7 +27,7 @@
                         Object.keys(data["distanceSensors"]).forEach(
                             (sensor) => {
                                 let sensorData = `<li><p>${sensor}: <br/>`;
-                                sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspCurrent Distance: ${data["distanceSensors"][sensor]["currentDistance"]} mm <br/>`;
+                                sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspRaw Distance: ${data["distanceSensors"][sensor]["currentDistance"]} mm <br/>`;
                                 sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspStable Distance: ${data["distanceSensors"][sensor]["stableDistance"]} mm <br/>`;
                                 sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspReflection Strength: ${data["distanceSensors"][sensor]["reflectionStrength"]}%<br/>`;
                                 sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspSensor Temp (C): ${data["distanceSensors"][sensor]["temperature"]}<br/>`;
