@@ -20,7 +20,7 @@ class AlarmManager:
         # Iterate over all sensors and check if they've sent an alarm already
         
         for sensor in self.sensor_manager.sensors:
-            print(f"Checking sensor {sensor.zone} for alarm")
+            #sprint(f"Checking sensor {sensor.zone} for alarm")
             sensor_ctx = self.sensor_manager.get_sensor_ctx(sensor.zone)
             
             if sensor_ctx.alarm_sent:
