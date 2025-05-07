@@ -13,9 +13,7 @@
             <p>Loading...</p>
         </main>
         <script>
-            // Generate code to refresh the page every 5 seconds
-            setInterval(() => {
-                // Get data from the server to display on the page
+            const updateStatus = () => {
                 fetch("/status")
                     .then((response) => response.json())
                     .then((data) => {
@@ -45,7 +43,9 @@
                     .catch((error) =>
                         console.error("Error fetching data:", error)
                     );
-            }, 250);
+            };
+            // Generate code to refresh the page every 5 seconds
+            setInterval(updateStatus, 250);
         </script>
     </body>
 </html>
