@@ -22,7 +22,7 @@
                         // Update the page with the new data
                         let dataHtml = `<h1>Station Monitor ${data.rpiTime}</h1>`;
                         //dataHtml += `<h2>Station Time: ${data.rpiTime}</h2>`;
-                        dataHtml += "<h2>Distance Sensors:</h2>";
+                        dataHtml += `<h2 style="margin-bottom: .5%">Distance Sensors:</h2>`;
                         dataHtml += "<ul>";
                         Object.keys(data["distanceSensors"]).forEach(
                             (sensor) => {
