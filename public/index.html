@@ -26,7 +26,7 @@
                         dataHtml += "<ul>";
                         Object.keys(data["distanceSensors"]).forEach(
                             (sensor) => {
-                                let sensorData = `<li><p>${sensor}: <br/>`;
+                                let sensorData = `<li><p style="margin-top: 0px">${sensor}: <br/>`;
                                 sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspStable Distance: ${data["distanceSensors"][sensor]["stableDistance"]} mm <br/>`;
                                 sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspRaw Distance: ${data["distanceSensors"][sensor]["currentDistance"]} mm <br/>`;
                                 sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspReflection Strength: ${data["distanceSensors"][sensor]["reflectionStrength"]}%<br/>`;
