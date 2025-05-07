@@ -70,7 +70,7 @@ class DistanceSensor(Sensor):
             print("Failed to find port for serial number: ", config.serialNumber)
 
     def is_occupied(self):
-        return self.stable_distance < self.occupied_distance
+        return self.current_distance < self.occupied_distance
 
     async def loop(self) -> None:
         while True:
