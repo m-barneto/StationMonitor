@@ -28,6 +28,7 @@
                             (sensor) => {
                                 let sensorData = `<li><p>${sensor}: <br/>`;
                                 sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspCurrent Distance: ${data["distanceSensors"][sensor]["currentDistance"]} mm <br/>`;
+                                sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspStable Distance: ${data["distanceSensors"][sensor]["stableDistance"]} mm <br/>`;
                                 sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspOccupied Distance: ${data["distanceSensors"][sensor]["occupiedDistance"]} mm <br/>`;
                                 sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspIs Occupied: ${data["distanceSensors"][sensor]["isOccupied"]} <br/>`;
                                 sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspDuration: ${data["distanceSensors"][sensor]["duration"]} <br/>`;

@@ -8,11 +8,15 @@ from sensors.sensor import Sensor, SensorState
 from utils.config import Config, DistanceSensorConfig
 
 def parse_sensor_data(packet):
-    #Dis1 = 3 bytes at positions 5,6 as 24-bit integer
+    # Dynamic Distance (Dis1): 2 bytes (5-6)
     dis1 = int.from_bytes(packet[5:7], byteorder='big')
-    #Dis2 = 2 bytes at positions 7,8 as 16-bit integer
+    # Stable Distance (Dis2): 2 bytes (7-8)
     dis2 = int.from_bytes(packet[7:9], byteorder='big')
-    return dis1, dis2
+    # Signal Strength? idek..: 2 bytes (9-10) This is only described as 'Strength'
+    strength = int.from_bytes(packet[9:11], byteorder='big')
+    # temp: 2 bytes (11-12) (NOT DIVIDED BY 10)
+    temp = int.from_bytes(packet[11:13], byteorder='big')
+    return dis1, dis2, strength, temp
 
 def decode_distance_packet(packet):
     """Decode distance measurement packet"""
@@ -59,6 +63,9 @@ class DistanceSensor(Sensor):
             self.port = get_port_from_serial(config.serialNumber)
         self.occupied_distance = config.occupiedDistance
         self.current_distance = -1
+        self.stable_distance = -1
+        self.reflection_strength = -1
+        self.temperature = -1
         if not self.port:
             print("Failed to find port for serial number: ", config.serialNumber)
 
@@ -87,8 +94,11 @@ class DistanceSensor(Sensor):
                         if len(packet) != 15:
                             continue  # Skip incomplete packets
                         
-                        dis1, dis2 = parse_sensor_data(packet)
-                        self.current_distance = dis1
+                        current_distance, stable_distance, reflection_strength, temperature = parse_sensor_data(packet)
+                        self.current_distance = current_distance
+                        self.stable_distance = stable_distance
+                        self.reflection_strength = reflection_strength
+                        self.temperature = temperature
                         self.state = SensorState.OCCUPIED if self.is_occupied() else SensorState.EMPTY
                         ser.flushInput()
                         await asyncio.sleep(float(1 / Config.get().sensorPollRate))

@@ -58,8 +58,12 @@ class ServerManager:
                 duration = (datetime.now(timezone.utc) - start_event_time).total_seconds()
 
             dist_sensor_data[dist_sensor.zone] = {
-                "occupiedDistance": dist_sensor.occupied_distance,
                 "currentDistance": dist_sensor.current_distance,
+                "stableDistance": dist_sensor.stable_distance,
+                "reflectionStrength": dist_sensor.reflection_strength,
+                "temperature": dist_sensor.temperature,
+                "occupiedDistance": dist_sensor.occupied_distance,
+                "reflectionStrength": dist_sensor.reflection_strength,
                 "isOccupied": str(dist_sensor.get_state().name),
                 "duration": round(duration, 2) if start_event_time is not None else 0.0,
             }
