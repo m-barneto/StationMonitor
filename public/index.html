@@ -23,7 +23,7 @@
                         let dataHtml = `<h1>Station Monitor ${data.rpiTime}</h1>`;
                         //dataHtml += `<h2>Station Time: ${data.rpiTime}</h2>`;
                         dataHtml += `<h2 style="margin-bottom: .5%">Distance Sensors:</h2>`;
-                        dataHtml += "<ul>";
+                        dataHtml += `<ul style="margin-top: 0px">`;
                         Object.keys(data["distanceSensors"]).forEach(
                             (sensor) => {
                                 let sensorData = `<li><p style="margin-top: 0px">${sensor}: <br/>`;
