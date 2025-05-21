@@ -70,6 +70,26 @@ class ServerManager:
 
         status["distanceSensors"] = dist_sensor_data
 
+        long_dist_sensor_data = {}
+        for long_dist_sensor in ServerManager.distance_sensors:
+            start_event_time = ServerManager.sensor_manager.get_sensor_occupied_time(dist_slong_dist_sensorensor.zone)
+            if start_event_time is not None:
+                # Calculate the duration of the event in seconds
+                duration = (datetime.now(timezone.utc) - start_event_time).total_seconds()
+
+            long_dist_sensor_data[long_dist_sensor.zone] = {
+                "currentDistance": long_dist_sensor.current_distance,
+                "stableDistance": long_dist_sensor.stable_distance,
+                "reflectionStrength": long_dist_sensor.reflection_strength,
+                "temperature": long_dist_sensor.temperature,
+                "occupiedDistance": long_dist_sensor.occupied_distance,
+                "reflectionStrength": long_dist_sensor.reflection_strength,
+                "isOccupied": str(long_dist_sensor.get_state().name),
+                "duration": round(duration, 2) if start_event_time is not None else 0.0,
+            }
+
+        status["longDistanceSensors"] = long_dist_sensor_data
+
         events = list()
         for event in ServerManager.event_manager.event_queue._queue:
             # Add event to list
