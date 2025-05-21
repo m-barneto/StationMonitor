@@ -58,7 +58,7 @@ def get_port_from_serial(serial_number: str):
     return None
 
 class LongDistanceSensor(Sensor):
-    def __init__(self, config: LongDistanceSensor, event_queue: asyncio.Queue):
+    def __init__(self, config: LongDistanceSensorConfig, event_queue: asyncio.Queue):
         """Initialize the distance sensor with the given configuration."""
         Sensor.__init__(self, config.zone, event_queue)
         if "ttyUSB" in config.serialNumber:
