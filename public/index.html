@@ -37,6 +37,23 @@
                             }
                         );
                         dataHtml += "</ul>";
+                        dataHtml += `<h2 style="margin-bottom: .5%">Long Distance Sensors:</h2>`;
+                        dataHtml += `<ul style="margin-top: 0px">`;
+                        Object.keys(data["longDistanceSensors"]).forEach(
+                            (sensor) => {
+                                let sensorData = `<li><p style="margin-top: 0px">${sensor}: <br/>`;
+                                sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspStable Distance: ${data["longDistanceSensors"][sensor]["stableDistance"]} mm <br/>`;
+                                sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspOccupied Distance: ${data["longDistanceSensors"][sensor]["occupiedDistance"]} mm <br/>`;
+                                sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspIs Occupied: ${data["longDistanceSensors"][sensor]["isOccupied"]} <br/>`;
+                                sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspDuration: ${data["longDistanceSensors"][sensor]["duration"]} <br/>`;
+                                sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspRaw Distance: ${data["longDistanceSensors"][sensor]["currentDistance"]} mm <br/>`;
+                                sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspReflection Strength: ${data["longDistanceSensors"][sensor]["reflectionStrength"]}%<br/>`;
+                                sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspSensor Temp (C): ${data["longDistanceSensors"][sensor]["temperature"]}<br/>`;
+                                sensorData += "</p></li>";
+                                dataHtml += sensorData;
+                            }
+                        );
+                        dataHtml += "</ul>";
                         dataHtml += "<h2>Reflective Sensors:</h2>";
                         document.querySelector("main").innerHTML = dataHtml;
                     })
