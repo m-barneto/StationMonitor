@@ -72,7 +72,7 @@ class ServerManager:
 
         long_dist_sensor_data = {}
         for long_dist_sensor in ServerManager.distance_sensors:
-            start_event_time = ServerManager.sensor_manager.get_sensor_occupied_time(dist_slong_dist_sensorensor.zone)
+            start_event_time = ServerManager.sensor_manager.get_sensor_occupied_time(long_dist_sensor.zone)
             if start_event_time is not None:
                 # Calculate the duration of the event in seconds
                 duration = (datetime.now(timezone.utc) - start_event_time).total_seconds()
