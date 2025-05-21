@@ -115,6 +115,27 @@ class DistanceSensorConfig:
         }
 
 @dataclass
+class LongDistanceSensorConfig:
+    zone: str
+    serialNumber: str
+    occupiedDistance: int
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'LongDistanceSensorConfig':
+        _zone = str(obj.get("zone"))
+        _serialNumber = str(obj.get("serialNumber"))
+        _occupiedDistance = int(obj.get("occupiedDistance"))
+        return LongDistanceSensorConfig(_zone, _serialNumber, _occupiedDistance)
+    
+    @staticmethod
+    def to_dict(obj: 'LongDistanceSensorConfig') -> dict:
+        return {
+            "zone": obj.zone,
+            "serialNumber": obj.serialNumber,
+            "occupiedDistance": obj.occupiedDistance
+        }
+
+@dataclass
 class ReflectiveSensorConfig:
     zone: str
     gpioPin: int
@@ -146,6 +167,7 @@ class StationMonitorConfig:
     leds: Leds
     reflectiveSensors: List[ReflectiveSensorConfig]
     distanceSensors: List[DistanceSensorConfig]
+    longDistanceSensors: List[LongDistanceSensorConfig]
     sleep: Sleep
     alarmDuration: int
     minOccupiedDuration: int
@@ -163,6 +185,7 @@ class StationMonitorConfig:
         _leds = Leds.from_dict(obj.get("leds"))
         _reflectiveSensors = [ReflectiveSensorConfig.from_dict(y) for y in obj.get("reflectiveSensors")]
         _distanceSensors = [DistanceSensorConfig.from_dict(y) for y in obj.get("distanceSensors")]
+        _longDistanceSensors = [LongDistanceSensorConfig.from_dict(y) for y in obj.get("longDistanceSensors")]
         _sleep = Sleep.from_dict(obj.get("sleep"))
         _alarmDuration = int(obj.get("alarmDuration"))
         _minOccupiedDuration = int(obj.get("minOccupiedDuration"))
@@ -182,6 +205,7 @@ class StationMonitorConfig:
             "leds": Leds.to_dict(obj.leds),
             "reflectiveSensors": [ReflectiveSensorConfig.to_dict(y) for y in obj.reflectiveSensors],
             "distanceSensors": [DistanceSensorConfig.to_dict(y) for y in obj.distanceSensors],
+            "longDistanceSensors": [LongDistanceSensorConfig.to_dict(y) for y in obj.longDistanceSensors],
             "sleep": Sleep.to_dict(obj.sleep),
             "alarmDuration": obj.alarmDuration,
             "minOccupiedDuration": obj.minOccupiedDuration,

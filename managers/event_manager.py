@@ -10,7 +10,7 @@ from functools import partial
 class EventManager:
     def __init__(self, q: asyncio.Queue) -> None:
         self.event_queue = q
-        self.current_event: OccupiedEvent = None
+        self.current_event: OccupiedEvent | None = None
         self.processing = 0
 
     async def loop(self) -> None:
