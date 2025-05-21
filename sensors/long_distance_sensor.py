@@ -2,7 +2,7 @@ import asyncio
 from dataclasses import dataclass
 import serial
 from sensors.sensor import Sensor, SensorState
-from utils.config import Config, LongDistanceSensor
+from utils.config import Config, LongDistanceSensorConfig
 import time
 
 def parse_sensor_data(packet):
