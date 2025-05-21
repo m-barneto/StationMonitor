@@ -8,15 +8,17 @@ from managers.event_manager import EventManager
 from managers.sensor_manager import SensorManager
 from managers.sleep_manager import SleepManager
 from sensors.distance_sensor import DistanceSensor
+from sensors.long_distance_sensor import LongDistanceSensor
 from sensors.reflective_sensor import ReflectiveSensor
 from utils.config import Config, StationMonitorConfig
 from utils.sensor_event import SensorState
 
 
 class ServerManager:
-    def __init__(self, reflective_sensors: list[ReflectiveSensor], distance_sensors: list[DistanceSensor], sensor_manager: SensorManager, event_manager: EventManager, sleep_manager: SleepManager):
+    def __init__(self, reflective_sensors: list[ReflectiveSensor], distance_sensors: list[DistanceSensor], long_distance_sensors: list[LongDistanceSensor], sensor_manager: SensorManager, event_manager: EventManager, sleep_manager: SleepManager):
         ServerManager.reflective_sensors = reflective_sensors
         ServerManager.distance_sensors = distance_sensors
+        ServerManager.long_distance_sensors = long_distance_sensors
         ServerManager.sensor_manager = sensor_manager
         ServerManager.event_manager = event_manager
         ServerManager.sleep_manager = sleep_manager
@@ -71,7 +73,7 @@ class ServerManager:
         status["distanceSensors"] = dist_sensor_data
 
         long_dist_sensor_data = {}
-        for long_dist_sensor in ServerManager.distance_sensors:
+        for long_dist_sensor in ServerManager.long_distance_sensors:
             start_event_time = ServerManager.sensor_manager.get_sensor_occupied_time(long_dist_sensor.zone)
             if start_event_time is not None:
                 # Calculate the duration of the event in seconds
