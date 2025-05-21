@@ -59,6 +59,13 @@
         //    "occupiedDistance": 5000
         //}
     ],
+    "longDistanceSensors": [
+        {
+            "zone": "BAY-1",
+            "serialNumber": "A5069RR4",
+            "occupiedDistance": 5000
+        }
+    ],
     "sleep": {
         //  US/Eastern
         //  US/Central

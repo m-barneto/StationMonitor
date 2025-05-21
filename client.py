@@ -11,7 +11,7 @@ from managers.led_manager import LedManager
 
 from managers.server_manager import ServerManager
 from managers.sleep_manager import SleepManager
-from sensors.distance_sensor import DistanceSensor, DistanceSensorConfig
+from sensors.distance_sensor import DistanceSensor
 from sensors.long_distance_sensor import LongDistanceSensor
 from sensors.reflective_sensor import ReflectiveSensor
 from sensors.sensor import Sensor
