@@ -12,6 +12,7 @@ from managers.led_manager import LedManager
 from managers.server_manager import ServerManager
 from managers.sleep_manager import SleepManager
 from sensors.distance_sensor import DistanceSensor, DistanceSensorConfig
+from sensors.long_distance_sensor import LongDistanceSensor
 from sensors.reflective_sensor import ReflectiveSensor
 from sensors.sensor import Sensor
 from utils.config import Config
@@ -82,6 +83,19 @@ try:
         )
         
         distance_sensors.append(s)
+        sensors.append(s)
+
+        loop.create_task(s.loop())
+
+    long_distance_sensors = []
+
+    for long_dist_sensor in Config.get().longDistanceSensors:
+        s = LongDistanceSensor(
+            long_dist_sensor,
+            event_queue
+        )
+        
+        long_distance_sensors.append(s)
         sensors.append(s)
 
         loop.create_task(s.loop())
