@@ -74,6 +74,7 @@ class LongDistanceSensor(Sensor):
         self.stable_distance = -1
         self.reflection_strength = -1
         self.temperature = -1
+        self.readings = []
         if not self.port:
             print("Failed to find port for serial number: ", config.serialNumber)
 
@@ -107,7 +108,10 @@ class LongDistanceSensor(Sensor):
                         if result['error']:
                             print(f"Error parsing sensor data: {result['error']}, details: {result['details']}")
                             continue
-
+                        self.readings.insert(0, int(result['distance']))
+                        if len(self.readings) > 20:
+                            self.readings.pop()
+                        self.stable_distance = int(sum(self.readings) / len(self.readings))
                         self.current_distance = result['distance']
                         self.reflection_strength = result['strength']
                         self.temperature = result['temperature']
