@@ -86,7 +86,7 @@ class EventData:
     
     @staticmethod
     def occupied_start(zone: str, start_time: datetime) -> 'EventData':
-        _alarm_type = str("occupied")
+        _alarm_type = str("occupation")
         _body = EventBody.from_dict({
             "zone": zone,
             "startTime": str(start_time),
@@ -98,7 +98,7 @@ class EventData:
     
     @staticmethod
     def occupied_end(zone: str, start_time: datetime, end_time: datetime, triggered_alarm: bool) -> 'EventData':
-        _alarm_type = str("occupied")
+        _alarm_type = str("occupation")
         _body = EventBody.from_dict({
             "zone": zone,
             "startTime": str(start_time),
