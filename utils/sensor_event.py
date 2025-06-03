@@ -74,13 +74,13 @@ class EventData:
 
     @staticmethod
     def from_dict(obj: Any) -> 'EventData':
-        _alarm_type = str(obj.get("alarm_type"))
+        _alarm_type = str(obj.get("alarmType"))
         _body = EventBody.from_dict(obj.get("body"))
         return EventData(_alarm_type, _body)
 
     def to_dict(self) -> dict[str, Any]:
         return {
-            "alarm_type": self.alarm_type,
+            "alarmType": self.alarm_type,
             "body": self.body.to_dict()
         }
     
