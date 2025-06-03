@@ -63,7 +63,8 @@
         {
             "zone": "BAY-1",
             "serialNumber": "A5069RR4",
-            "occupiedDistance": 5000
+            "occupiedDistance": 5000,
+            "emptyReflectionStrength": 80
         }
     ],
     "sleep": {
