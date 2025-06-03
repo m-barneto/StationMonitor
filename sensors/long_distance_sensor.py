@@ -6,15 +6,24 @@ from utils.config import Config, LongDistanceSensorConfig
 import time
 
 def parse_sensor_data(packet):
+    ret = {
+        'error': None,
+        'details': None,
+        'distance': -1,
+        'strength': -1,
+        'strength_percent': -1,
+        'temperature': -1,
+        'timestamp': time.time()
+    }
     if len(packet) == 9 and packet[0] == 0x59 and packet[1] == 0x59:
         checksum = sum(packet[:8]) & 0xFF
         if checksum != packet[8]:
-            return {
-                'type': 'checksum_error',
+            ret['error'] = 'checksum_error'
+            ret['details'] = {
                 'expected': packet[8],
-                'actual': checksum,
-                'timestamp': time.time()
+                'actual': checksum
             }
+            return ret
         distance = int.from_bytes(packet[2:4], byteorder='little')
         strength = int.from_bytes(packet[4:6], byteorder='little')
         temp_raw = int.from_bytes(packet[6:8], byteorder='little')
@@ -22,28 +31,23 @@ def parse_sensor_data(packet):
         strength_percent = (strength / 65535.0) * 100.0
         # Filter out invalid distance values (per manual: 65535 = invalid)
         if distance in (4500, 65534, 65535):
-            return {
-                'error': 'invalid_measure', #DO SOMETHING WITH THIS TO DISREGARD AN EVENT
-                'distance': distance,                                  #PLS
-                'strength': strength,
-                'temperature': temperature,
-                'timestamp': time.time()
-            }
+            ret['error'] = 'invalid_measure'
+            ret['distance'] = distance
+            ret['strength'] = strength
+            ret['temperature'] = temperature
+            return ret
 #FORMATTING FOR OUTPUT HERE:
-        return {
-            'error': 'none',
-            'distance': distance,
-            'strength': strength,
-            'strength_percent': strength_percent,
-            'temperature': temperature,
-            'timestamp': time.time()
-        }
+        ret['distance'] = distance
+        ret['strength'] = strength
+        ret['strength_percent'] = strength_percent
+        ret['temperature'] = temperature
+        return ret
 
-    return {
-        'type': 'unknown_frame',
-        'data': packet,
-        'timestamp': time.time()
+    ret['error'] = 'unknown_frame'
+    ret['details'] = {
+        'data': packet
     }
+    return ret
 
 def get_port_from_serial(serial_number: str):
     """Get the port of the sensor based on its serial number."""
@@ -99,6 +103,11 @@ class LongDistanceSensor(Sensor):
                         if len(packet) != 9:
                             continue  # Skip incomplete packets
                         result = parse_sensor_data(packet)
+
+                        if result['error']:
+                            print(f"Error parsing sensor data: {result['error']}, details: {result['details']}")
+                            continue
+
                         self.current_distance = result['distance']
                         self.reflection_strength = result['strength']
                         self.temperature = result['temperature']
