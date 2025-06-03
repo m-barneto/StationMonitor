@@ -109,7 +109,7 @@ class LongDistanceSensor(Sensor):
                             print(f"Error parsing sensor data: {result['error']}, details: {result['details']}")
                             continue
                         self.readings.insert(0, int(result['distance']))
-                        if len(self.readings) > 20:
+                        if len(self.readings) > 100:
                             self.readings.pop()
                         self.stable_distance = int(sum(self.readings) / len(self.readings))
                         self.current_distance = result['distance']
