@@ -12,10 +12,10 @@ class LedManager:
         self.sensors = reflective_sensors
         self.sensor_manager = sensor_manager
         self.leds: dict[str, PixelStrip] = {}
-        for sensor in reflective_sensors:
-            # Initialize the LED state for each sensor
-            cfg: ReflectiveSensorConfig = Config.get().reflectiveSensors[sensor.zone]
-            self.leds[sensor.zone] = PixelStrip(Config.get().leds.numLeds, cfg.indicatorPin, cfg.pwmChannel)
+        for cfg in Config.get().reflectiveSensors:
+            # Initialize the LED strip for this sensor
+            self.leds[cfg.zone] = PixelStrip(Config.get().leds.numLeds, cfg.indicatorPin, cfg.pwmChannel)
+            
 
     async def loop(self) -> None:
         while True:
