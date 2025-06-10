@@ -62,7 +62,7 @@ class LedManager:
                 print("Stage two")
                 # fill with yellow then remove some
                 #led.fill(Color(255, 255, 0))
-                yellow_duration = duration - (4 * 60)
+                yellow_duration = duration - (2 * 60)
                 led.fill(Color(255, 255, 0))
 
                 to_fade = Config.get().leds.numLeds - 4
