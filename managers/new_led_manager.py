@@ -76,13 +76,13 @@ class LedManager:
                 print("Stage three")
                 # fill with yellow then remove some
                 #led.fill(Color(255, 255, 0))
-                blue_duration = duration - (2 * 60)
+                blue_duration = duration - (4 * 60)
                 led.fill(Color(0, 0, 255))
 
                 to_fade = Config.get().leds.numLeds - 4
 
                 fill_count = int(to_fade * (blue_duration / 120))  # 120 seconds is the max duration for yellow
-                print(f"Filling {fill_count} pixels with yellow for {blue_duration} seconds")
+                print(f"Filling {fill_count} pixels with below for {blue_duration} seconds")
 
                 for i in range(fill_count):
                     led.setPixel(to_fade - i + 4, Color(0, 0, 0))
