@@ -44,7 +44,7 @@ class LedManager:
             # blink for a second every 10 seconds
             if current_time % 10 == 0:
                 # Blink logic here
-                led.setPixel(0, Color(255, 255, 255))  # Set first pixel to white
+                led.setPixel(0, Color(40, 255, 40))  # Set first pixel to white
                 pass
             pass
         elif state == EventState.OCCUPIED_PENDING:
