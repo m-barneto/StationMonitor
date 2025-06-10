@@ -34,11 +34,18 @@
         // Each sensor needs to have zone and pin declared
         {
             "zone": "PLACEHOLDER-1",
-            "gpioPin": 5,
+            "gpioPin": 17,
             "alarmDuration": 20,
             "indicatorPin": 18,
             "pwmChannel": 0
         }
+        //{
+        //    "zone": "PLACEHOLDER-1",
+        //    "gpioPin": 5,
+        //    "alarmDuration": 20,
+        //    "indicatorPin": 18,
+        //    "pwmChannel": 0
+        //},
         //{
         //    "zone": "PLACEHOLDER-2",
         //    "gpioPin": 17,
