@@ -106,7 +106,7 @@ class LedManager:
                                secondary.g, 0, 255), clamp(primary.b + secondary.b, 0, 255))
 
                 # Display final color
-                self.leds.fill(output)
+                leds.fill(output)
 
         led.show()
     
