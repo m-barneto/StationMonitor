@@ -7,7 +7,7 @@ from managers.config_manager import ConfigManager
 from managers.event_manager import EventManager
 from managers.health_manager import HealthManager
 from managers.sensor_manager import SensorManager
-from managers.new_led_managers import LedManager
+from managers.new_led_manager import LedManager
 
 from managers.server_manager import ServerManager
 from managers.sleep_manager import SleepManager
