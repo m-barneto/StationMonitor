@@ -39,23 +39,27 @@ class LedManager:
         led = self.leds[sensor]
 
         led.clear()
-
+        print(state)
         if state == EventState.EMPTY:
             # blink for a second every 10 seconds
             if current_time % 10 == 0:
                 # Blink logic here
                 led.setPixel(0, Color(40, 255, 40))  # Set first pixel to green
+        
         elif state == EventState.OCCUPIED_PENDING:
             # blink for a second every 30 seconds
             if current_time % 30 == 0:
                 # Blink logic here
                 led.setPixel(0, Color(255, 255, 255))  # Set first pixel to white
+        
         elif state == EventState.OCCUPIED_STARTED:
-            fill_count = int(duration / 60) + 1
             if duration < 4 * 60:
+                print("Stage one")
+                fill_count = int(duration / 60) + 1
                 for i in range(fill_count):
                     led.setPixel(i, Color(255, 255, 255))
-            if duration > 4 * 60 and duration < 6 * 60:
+            if duration >= 4 * 60 and duration < 6 * 60:
+                print("Stage two")
                 # fill with yellow then remove some
                 #led.fill(Color(255, 255, 0))
                 yellow_duration = duration - (4 * 60)
@@ -69,6 +73,7 @@ class LedManager:
                 for i in range(fill_count):
                     led.setPixel(to_fade - i + 4, Color(0, 0, 0))
             elif duration >= 6 * 60:
+                print("Stage three")
                 # fill with yellow then remove some
                 #led.fill(Color(255, 255, 0))
                 blue_duration = duration - (2 * 60)
