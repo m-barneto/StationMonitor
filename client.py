@@ -103,6 +103,9 @@ try:
     sensor_manager = SensorManager(sensors, event_queue)
     loop.create_task(sensor_manager.loop())
 
+    led_manager = LedManager(sensors, sensor_manager)
+    loop.create_task(led_manager.loop())
+
     # Sends out requests for alarm events when duration is exceeded
     loop.create_task(AlarmManager(sensor_manager, event_queue).loop())
 
