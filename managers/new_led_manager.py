@@ -52,7 +52,7 @@ class LedManager:
                 led.setPixel(0, Color(255, 255, 255))  # Set first pixel to white
         elif state == EventState.OCCUPIED_STARTED:
             fill_count = int(duration / 60) + 1
-            if duration < 2 * 60:
+            if duration < 4 * 60:
                 for i in range(fill_count):
                     led.setPixel(i, Color(255, 255, 255))
             if duration > 4 * 60 and duration < 6 * 60:
