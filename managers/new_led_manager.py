@@ -51,7 +51,9 @@ class LedManager:
                 # Blink logic here
                 led.setPixel(0, Color(255, 255, 255))  # Set first pixel to white
         elif state == EventState.OCCUPIED_STARTED:
-            print(duration)
+            fill_count = (current_time % 60) + 1
+            for i in range(fill_count):
+                led.setPixel(i, Color(255, 255, 255))
 
         led.show()
     
