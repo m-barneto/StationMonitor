@@ -40,17 +40,18 @@ class LedManager:
 
         led.clear()
 
-        if state == EventState.EMPTY or True:
+        if state == EventState.EMPTY:
             # blink for a second every 10 seconds
             if current_time % 10 == 0:
                 # Blink logic here
-                led.setPixel(0, Color(40, 255, 40))  # Set first pixel to white
-                pass
-            pass
+                led.setPixel(0, Color(40, 255, 40))  # Set first pixel to green
         elif state == EventState.OCCUPIED_PENDING:
-            pass
+            # blink for a second every 30 seconds
+            if current_time % 30 == 0:
+                # Blink logic here
+                led.setPixel(0, Color(255, 255, 255))  # Set first pixel to white
         elif state == EventState.OCCUPIED_STARTED:
-            pass
+            print(duration)
 
         led.show()
     
