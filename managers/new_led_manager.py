@@ -52,10 +52,18 @@ class LedManager:
                 led.setPixel(0, Color(255, 255, 255))  # Set first pixel to white
         elif state == EventState.OCCUPIED_STARTED:
             fill_count = int(duration / 60) + 1
-            if duration > 4 * 60:
-                # flash
-                print("flash")
-                pass
+            if duration > 4 * 60 or True:
+                # fill with yellow then remove some
+                #led.fill(Color(255, 255, 0))
+                yellow_duration = duration - 4 * 60
+                led.fill(Color(255, 255, 0))
+
+                to_fade = Config.get().leds.numLeds - 4
+
+                fill_count = int(to_fade * (yellow_duration / 120))  # 120 seconds is the max duration for yellow
+
+                for i in range(fill_count):
+                    led.setPixel(i, Color(0, 0, 0))
             else:
                 for i in range(fill_count):
                     led.setPixel(i, Color(255, 255, 255))
