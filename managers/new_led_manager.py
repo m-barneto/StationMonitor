@@ -1,10 +1,11 @@
 import asyncio
 from datetime import datetime, timezone
+import math
 from managers.sensor_manager import EventState, SensorContext, SensorManager
 from sensors.reflective_sensor import ReflectiveSensor
 from sensors.sensor import Sensor
 from utils.config import Config, ReflectiveSensorConfig
-from utils.utils import PixelStrip
+from utils.utils import PixelStrip, clamp, hex_to_rgb, inv_lerp
 from rpi_ws281x import Color
 
 
@@ -72,7 +73,7 @@ class LedManager:
 
                 for i in range(fill_count):
                     led.setPixel(to_fade - i + 4, Color(0, 0, 0))
-            elif duration >= 6 * 60:
+            elif duration >= 6 * 60 and duration < 8 * 60:
                 print("Stage three")
                 # fill with yellow then remove some
                 #led.fill(Color(255, 255, 0))
@@ -86,6 +87,26 @@ class LedManager:
 
                 for i in range(fill_count):
                     led.setPixel(to_fade - i + 4, Color(0, 0, 0))
+            else:
+                v = math.sin(datetime.now(timezone.utc).timestamp(
+                ) * Config.get().leds.flashing.flashFrequency)
+
+                # Get amount of color to be used for both colors based on time
+                t = inv_lerp(1, -1, v)
+                y = inv_lerp(1, -1, -v)
+
+                # Get primary and secondary colors
+                primary = hex_to_rgb(
+                    Config.get().leds.flashing.primaryColor, t)
+                secondary = hex_to_rgb(
+                    Config.get().leds.flashing.secondaryColor, y)
+
+                # Interpolate between the two
+                output = Color(clamp(primary.r + secondary.r, 0, 255), clamp(primary.g +
+                               secondary.g, 0, 255), clamp(primary.b + secondary.b, 0, 255))
+
+                # Display final color
+                self.leds.fill(output)
 
         led.show()
     
