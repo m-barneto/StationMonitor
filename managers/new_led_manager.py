@@ -61,6 +61,7 @@ class LedManager:
                 to_fade = Config.get().leds.numLeds - 4
 
                 fill_count = int(to_fade * (yellow_duration / 120))  # 120 seconds is the max duration for yellow
+                print(f"Filling {fill_count} pixels with yellow for {yellow_duration} seconds")
 
                 for i in range(fill_count):
                     led.setPixel(i, Color(0, 0, 0))
