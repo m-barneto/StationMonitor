@@ -5,6 +5,7 @@ from sensors.reflective_sensor import ReflectiveSensor
 from sensors.sensor import Sensor
 from utils.config import Config, ReflectiveSensorConfig
 from utils.utils import PixelStrip
+from rpi_ws281x import Color
 
 
 class LedManager:
@@ -43,7 +44,7 @@ class LedManager:
             # blink for a second every 10 seconds
             if current_time % 10 == 0:
                 # Blink logic here
-                led.setPixel(0, (255, 255, 255))  # Set first pixel to white
+                led.setPixel(0, Color(255, 255, 255))  # Set first pixel to white
                 pass
             pass
         elif state == EventState.OCCUPIED_PENDING:
