@@ -64,7 +64,7 @@ class LedManager:
                 print(f"Filling {fill_count} pixels with yellow for {yellow_duration} seconds")
 
                 for i in range(fill_count):
-                    led.setPixel(i, Color(0, 0, 0))
+                    led.setPixel(to_fade - i, Color(0, 0, 0))
             else:
                 for i in range(fill_count):
                     led.setPixel(i, Color(255, 255, 255))
