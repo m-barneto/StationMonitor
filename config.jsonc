@@ -32,13 +32,13 @@
     // Sensors list
     "reflectiveSensors": [
         // Each sensor needs to have zone and pin declared
-        //{
-        //    "zone": "PLACEHOLDER-1",
-        //    "gpioPin": 5,
-        //    "alarmDuration": 20,
-        //    "indicatorPin": 18,
-        //    "pwmChannel": 0
-        //},
+        {
+            "zone": "PLACEHOLDER-1",
+            "gpioPin": 5,
+            "alarmDuration": 20,
+            "indicatorPin": 18,
+            "pwmChannel": 0
+        }
         //{
         //    "zone": "PLACEHOLDER-2",
         //    "gpioPin": 17,
@@ -48,11 +48,6 @@
         //}
     ],
     "distanceSensors": [
-        {
-            "zone": "BAY-2",
-            "serialNumber": "A5069RR4",
-            "occupiedDistance": 5000
-        }
         //{
         //    "zone": "WAIT-2",
         //    "serialNumber": "",
@@ -60,12 +55,12 @@
         //}
     ],
     "longDistanceSensors": [
-        {
-            "zone": "BAY-1",
-            "serialNumber": "A5069RR4",
-            "occupiedDistance": 5000,
-            "emptyReflectionStrength": 80
-        }
+        //{
+        //    "zone": "BAY-1",
+        //    "serialNumber": "A5069RR4",
+        //    "occupiedDistance": 5000,
+        //    "emptyReflectionStrength": 80
+        //}
     ],
     "sleep": {
         //  US/Eastern
