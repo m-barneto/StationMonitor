@@ -55,7 +55,7 @@ class LedManager:
             if duration > 4 * 60 or True:
                 # fill with yellow then remove some
                 #led.fill(Color(255, 255, 0))
-                yellow_duration = duration - 4 * 60
+                yellow_duration = duration# todo uncomment - 4 * 60
                 led.fill(Color(255, 255, 0))
 
                 to_fade = Config.get().leds.numLeds - 4
