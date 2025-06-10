@@ -31,7 +31,7 @@ class LedManager:
         current_time = datetime.now(timezone.utc)
         # get the "stage" of the sensor
         ctx: SensorContext = self.sensor_manager.get_sensor_ctx(sensor)
-        duration = (current_time - ctx.occupied_start_time).seconds * 10
+        duration = (current_time - ctx.occupied_start_time).total_seconds() * 10
         state: EventState = ctx.current_event_state
 
         current_time = datetime.now().second
