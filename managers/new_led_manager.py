@@ -172,7 +172,7 @@ class LedManager:
 
                 for i in range(fill_count):
                     led.setPixel(to_fade - i + 4, Color(0, 0, 0))
-            elif duration >= 8 * 60:
+            elif duration >= 8 * 60 and duration < 10 * 60:
                 v = math.sin(datetime.now(timezone.utc).timestamp(
                 ) * Config.get().leds.flashing.flashFrequency)
 
