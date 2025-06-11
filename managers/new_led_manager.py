@@ -125,9 +125,18 @@ class LedManager:
 
         led.clear()
         if state == EventState.EMPTY:
-            forty = int(modulated * 40)
-            maxed = int(modulated * 255)
-            led.setPixel(Config.get().leds.numLeds - 1, Color(forty, maxed, forty)) 
+            time_in_cycle = current_time % 10
+            # Only pulse if within the pulse duration
+            if time_in_cycle < 1:
+                # Map time_in_cycle from [0, pulse_duration] to [0, π]
+                x = math.pi * (time_in_cycle / 1)
+                # Sine wave goes from 0 → 1 → 0
+                forty = int(modulated * 40)
+                maxed = int(modulated * 255)
+                led.setPixel(Config.get().leds.numLeds - 1, Color(forty, maxed, forty))
+            else:
+                led.setPixel(Config.get().leds.numLeds - 1, Color(0, 0, 0))
+             
         
         elif state == EventState.OCCUPIED_PENDING:
             led.setPixel(Config.get().leds.numLeds - 1, Color(255, 255, 0))  # Set first pixel to yellow
