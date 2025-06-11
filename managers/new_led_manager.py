@@ -125,7 +125,7 @@ class LedManager:
 
         led.clear()
         if state == EventState.EMPTY:
-            time_in_cycle = current_time % 10
+            time_in_cycle = current_time % 3
             # Only pulse if within the pulse duration
             if time_in_cycle < 1:
                 # Map time_in_cycle from [0, pulse_duration] to [0, π]
