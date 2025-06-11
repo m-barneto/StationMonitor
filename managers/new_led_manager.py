@@ -192,6 +192,19 @@ class LedManager:
 
                 # Display final color
                 led.fill(output)
+            elif duration >= 10 * 60:
+                time_in_cycle = current_time % pulse_period
+                # Only pulse if within the pulse duration
+                if time_in_cycle < pulse_duration:
+                    # Map time_in_cycle from [0, pulse_duration] to [0, π]
+                    x = math.sin(math.pi * (time_in_cycle / pulse_duration))
+                    # Sine wave goes from 0 → 1 → 0
+                    forty = int(x * 40)
+                    maxed = int(x * 255)
+                    led.setPixel(Config.get().leds.numLeds - 1, Color(maxed, forty, forty))  # Green
+                else:
+                    led.setPixel(Config.get().leds.numLeds - 1, Color(0, 0, 0))
+
 
         led.show()
         
