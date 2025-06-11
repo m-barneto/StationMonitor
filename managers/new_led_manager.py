@@ -144,20 +144,19 @@ class LedManager:
         elif state == EventState.OCCUPIED_STARTED:
             if duration < 4 * 60:
                 print("Stage one")
-                # fill stage area with white
-                for i in range(4):
-                    led.setPixel(i, Color(255, 255, 255))
-                pass
 
                 fill_count = int(duration / 60) + 1
                 for i in range(fill_count):
                     led.setPixel(i, Color(255, 255, 255))
             if duration >= 4 * 60 and duration < 6 * 60:
                 print("Stage two")
+                for i in range(4):
+                    led.setPixel(i, Color(255, 255, 0))
+
                 # fill with yellow then remove some
                 #led.fill(Color(255, 255, 0))
                 yellow_duration = duration - (4 * 60)
-                led.fill(Color(255, 255, 0))
+                #led.fill(Color(255, 255, 0))
 
                 to_fade = Config.get().leds.numLeds - 4
 
@@ -165,7 +164,7 @@ class LedManager:
                 print(f"Filling {fill_count} pixels with yellow for {yellow_duration} seconds")
 
                 for i in range(fill_count):
-                    led.setPixel(to_fade - i + 4, Color(0, 0, 0))
+                    led.setPixel(i + 4, Color(0, 0, 0))
             elif duration >= 6 * 60 and duration < 8 * 60:
                 print("Stage three")
                 # fill with yellow then remove some
