@@ -145,7 +145,7 @@ class LedManager:
             if duration < 4 * 60:
                 print("Stage one")
 
-                fill_count = 1 + int(duration / 60)
+                fill_count = int(duration / 60.0)
                 for i in range(fill_count):
                     led.setPixel(i, Color(255, 255, 255))
             if duration >= 4 * 60 and duration < 6 * 60:
