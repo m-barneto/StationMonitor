@@ -128,10 +128,10 @@ class LedManager:
         if state == EventState.EMPTY:
             forty = int(modulated * 40)
             maxed = int(modulated * 255)
-            led.setPixel(0, Color(forty, maxed, forty)) 
+            led.setPixel(Config.get().leds.numLeds - 1, Color(forty, maxed, forty)) 
         
         elif state == EventState.OCCUPIED_PENDING:
-            led.setPixel(0, Color(255, 255, 0))  # Set first pixel to yellow
+            led.setPixel(Config.get().leds.numLeds - 1, Color(255, 255, 0))  # Set first pixel to yellow
         
         elif state == EventState.OCCUPIED_STARTED:
             if duration < 4 * 60:
