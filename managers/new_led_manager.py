@@ -121,22 +121,17 @@ class LedManager:
         current_time = time()
         modulated = math.sin(current_time * 10.0)  # Modulate time for blinking effect
         modulated = (modulated + 1) / 2  # Normalize to [0, 1]
-        modulated = int(modulated * 255)  # Scale to [0, 255] for easier visibility
         print(f"Modulated time: {modulated}")
         led = self.leds[sensor]
 
         led.clear()
         if state == EventState.EMPTY:
-            # blink for a second every 10 seconds
-            if current_time % 10 == 0:
-                # Blink logic here
-                led.setPixel(0, Color(40, 255, 40))  # Set first pixel to green
+            forty = int(modulated * 40)
+            maxed = int(modulated * 255)
+            led.setPixel(0, Color(forty, maxed, forty)) 
         
         elif state == EventState.OCCUPIED_PENDING:
-            # blink for a second every 30 seconds
-            if current_time % 30 == 0:
-                # Blink logic here
-                led.setPixel(0, Color(255, 255, 255))  # Set first pixel to white
+            led.setPixel(0, Color(255, 255, 0))  # Set first pixel to yellow
         
         elif state == EventState.OCCUPIED_STARTED:
             if duration < 4 * 60:
