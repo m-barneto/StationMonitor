@@ -119,9 +119,8 @@ class LedManager:
         state: EventState = ctx.current_event_state
 
         current_time = time()
-        modulated = math.sin(current_time * 10.0)  # Modulate time for blinking effect
+        modulated = math.sin(current_time)  # Modulate time for blinking effect
         modulated = (modulated + 1) / 2  # Normalize to [0, 1]
-        print(f"Modulated time: {modulated}")
         led = self.leds[sensor]
 
         led.clear()
