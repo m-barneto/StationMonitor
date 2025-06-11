@@ -119,25 +119,25 @@ class LedManager:
         state: EventState = ctx.current_event_state
 
         current_time = time()
-        modulated = math.sin(current_time)  # Modulate time for blinking effect
-        modulated = (modulated + 1) / 2  # Normalize to [0, 1]
         led = self.leds[sensor]
+
+        pulse_duration = 1
+        pulse_period = 3
 
         led.clear()
         if state == EventState.EMPTY:
-            time_in_cycle = current_time % 3
+            time_in_cycle = current_time % pulse_period
             # Only pulse if within the pulse duration
-            if time_in_cycle < 1:
+            if time_in_cycle < pulse_duration:
                 # Map time_in_cycle from [0, pulse_duration] to [0, π]
-                x = math.sin(math.pi * (time_in_cycle / 1))
+                x = math.sin(math.pi * (time_in_cycle / pulse_duration))
                 # Sine wave goes from 0 → 1 → 0
                 forty = int(x * 40)
                 maxed = int(x * 255)
                 led.setPixel(Config.get().leds.numLeds - 1, Color(forty, maxed, forty))
             else:
                 led.setPixel(Config.get().leds.numLeds - 1, Color(0, 0, 0))
-             
-        
+
         elif state == EventState.OCCUPIED_PENDING:
             led.setPixel(Config.get().leds.numLeds - 1, Color(255, 255, 0))  # Set first pixel to yellow
         
