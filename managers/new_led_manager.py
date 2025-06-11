@@ -129,10 +129,10 @@ class LedManager:
             # Only pulse if within the pulse duration
             if time_in_cycle < 1:
                 # Map time_in_cycle from [0, pulse_duration] to [0, π]
-                x = math.pi * (time_in_cycle / 1)
+                x = math.sin(math.pi * (time_in_cycle / 1))
                 # Sine wave goes from 0 → 1 → 0
-                forty = int(modulated * 40)
-                maxed = int(modulated * 255)
+                forty = int(x * 40)
+                maxed = int(x * 255)
                 led.setPixel(Config.get().leds.numLeds - 1, Color(forty, maxed, forty))
             else:
                 led.setPixel(Config.get().leds.numLeds - 1, Color(0, 0, 0))
