@@ -144,6 +144,11 @@ class LedManager:
         elif state == EventState.OCCUPIED_STARTED:
             if duration < 4 * 60:
                 print("Stage one")
+                # fill stage area with white
+                for i in range(4):
+                    led.setPixel(i, Color(255, 255, 255))
+                pass
+
                 fill_count = int(duration / 60) + 1
                 for i in range(fill_count):
                     led.setPixel(i, Color(255, 255, 255))
