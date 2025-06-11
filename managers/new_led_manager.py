@@ -138,10 +138,10 @@ class LedManager:
             else:
                 led.setPixel(Config.get().leds.numLeds - 1, Color(0, 0, 0))
 
-        elif state == EventState.OCCUPIED_PENDING:
+        if state == EventState.OCCUPIED_PENDING:
             led.setPixel(Config.get().leds.numLeds - 1, Color(255, 255, 0))  # Set first pixel to yellow
         
-        elif state == EventState.OCCUPIED_STARTED:
+        if state == EventState.OCCUPIED_STARTED or state == EventState.OCCUPIED_PENDING:
             if duration < 4 * 60:
                 print("Stage one")
 
