@@ -125,7 +125,7 @@ class LedManager:
         pulse_period = 3
 
         led.clear()
-        if state == EventState.EMPTY:
+        if state == EventState.EMPTY or state == EventState.OCCUPIED_PENDING:
             time_in_cycle = current_time % pulse_period
             # Only pulse if within the pulse duration
             if time_in_cycle < pulse_duration:
@@ -134,18 +134,18 @@ class LedManager:
                 # Sine wave goes from 0 → 1 → 0
                 forty = int(x * 40)
                 maxed = int(x * 255)
-                led.setPixel(Config.get().leds.numLeds - 1, Color(forty, maxed, forty))
+                color = state == EventState.EMPTY and Color(forty, maxed, forty) or Color(maxed, maxed, forty) # White for pending
+                led.setPixel(Config.get().leds.numLeds - 1, color)
             else:
                 led.setPixel(Config.get().leds.numLeds - 1, Color(0, 0, 0))
         
-        if state == EventState.OCCUPIED_STARTED or state == EventState.OCCUPIED_PENDING:
+        if state == EventState.OCCUPIED_STARTED:
             if duration < 4 * 60:
-                color = state == EventState.OCCUPIED_STARTED and Color(255, 255, 255) or Color(255, 255, 0) # Yellow for pending, white for started
                 print("Stage one")
 
                 fill_count = 1 + int(duration / 60.0)
                 for i in range(fill_count):
-                    led.setPixel(i, color)
+                    led.setPixel(i, Color(255, 255, 255))
             if duration >= 4 * 60 and duration < 6 * 60:
                 print("Stage two")
                 for i in range(4):
