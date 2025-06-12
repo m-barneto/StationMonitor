@@ -94,7 +94,6 @@ try:
             long_dist_sensor,
             event_queue
         )
-        print(long_dist_sensor.serialNumber)
         
         long_distance_sensors.append(s)
         sensors.append(s)
