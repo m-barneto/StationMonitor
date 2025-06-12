@@ -93,7 +93,9 @@ class LongDistanceSensor(Sensor):
                     baudrate=115200,
                     bytesize=serial.EIGHTBITS,
                     parity=serial.PARITY_NONE,
-                    stopbits=serial.STOPBITS_ONE
+                    stopbits=serial.STOPBITS_ONE,
+                    timeout=1,  # Timeout for read operations
+                    write_timeout=1  # Timeout for write operations
                 ) as ser:
                     while True:
                         header1 = ser.read(1)
