@@ -98,7 +98,6 @@ class LongDistanceSensor(Sensor):
                     while True:
                         header1 = ser.read(1)
                         header2 = ser.read(1)
-                        print(header1, header2s)
                         if header1 != b'\x59':
                             continue
                         if header2 != b'\x59':
