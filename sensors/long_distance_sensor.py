@@ -68,7 +68,9 @@ class LongDistanceSensor(Sensor):
         if "ttyUSB" in config.serialNumber:
             self.port = config.serialNumber
         else:
+            print("Using serial number to find port: ", config.serialNumber)
             self.port = get_port_from_serial(config.serialNumber)
+            print("Found port: ", self.port)
         self.occupied_distance = config.occupiedDistance
         self.empty_reflection_strength = config.emptyReflectionStrength
         self.current_distance = -1
