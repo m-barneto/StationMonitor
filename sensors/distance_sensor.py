@@ -62,6 +62,7 @@ class DistanceSensor(Sensor):
         else:
             self.port = get_port_from_serial(config.serialNumber)
         self.occupied_distance = config.occupiedDistance
+        self.empty_reflection_strength = config.emptyReflectionStrength
         self.current_distance = -1
         self.stable_distance = -1
         self.reflection_strength = -1
@@ -70,7 +71,7 @@ class DistanceSensor(Sensor):
             print("Failed to find port for serial number: ", config.serialNumber)
 
     def is_occupied(self):
-        return self.current_distance < self.occupied_distance
+        return self.current_distance < self.occupied_distance or self.reflection_strength < self.empty_reflection_strength
 
     async def loop(self) -> None:
         while True:

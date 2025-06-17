@@ -109,7 +109,6 @@ class LongDistanceSensor(Sensor):
                         result = parse_sensor_data(packet)
 
                         if result['error']:
-                            print(f"Error parsing sensor data: {result['error']}, details: {result['details']}")
                             continue
                         self.readings.insert(0, int(result['distance']))
                         if len(self.readings) > 100:
