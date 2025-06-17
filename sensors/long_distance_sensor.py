@@ -95,6 +95,7 @@ class LongDistanceSensor(Sensor):
                     parity=serial.PARITY_NONE,
                     stopbits=serial.STOPBITS_ONE
                 ) as ser:
+                    print("Serial port opened successfully.")
                     while True:
                         header1 = ser.read(1)
                         header2 = ser.read(1)
