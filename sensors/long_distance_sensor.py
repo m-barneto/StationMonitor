@@ -24,18 +24,18 @@ def parse_sensor_data(packet):
                 'actual': checksum
             }
             return ret
-        distance = int.from_bytes(packet[2:4], byteorder='little')
+        distance = int.from_bytes(packet[2:4], byteorder='little') * 10  # Convert to mm
         strength = int.from_bytes(packet[4:6], byteorder='little')
         temp_raw = int.from_bytes(packet[6:8], byteorder='little')
         temperature = temp_raw / 8.0 - 256.0
         strength_percent = (strength / 65535.0) * 100.0
         # Filter out invalid distance values (per manual: 65535 = invalid)
-        if distance in (4500, 65534, 65535):
-            ret['error'] = 'invalid_measure'
-            ret['distance'] = distance
-            ret['strength'] = strength
-            ret['temperature'] = temperature
-            return ret
+        # if distance in (4500, 65534, 65535):
+        #     ret['error'] = 'invalid_measure'
+        #     ret['distance'] = distance
+        #     ret['strength'] = strength
+        #     ret['temperature'] = temperature
+        #     return ret
 #FORMATTING FOR OUTPUT HERE:
         ret['distance'] = distance
         ret['strength'] = strength

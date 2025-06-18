@@ -9,9 +9,9 @@ from utils.config import Config, DistanceSensorConfig
 
 def parse_sensor_data(packet):
     # Dynamic Distance (Dis1): 2 bytes (5-6)
-    dis1 = int.from_bytes(packet[5:7], byteorder='big') * 10  # Convert to mm
+    dis1 = int.from_bytes(packet[5:7], byteorder='big')
     # Stable Distance (Dis2): 2 bytes (7-8)
-    dis2 = int.from_bytes(packet[7:9], byteorder='big') * 10  # Convert to mm
+    dis2 = int.from_bytes(packet[7:9], byteorder='big')
     # Signal Strength? idek..: 2 bytes (9-10) This is only described as 'Strength'
     strength = int.from_bytes(packet[9:11], byteorder='big')
     # temp: 2 bytes (11-12) (NOT DIVIDED BY 10)
