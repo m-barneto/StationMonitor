@@ -45,7 +45,7 @@
             "zone": "--WAIT-",
             "serialNumber": "",
             "occupiedDistance": 5000,
-            "emptyReflectionStrength": 80
+            "emptyReflectionStrength": 100
         }
     ],
     "longDistanceSensors": [
@@ -53,7 +53,7 @@
             "zone": "--BAY-1",
             "serialNumber": "",
             "occupiedDistance": 5000,
-            "emptyReflectionStrength": 80
+            "emptyReflectionStrength": 100
         }
     ],
     "sleep": {
