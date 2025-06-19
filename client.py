@@ -17,8 +17,10 @@ from sensors.reflective_sensor import ReflectiveSensor
 from sensors.sensor import Sensor
 from utils.config import Config
 from utils.utils import PixelStrip
+from utils.logger import logger
 
 try:
+    logger.info("Starting Station Monitor Client...")
     # Initialize our queues
     event_queue = asyncio.Queue()
 
