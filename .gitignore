@@ -1,7 +1,7 @@
 **/client-env/
 **/server-env/
 **/venv/
-**/logs/
+/logs/**
 #config.jsonc
 
 .DS_Store
