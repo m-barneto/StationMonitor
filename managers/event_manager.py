@@ -4,6 +4,7 @@ import requests
 
 from utils.config import Config
 from utils.sensor_event import OccupiedEvent
+from utils.logger import logger
 
 from functools import partial
 
@@ -23,15 +24,16 @@ class EventManager:
         self.processing = 1
 
         # We have an event, send it to the server.
+        logger.info(f"Processing Event: {self.current_event.to_dict()}")
 
         # Loop here is used to schedule our request without blocking
         loop = asyncio.get_event_loop()
         while True:
             try:
                 # Sends the request while still allowing other loops to continue running
-                print(f"Sending Event: {self.current_event.to_dict()}")
+                logger.info(f"Sending Event: {self.current_event.to_dict()}")
                 res = await loop.run_in_executor(None, partial(requests.post, url=Config.get().proxyEventRoute, json=json.loads(json.dumps(self.current_event.to_dict(), default=str)), auth=("automsvc", "speed0Meter!")))
-                print(f"Response: {res.status_code} - {res.text}")
+                logger.info(f"Response: {res.status_code} - {res.text}")
                 # This is our rate limiting sleep
                 await asyncio.sleep(float(1 / int(Config.get().eventSendRate)))
                 # Break out of loop to allow us to process the next event in the queue
