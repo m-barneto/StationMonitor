@@ -93,10 +93,16 @@ class ServerManager:
         status["longDistanceSensors"] = long_dist_sensor_data
 
         events = list()
+        i = 0
         for event in ServerManager.event_manager.event_queue._queue:
             # Add event to list
             events.append(event.to_dict())
-        
+            i += 1
+            # Limit the number of events to 10
+            if i >= 10:
+                break
+
+
         # Add the current event to the list of events
         if ServerManager.event_manager.current_event is not None:
             # Add the current event to the list of events
