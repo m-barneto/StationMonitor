@@ -93,7 +93,8 @@ class SensorManager:
         # Check if the sensor state has changed
         if (sensor_state != zone_ctx.previous_sensor_state or 
             zone_ctx.previous_event_state != EventState.EMPTY and 
-            zone_ctx.previous_event_state != EventState.OCCUPIED_STARTED):
+            zone_ctx.previous_event_state != EventState.OCCUPIED_STARTED or
+            sensor_state == SensorState.OCCUPIED and zone_ctx.previous_event_state == EventState.OCCUPIED_ENDED):
             print(f"Changed: {zone_ctx.previous_event_state} -> {sensor_state}")
             if sensor_state == SensorState.EMPTY:
                 if zone_ctx.previous_event_state == EventState.OCCUPIED_STARTED:
