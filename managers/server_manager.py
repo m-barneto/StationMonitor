@@ -46,6 +46,7 @@ class ServerManager:
             # Add data to dict using zone id as key
             ref_sensor_data[s.zone] = {
                 "sensorState": s.get_state(),
+                "eventState": ServerManager.sensor_manager.sensor_ctx[s.zone].current_event_state.name,
                 #"duration": duration
             }
         # Add our sensor data to the response dict

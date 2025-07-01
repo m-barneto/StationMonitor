@@ -101,7 +101,7 @@ class SensorManager:
                 elif zone_ctx.previous_event_state == EventState.OCCUPIED_ENDED or zone_ctx.previous_event_state == EventState.OCCUPIED_PENDING:
                     # If the previous state was OCCUPIED_ENDED and now it's empty, set to EMPTY
                     zone_ctx.current_event_state = EventState.EMPTY
-                            
+            
             elif sensor_state == SensorState.OCCUPIED:
                 # EMPTY -> OCCUPIED = OCCUPIED_PENDING
                 if zone_ctx.previous_event_state == EventState.EMPTY:
