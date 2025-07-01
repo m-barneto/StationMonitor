@@ -20,7 +20,7 @@ class EventState(Enum):
 
 class SensorContext:
     previous_event_state: EventState = EventState.EMPTY
-    current_event_state: EventState = EventState.OCCUPIED_PENDING
+    current_event_state: EventState = EventState.EMPTY
     previous_sensor_state: SensorState = SensorState.EMPTY
     occupied_start_time: datetime = datetime.now(timezone.utc)
     alarm_sent: bool = False
@@ -91,7 +91,7 @@ class SensorManager:
         event_state: EventState = None
 
         # Check if the sensor state has changed
-        if sensor_state != zone_ctx.previous_sensor_state or zone_ctx.previous_event_state != zone_ctx.previous_event_state or zone_ctx.previous_event_state != EventState.EMPTY and zone_ctx.previous_event_state != EventState.OCCUPIED_STARTED and zone_ctx.previous_event_state != EventState.OCCUPIED_ENDED:
+        if sensor_state != zone_ctx.previous_sensor_state or zone_ctx.previous_event_state != EventState.EMPTY and zone_ctx.previous_event_state != EventState.OCCUPIED_STARTED and zone_ctx.previous_event_state != EventState.OCCUPIED_ENDED:
             if sensor_state == SensorState.EMPTY:
                 if zone_ctx.previous_event_state == EventState.OCCUPIED_STARTED:
                     # If the previous state was OCCUPIED_STARTED and now it's empty, set to OCCUPIED_ENDED
