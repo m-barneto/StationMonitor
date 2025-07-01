@@ -128,6 +128,7 @@ class SensorManager:
             zone_ctx.previous_sensor_state = sensor_state
         else:
             event_state = None
+        zone_ctx.previous_event_state = event_state
         return event_state
     
     def get_sensor_ctx(self, zone: str) -> SensorContext | None:
