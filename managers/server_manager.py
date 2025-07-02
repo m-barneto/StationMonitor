@@ -36,7 +36,7 @@ class ServerManager:
         # Add data for individual sensors
         ref_sensor_data = {}
         for s in ServerManager.reflective_sensors:
-            start_event_time = ServerManager.sensor_manager.get_sensor_occupied_time(dist_sensor.zone)
+            start_event_time = ServerManager.sensor_manager.get_sensor_occupied_time(s.zone)
             # Add data to dict using zone id as key
             ref_sensor_data[s.zone] = {
                 "isOccupied": s.get_state().name,
