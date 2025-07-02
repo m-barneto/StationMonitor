@@ -49,7 +49,7 @@ class ServerManager:
         i = 0
         for event in ServerManager.event_manager.event_queue._queue:
             # Add event to list
-            events.append(event.to_dict())
+            events.append(event.__dict__)
             i += 1
             # Limit the number of events to 10
             if i >= 10:
@@ -59,7 +59,7 @@ class ServerManager:
         # Add the current event to the list of events
         if ServerManager.event_manager.current_event is not None:
             # Add the current event to the list of events
-            events.insert(0, ServerManager.event_manager.current_event.to_dict())
+            events.insert(0, ServerManager.event_manager.current_event.__dict__)
 
         status["events"] = events
         
