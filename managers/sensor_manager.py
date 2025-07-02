@@ -50,6 +50,8 @@ class SensorManager:
             occupied_event = OccupiedEvent(
                 self.zone, self.last_empty_event.rpi_time, datetime.now(timezone.utc), self.has_sent_alarm)
             await self.event_queue.put(occupied_event)
+            self.last_empty_event = SensorEvent(
+                self.zone, current_state)
             self.has_sent_alarm = False
         elif SensorState(self.sensor_state) == SensorState.OCCUPIED and SensorState(current_state) == SensorState.OCCUPIED and not self.has_sent_alarm:
             # We are still occupied, check time to see if its over the config's alarm setting
