@@ -37,6 +37,9 @@ class ServerManager:
         ref_sensor_data = {}
         for s in ServerManager.reflective_sensors:
             start_event_time = ServerManager.sensor_manager.get_sensor_occupied_time(s.zone)
+            if start_event_time is not None:
+                # Calculate the duration of the event in seconds
+                duration = (datetime.now(timezone.utc) - start_event_time).total_seconds()
             # Add data to dict using zone id as key
             ref_sensor_data[s.zone] = {
                 "isOccupied": s.get_state().name,
