@@ -24,18 +24,18 @@ def parse_sensor_data(packet):
                 'actual': checksum
             }
             return ret
-        distance = int.from_bytes(packet[2:4], byteorder='little')
+        distance = int.from_bytes(packet[2:4], byteorder='little') * 10  # Convert to mm
         strength = int.from_bytes(packet[4:6], byteorder='little')
         temp_raw = int.from_bytes(packet[6:8], byteorder='little')
         temperature = temp_raw / 8.0 - 256.0
         strength_percent = (strength / 65535.0) * 100.0
         # Filter out invalid distance values (per manual: 65535 = invalid)
-        if distance in (4500, 65534, 65535):
-            ret['error'] = 'invalid_measure'
-            ret['distance'] = distance
-            ret['strength'] = strength
-            ret['temperature'] = temperature
-            return ret
+        # if distance in (4500, 65534, 65535):
+        #     ret['error'] = 'invalid_measure'
+        #     ret['distance'] = distance
+        #     ret['strength'] = strength
+        #     ret['temperature'] = temperature
+        #     return ret
 #FORMATTING FOR OUTPUT HERE:
         ret['distance'] = distance
         ret['strength'] = strength
@@ -68,7 +68,9 @@ class LongDistanceSensor(Sensor):
         if "ttyUSB" in config.serialNumber:
             self.port = config.serialNumber
         else:
+            print("Using serial number to find port: ", config.serialNumber)
             self.port = get_port_from_serial(config.serialNumber)
+            print("Found port: ", self.port)
         self.occupied_distance = config.occupiedDistance
         self.empty_reflection_strength = config.emptyReflectionStrength
         self.current_distance = -1
@@ -91,8 +93,10 @@ class LongDistanceSensor(Sensor):
                     baudrate=115200,
                     bytesize=serial.EIGHTBITS,
                     parity=serial.PARITY_NONE,
-                    stopbits=serial.STOPBITS_ONE
+                    stopbits=serial.STOPBITS_ONE,
+                    timeout=1  # Set a timeout for read operations
                 ) as ser:
+                    print("Serial port opened successfully.")
                     while True:
                         header1 = ser.read(1)
                         header2 = ser.read(1)
@@ -107,7 +111,6 @@ class LongDistanceSensor(Sensor):
                         result = parse_sensor_data(packet)
 
                         if result['error']:
-                            print(f"Error parsing sensor data: {result['error']}, details: {result['details']}")
                             continue
                         self.readings.insert(0, int(result['distance']))
                         if len(self.readings) > 100:

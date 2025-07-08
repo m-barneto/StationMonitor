@@ -46,7 +46,7 @@
                                 sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspOccupied Distance: ${data["longDistanceSensors"][sensor]["occupiedDistance"]} mm <br/>`;
                                 sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspIs Occupied: ${data["longDistanceSensors"][sensor]["isOccupied"]} <br/>`;
                                 sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspDuration: ${data["longDistanceSensors"][sensor]["duration"]} <br/>`;
-                                sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspRaw Distance: ${data["longDistanceSensors"][sensor]["currentDistance"]} cm <br/>`;
+                                sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspRaw Distance: ${data["longDistanceSensors"][sensor]["currentDistance"]} mm <br/>`;
                                 sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspReflection Strength: ${data["longDistanceSensors"][sensor]["reflectionStrength"]}%<br/>`;
                                 sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspSensor Temp (C): ${data["longDistanceSensors"][sensor]["temperature"]}<br/>`;
                                 sensorData += "</p></li>";
@@ -55,6 +55,16 @@
                         );
                         dataHtml += "</ul>";
                         dataHtml += "<h2>Reflective Sensors:</h2>";
+                        Object.keys(data["reflectiveSensors"]).forEach(
+                            (sensor) => {
+                                let sensorData = `<li><p style="margin-top: 0px">${sensor}: <br/>`;
+                                sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspIs Occupied: ${data["reflectiveSensors"][sensor]["isOccupied"]} <br/>`;
+                                sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspEvent State: ${data["reflectiveSensors"][sensor]["eventState"]} <br/>`;
+                                sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspDuration: ${data["reflectiveSensors"][sensor]["duration"]} <br/>`;
+                                sensorData += "</p></li>";
+                                dataHtml += sensorData;
+                            }
+                        );
                         document.querySelector("main").innerHTML = dataHtml;
                     })
                     .catch((error) =>

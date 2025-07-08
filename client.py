@@ -17,6 +17,7 @@ from sensors.reflective_sensor import ReflectiveSensor
 from sensors.sensor import Sensor
 from utils.config import Config
 from utils.utils import PixelStrip
+from utils.logger import logger
 
 try:
     # Initialize our queues
@@ -49,16 +50,8 @@ try:
         #                  ref_sensor["indicatorPin"],
         #                  ref_sensor["pwmChannel"],
         #                  Config.get()["leds"]["brightness"])
-        #
-        #
-#
-        #s = SensorManager(
-        #    ref_sensor["gpioPin"],
-        #    ref_sensor["zone"],
-        #    ref_sensor["alarmDuration"],
-        #    event_queue,
-        #    alarm_queue
-        #)
+        
+        # Initialize our reflective sensor with the config and event queue
         s = ReflectiveSensor(
             ref_sensor,
             event_queue

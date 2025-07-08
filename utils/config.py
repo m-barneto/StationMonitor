@@ -98,20 +98,23 @@ class DistanceSensorConfig:
     zone: str
     serialNumber: str
     occupiedDistance: int
+    emptyReflectionStrength: int
 
     @staticmethod
     def from_dict(obj: Any) -> 'DistanceSensorConfig':
         _zone = str(obj.get("zone"))
         _serialNumber = str(obj.get("serialNumber"))
         _occupiedDistance = int(obj.get("occupiedDistance"))
-        return DistanceSensorConfig(_zone, _serialNumber, _occupiedDistance)
+        _emptyReflectionStrength = int(obj.get("emptyReflectionStrength"))
+        return DistanceSensorConfig(_zone, _serialNumber, _occupiedDistance, _emptyReflectionStrength)
     
     @staticmethod
     def to_dict(obj: 'DistanceSensorConfig') -> dict:
         return {
             "zone": obj.zone,
             "serialNumber": obj.serialNumber,
-            "occupiedDistance": obj.occupiedDistance
+            "occupiedDistance": obj.occupiedDistance,
+            "emptyReflectionStrength": obj.emptyReflectionStrength
         }
 
 @dataclass
