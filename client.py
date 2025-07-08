@@ -7,7 +7,7 @@ from managers.config_manager import ConfigManager
 from managers.event_manager import EventManager
 from managers.health_manager import HealthManager
 from managers.sensor_manager import SensorManager
-from managers.led_manager import LedManager
+from managers.new_led_manager import LedManager
 
 from managers.server_manager import ServerManager
 from managers.sleep_manager import SleepManager
@@ -95,6 +95,9 @@ try:
 
     sensor_manager = SensorManager(sensors, event_queue)
     loop.create_task(sensor_manager.loop())
+
+    led_manager = LedManager(reflective_sensors, sensor_manager)
+    loop.create_task(led_manager.loop())
 
     # Sends out requests for alarm events when duration is exceeded
     loop.create_task(AlarmManager(sensor_manager, event_queue).loop())
