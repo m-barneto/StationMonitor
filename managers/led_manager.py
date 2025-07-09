@@ -35,6 +35,9 @@ class LedManager:
         self.leds.clear()
 
         ctx: SensorContext = self.sensor_manager.get_sensor_ctx(self.sensor)
+        if ctx == None:
+            print(f"LedManager: No context found for sensor {self.sensor}")
+            return
 
         # If event is empty, show cleared led strip and return early
         if ctx != None and ctx.current_event_state == SensorState.EMPTY:

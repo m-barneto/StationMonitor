@@ -103,7 +103,7 @@ try:
                           dist_sensor.pwmChannel,
                           Config.get().leds.brightness)
         # Setup led manager for this sensor
-        led_manager = LedManager(sensor, sensor_manager, leds)
+        led_manager = LedManager(sensor.zone, sensor_manager, leds)
         loop.create_task(led_manager.loop())
 
     #led_manager = LedManager(reflective_sensors, sensor_manager)
