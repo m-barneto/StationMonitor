@@ -98,10 +98,10 @@ try:
 
     for sensor in distance_sensors:
         # Initialize our led strip
-        leds = PixelStrip(Config.get()["leds"]["numLeds"],
+        leds = PixelStrip(Config.get().leds.numLeds,
                           dist_sensor.indicatorPin,
                           dist_sensor.pwmChannel,
-                          Config.get()["leds"]["brightness"])
+                          Config.get().leds.brightness)
         # Setup led manager for this sensor
         led_manager = LedManager(sensor, sensor_manager, leds)
         loop.create_task(led_manager.loop())
