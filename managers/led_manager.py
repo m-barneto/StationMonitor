@@ -34,12 +34,14 @@ class LedManager:
         # Clear led strip
         self.leds.clear()
 
+        ctx: SensorContext = self.sensor_manager.get_sensor_ctx(self.sensor)
+
         # If event is empty, show cleared led strip and return early
-        if self.sensor_manager.get_sensor_ctx(self.sensor).current_event_state == SensorState.EMPTY:
+        if ctx != None and ctx.current_event_state == SensorState.EMPTY:
             self.leds.show()
             return
 
-        ctx: SensorContext = self.sensor_manager.get_sensor_ctx(self.sensor)
+        
 
         event_duration = datetime.now(timezone.utc).timestamp(
         ) - ctx.occupied_start_time.timestamp()
