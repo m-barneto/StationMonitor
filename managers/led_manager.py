@@ -44,9 +44,6 @@ class LedManager:
             self.leds.show()
             return
 
-        print(f"LedManager: Processing event for sensor {self.sensor} start time {ctx.occupied_start_time}")
-        
-
         event_duration = datetime.now(timezone.utc).timestamp(
         ) - ctx.occupied_start_time.timestamp()
 
