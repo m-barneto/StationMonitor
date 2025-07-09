@@ -52,13 +52,17 @@
             "zone": "",
             "serialNumber": "",
             "occupiedDistance": 5000,
-            "emptyReflectionStrength": 100
+            "emptyReflectionStrength": 100,
+            "indicatorPin": 18,
+            "pwmChannel": 0
         },*/
         /*{
             "zone": "",
             "serialNumber": "",
             "occupiedDistance": 5000,
             "emptyReflectionStrength": 100
+            "indicatorPin": 13,
+            "pwmChannel": 1
         }*/
     ],
     "longDistanceSensors": [

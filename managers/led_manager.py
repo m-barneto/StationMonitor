@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 import math
 from rpi_ws281x import Adafruit_NeoPixel, Color  # type: ignore
 
-from managers.sensor_manager import SensorManager
+from managers.sensor_manager import SensorContext, SensorManager
 from managers.sleep_manager import SleepManager
 from utils.config import Config
 from utils.utils import PixelStrip, clamp, hex_to_rgb, inv_lerp, lerp
@@ -12,8 +12,9 @@ from utils.sensor_event import SensorState
 
 
 class LedManager:
-    def __init__(self, sensor: SensorManager, leds: PixelStrip) -> None:
+    def __init__(self, sensor: str, sensor_manager: SensorManager, leds: PixelStrip) -> None:
         self.sensor = sensor
+        self.sensor_manager = sensor_manager
         self.leds = leds
 
     async def loop(self) -> None:
@@ -34,14 +35,14 @@ class LedManager:
         self.leds.clear()
 
         # If event is empty, show cleared led strip and return early
-        if SensorState(self.sensor.last_sensor_event.state) == SensorState.EMPTY:
+        if self.sensor_manager.get_sensor_ctx(self.sensor).current_event_state == SensorState.EMPTY:
             self.leds.show()
             return
 
-        # Get time between last empty event and current occupied event
-        event = self.sensor.last_empty_event
+        ctx: SensorContext = self.sensor_manager.get_sensor_ctx(self.sensor)
+
         event_duration = datetime.now(timezone.utc).timestamp(
-        ) - event.rpi_time.timestamp()
+        ) - ctx.occupied_start_time.timestamp()
 
         # Calculate what stage we're on based on duration
         stage_index = self.get_led_stage_index(event_duration)

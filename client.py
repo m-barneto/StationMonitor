@@ -96,8 +96,18 @@ try:
     sensor_manager = SensorManager(sensors, event_queue)
     loop.create_task(sensor_manager.loop())
 
-    led_manager = LedManager(reflective_sensors, sensor_manager)
-    loop.create_task(led_manager.loop())
+    for sensor in dist_sensor:
+        # Initialize our led strip
+        leds = PixelStrip(Config.get()["leds"]["numLeds"],
+                          dist_sensor.indicatorPin,
+                          dist_sensor.pwmChannel,
+                          Config.get()["leds"]["brightness"])
+        # Setup led manager for this sensor
+        led_manager = LedManager(sensor, sensor_manager, leds)
+        loop.create_task(led_manager.loop())
+
+    #led_manager = LedManager(reflective_sensors, sensor_manager)
+    #loop.create_task(led_manager.loop())
 
     # Sends out requests for alarm events when duration is exceeded
     loop.create_task(AlarmManager(sensor_manager, event_queue).loop())
