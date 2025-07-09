@@ -96,7 +96,7 @@ try:
     sensor_manager = SensorManager(sensors, event_queue)
     loop.create_task(sensor_manager.loop())
 
-    for sensor in dist_sensor:
+    for sensor in distance_sensors:
         # Initialize our led strip
         leds = PixelStrip(Config.get()["leds"]["numLeds"],
                           dist_sensor.indicatorPin,
