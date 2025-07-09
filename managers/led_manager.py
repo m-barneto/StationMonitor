@@ -40,7 +40,7 @@ class LedManager:
             return
 
         # If event is empty, show cleared led strip and return early
-        if ctx != None and ctx.current_event_state == SensorState.EMPTY:
+        if ctx != None and ctx.previous_sensor_state == SensorState.EMPTY:
             self.leds.show()
             return
 
