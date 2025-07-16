@@ -99,8 +99,8 @@ try:
     for sensor in distance_sensors:
         # Initialize our led strip
         leds = PixelStrip(Config.get().leds.numLeds,
-                          sensor.indicatorPin,
-                          sensor.pwmChannel,
+                          sensor.indicator_pin,
+                          sensor.pwm_channel,
                           Config.get().leds.brightness)
         # Setup led manager for this sensor
         led_manager = LedManager(sensor.zone, sensor_manager, leds)
