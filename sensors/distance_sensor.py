@@ -67,6 +67,8 @@ class DistanceSensor(Sensor):
         self.stable_distance = -1
         self.reflection_strength = -1
         self.temperature = -1
+        self.indicator_pin = config.indicatorPin
+        self.pwm_channel = config.pwmChannel
         if not self.port:
             print("Failed to find port for serial number: ", config.serialNumber)
 
