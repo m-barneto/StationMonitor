@@ -45,13 +45,13 @@ class AlarmManager:
             if event_duration >= float(Config.get().alarmDuration * 60):
                 print(f"Alarm triggered for zone {sensor.zone} with duration {event_duration} seconds")
                 # If the event duration is greater than the alarm duration, send an alarm event
-                await self.send_alarm_event(sensor.zone, sensor_ctx.occupied_start_time)
+                await self.send_alarm_event(sensor.zone, sensor_ctx.occupied_start_time, datetime.now(timezone.utc), event_duration)
                 # Set the alarm sent flag to True
                 sensor_ctx.alarm_sent = True
 
-    async def send_alarm_event(self, zone: str, start_time: datetime) -> None:
+    async def send_alarm_event(self, zone: str, start_time: datetime, end_time: datetime, duration: float) -> None:
         # Create the alarm event
-        alarm_event = EventData.alarm_event(zone, start_time)
+        alarm_event = EventData.alarm_event(zone, start_time, end_time, duration)
 
         # Send the alarm event to the queue
         await self.alarm_queue.put(alarm_event)
