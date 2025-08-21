@@ -115,9 +115,9 @@ class LongDistanceSensor(Sensor):
                         self.readings.insert(0, int(result['distance']))
                         if len(self.readings) > 20:
                             self.readings.pop()
-                        self.readings.sort()
-                        # Set stable distance as the median of the last 100 readings
-                        self.stable_distance = self.readings[len(self.readings) // 2]
+                        sorted_readings = sorted(self.readings)
+                        # Set stable distance as the median of the last 20 readings
+                        self.stable_distance = sorted_readings[len(sorted_readings) // 2]
                         #self.stable_distance = int(sum(self.readings) / len(self.readings))
                         self.current_distance = result['distance']
                         self.reflection_strength = result['strength']
