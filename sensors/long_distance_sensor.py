@@ -112,6 +112,9 @@ class LongDistanceSensor(Sensor):
 
                         if result['error']:
                             continue
+
+                        if result['strength'] <= self.empty_reflection_strength:
+                            result['distance'] = 0
                         self.readings.insert(0, int(result['distance']))
                         if len(self.readings) > 20:
                             self.readings.pop()
