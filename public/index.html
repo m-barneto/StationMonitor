@@ -43,6 +43,7 @@
                             (sensor) => {
                                 let sensorData = `<li><p style="margin-top: 0px">${sensor}: <br/>`;
                                 sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspStable Distance: ${data["longDistanceSensors"][sensor]["stableDistance"]} mm <br/>`;
+                                sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspSensor Readings: ${data["longDistanceSensors"][sensor]["readingCount"]} mm <br/>`;
                                 sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspOccupied Distance: ${data["longDistanceSensors"][sensor]["occupiedDistance"]} mm <br/>`;
                                 sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspIs Occupied: ${data["longDistanceSensors"][sensor]["isOccupied"]} <br/>`;
                                 sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspDuration: ${data["longDistanceSensors"][sensor]["duration"]} <br/>`;

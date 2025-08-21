@@ -60,6 +60,7 @@ class ServerManager:
             dist_sensor_data[dist_sensor.zone] = {
                 "currentDistance": dist_sensor.current_distance,
                 "stableDistance": dist_sensor.stable_distance,
+                "readingCount": len(dist_sensor.readings),
                 "reflectionStrength": dist_sensor.reflection_strength,
                 "temperature": dist_sensor.temperature,
                 "occupiedDistance": dist_sensor.occupied_distance,
