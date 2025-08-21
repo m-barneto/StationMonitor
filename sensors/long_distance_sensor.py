@@ -113,7 +113,7 @@ class LongDistanceSensor(Sensor):
                         if result['error']:
                             continue
                         self.readings.insert(0, int(result['distance']))
-                        if len(self.readings) > 100:
+                        if len(self.readings) > 20:
                             self.readings.pop()
                         self.readings.sort()
                         # Set stable distance as the median of the last 100 readings
