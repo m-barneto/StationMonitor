@@ -73,6 +73,8 @@ class LongDistanceSensor(Sensor):
             print("Found port: ", self.port)
         self.occupied_distance = config.occupiedDistance
         self.empty_reflection_strength = config.emptyReflectionStrength
+        self.indicator_pin = config.indicatorPin
+        self.pwm_channel = config.pwmChannel
         self.current_distance = -1
         self.stable_distance = -1
         self.reflection_strength = -1

@@ -17,7 +17,7 @@ config.distanceSensors = []
 config.longDistanceSensors = []
 i = 1
 for port in usb_ports:
-    sensor_config = LongDistanceSensorConfig(i, port.serial_number, 5000, 100)
+    sensor_config = LongDistanceSensorConfig(i, port.serial_number, 5000, 100, 18 if i == 2 else 13, 0 if i == 2 else 1)
     config.longDistanceSensors.append(sensor_config)
     i += 1
 
