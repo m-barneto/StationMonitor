@@ -24,7 +24,7 @@ class ServerManager:
         ServerManager.sleep_manager = sleep_manager
 
     @staticmethod
-    def status_dict():
+    def status_dict(include_queue: bool = False) -> dict:
         # Create dict containing info we want to include in response
         status = {}
         # Add data that pertains to the rpi system
@@ -91,6 +91,9 @@ class ServerManager:
 
         status["longDistanceSensors"] = long_dist_sensor_data
 
+        if not include_queue:
+            return status
+
         events = list()
         i = 0
         for event in ServerManager.event_manager.event_queue._queue:
@@ -124,7 +127,7 @@ class ServerManager:
         return web.Response(text=css, content_type="text/css")
 
     async def get_status(self, request) -> web.Response:
-        status = ServerManager.status_dict()
+        status = ServerManager.status_dict(True)
 
         # Return dict as formatted json
         return web.Response(text=json.dumps(status, default=str, indent=4))
