@@ -100,8 +100,8 @@ class LongDistanceSensor(Sensor):
                 ) as ser:
                     print("Serial port opened successfully.")
                     while True:
-                        header1 = ser.read(1)
-                        header2 = ser.read(1)
+                        header1 = ser.read(1, timeout=1)
+                        header2 = ser.read(1, timeout=1)
                         if header1 != b'\x59':
                             continue
                         if header2 != b'\x59':
