@@ -106,15 +106,19 @@ try:
         led_manager = LedManager(sensor.zone, sensor_manager, leds)
         loop.create_task(led_manager.loop())
 
+    print("Initialization complete, starting main loop")
     #led_manager = LedManager(reflective_sensors, sensor_manager)
     #loop.create_task(led_manager.loop())
 
     # Sends out requests for alarm events when duration is exceeded
     loop.create_task(AlarmManager(sensor_manager, event_queue).loop())
 
+    print("Starting web server on port 80")
     # Web server that displays current status of sensors to web
     server = ServerManager(reflective_sensors, distance_sensors, long_distance_sensors, sensor_manager, event_manager, sleep_manager)
     loop.create_task(server.loop())
+
+    print("Finished starting web server")
 
     status_updater = HealthManager()
     loop.create_task(status_updater.loop())
