@@ -100,6 +100,7 @@ class LongDistanceSensor(Sensor):
                 ) as ser:
                     print("Serial port opened successfully.")
                     while True:
+                        print("Reading from sensor...", self.port)
                         header1 = ser.read(1)
                         header2 = ser.read(1)
                         if header1 != b'\x59':
