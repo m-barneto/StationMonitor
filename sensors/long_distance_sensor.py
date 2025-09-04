@@ -93,9 +93,9 @@ class LongDistanceSensor(Sensor):
                 with serial.Serial(
                     port=self.port,  # e.g., '/dev/ttyUSB1' for linux (depends but yea)
                     baudrate=115200,
-                    bytesize=serial.EIGHTBITS,
-                    parity=serial.PARITY_NONE,
-                    stopbits=serial.STOPBITS_ONE,
+                    #bytesize=serial.EIGHTBITS,
+                    #parity=serial.PARITY_NONE,
+                    #stopbits=serial.STOPBITS_ONE,
                     timeout=1  # Set a timeout for read operations
                 ) as ser:
                     print("Serial port opened successfully.")
