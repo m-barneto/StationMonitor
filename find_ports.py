@@ -11,4 +11,4 @@ for port in ports:
             if len(b) == 0:
                 print(" XXXXXX")
             else:
-                print(f" ✓✓✓✓✓✓")
+                print(f" ✓✓✓✓✓✓", len(b), b)
