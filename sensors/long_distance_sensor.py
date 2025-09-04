@@ -96,12 +96,12 @@ class LongDistanceSensor(Sensor):
                     bytesize=serial.EIGHTBITS,
                     parity=serial.PARITY_NONE,
                     stopbits=serial.STOPBITS_ONE,
-                    timeout=1  # Set a timeout for read operations
+                    timeout=0  # Set a timeout for read operations
                 ) as ser:
                     print("Serial port opened successfully.")
                     while True:
-                        header1 = ser.read(1, timeout=1)
-                        header2 = ser.read(1, timeout=1)
+                        header1 = ser.read(1)
+                        header2 = ser.read(1)
                         if header1 != b'\x59':
                             continue
                         if header2 != b'\x59':
