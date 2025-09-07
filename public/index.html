@@ -55,17 +55,6 @@
                             }
                         );
                         dataHtml += "</ul>";
-                        dataHtml += "<h2>Reflective Sensors:</h2>";
-                        Object.keys(data["reflectiveSensors"]).forEach(
-                            (sensor) => {
-                                let sensorData = `<li><p style="margin-top: 0px">${sensor}: <br/>`;
-                                sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspIs Occupied: ${data["reflectiveSensors"][sensor]["isOccupied"]} <br/>`;
-                                sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspEvent State: ${data["reflectiveSensors"][sensor]["eventState"]} <br/>`;
-                                sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspDuration: ${data["reflectiveSensors"][sensor]["duration"]} <br/>`;
-                                sensorData += "</p></li>";
-                                dataHtml += sensorData;
-                            }
-                        );
                         document.querySelector("main").innerHTML = dataHtml;
                     })
                     .catch((error) =>

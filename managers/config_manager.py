@@ -26,7 +26,6 @@ class ConfigManager:
 
             Config.conf = remote_config
             Config.conf.distanceSensors = orig.distanceSensors
-            Config.conf.reflectiveSensors = orig.reflectiveSensors
             Config.conf.longDistanceSensors = orig.longDistanceSensors
         except requests.exceptions.ConnectionError as e:
             # sleep for a bit to avoid spamming a downed proxy

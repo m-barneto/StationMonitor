@@ -29,24 +29,6 @@
             "secondaryColor": "#0000FF"
         }
     },
-    // Sensors list
-    "reflectiveSensors": [
-        // Each sensor needs to have zone and pin declared
-        /*{
-            "zone": "",
-            "gpioPin": 5,
-            "alarmDuration": 20,
-            "indicatorPin": 18,
-            "pwmChannel": 0
-        },*/
-        /*{
-            "zone": "",
-            "gpioPin": 17,
-            "alarmDuration": 20,
-            "indicatorPin": 13,
-            "pwmChannel": 1
-        }*/
-    ],
     "distanceSensors": [
         /*{
             "zone": "",

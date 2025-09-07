@@ -153,36 +153,8 @@ class LongDistanceSensorConfig:
         }
 
 @dataclass
-class ReflectiveSensorConfig:
-    zone: str
-    gpioPin: int
-    alarmDuration: int
-    indicatorPin: int
-    pwmChannel: int
-
-    @staticmethod
-    def from_dict(obj: Any) -> 'ReflectiveSensorConfig':
-        _zone = str(obj.get("zone"))
-        _gpioPin = int(obj.get("gpioPin"))
-        _alarmDuration = int(obj.get("alarmDuration"))
-        _indicatorPin = int(obj.get("indicatorPin"))
-        _pwmChannel = int(obj.get("pwmChannel"))
-        return ReflectiveSensorConfig(_zone, _gpioPin, _alarmDuration, _indicatorPin, _pwmChannel)
-
-    @staticmethod
-    def to_dict(obj: 'ReflectiveSensorConfig') -> dict:
-        return {
-            "zone": obj.zone,
-            "gpioPin": obj.gpioPin,
-            "alarmDuration": obj.alarmDuration,
-            "indicatorPin": obj.indicatorPin,
-            "pwmChannel": obj.pwmChannel
-        }
-
-@dataclass
 class StationMonitorConfig:
     leds: Leds
-    reflectiveSensors: List[ReflectiveSensorConfig]
     distanceSensors: List[DistanceSensorConfig]
     longDistanceSensors: List[LongDistanceSensorConfig]
     sleep: Sleep
@@ -200,7 +172,6 @@ class StationMonitorConfig:
     @staticmethod
     def from_dict(obj: Any) -> 'StationMonitorConfig':
         _leds = Leds.from_dict(obj.get("leds"))
-        _reflectiveSensors = [ReflectiveSensorConfig.from_dict(y) for y in obj.get("reflectiveSensors")]
         _distanceSensors = [DistanceSensorConfig.from_dict(y) for y in obj.get("distanceSensors")]
         _longDistanceSensors = [LongDistanceSensorConfig.from_dict(y) for y in obj.get("longDistanceSensors")]
         _sleep = Sleep.from_dict(obj.get("sleep"))
@@ -214,13 +185,12 @@ class StationMonitorConfig:
         _eventSendFailureCooldown = int(obj.get("eventSendFailureCooldown"))
         _updateConfigInterval = int(obj.get("updateConfigInterval"))
         _updateHealthStatusInterval = int(obj.get("updateHealthStatusInterval"))
-        return StationMonitorConfig(_leds, _reflectiveSensors, _distanceSensors, _longDistanceSensors, _sleep, _alarmDuration, _minOccupiedDuration, _sensorPollRate, _proxyEventRoute, _proxyAlarmRoute, _proxyStatusUpdateRoute, _eventSendRate, _eventSendFailureCooldown, _updateConfigInterval, _updateHealthStatusInterval)
+        return StationMonitorConfig(_leds, _distanceSensors, _longDistanceSensors, _sleep, _alarmDuration, _minOccupiedDuration, _sensorPollRate, _proxyEventRoute, _proxyAlarmRoute, _proxyStatusUpdateRoute, _eventSendRate, _eventSendFailureCooldown, _updateConfigInterval, _updateHealthStatusInterval)
 
     @staticmethod
     def to_dict(obj: 'StationMonitorConfig') -> dict:
         return {
             "leds": Leds.to_dict(obj.leds),
-            "reflectiveSensors": [ReflectiveSensorConfig.to_dict(y) for y in obj.reflectiveSensors],
             "distanceSensors": [DistanceSensorConfig.to_dict(y) for y in obj.distanceSensors],
             "longDistanceSensors": [LongDistanceSensorConfig.to_dict(y) for y in obj.longDistanceSensors],
             "sleep": Sleep.to_dict(obj.sleep),

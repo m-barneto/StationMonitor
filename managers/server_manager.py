@@ -9,14 +9,12 @@ from managers.sensor_manager import SensorManager
 from managers.sleep_manager import SleepManager
 from sensors.distance_sensor import DistanceSensor
 from sensors.long_distance_sensor import LongDistanceSensor
-from sensors.reflective_sensor import ReflectiveSensor
 from utils.config import Config, StationMonitorConfig
 from utils.sensor_event import SensorState
 
 
 class ServerManager:
-    def __init__(self, reflective_sensors: list[ReflectiveSensor], distance_sensors: list[DistanceSensor], long_distance_sensors: list[LongDistanceSensor], sensor_manager: SensorManager, event_manager: EventManager, sleep_manager: SleepManager):
-        ServerManager.reflective_sensors = reflective_sensors
+    def __init__(self, distance_sensors: list[DistanceSensor], long_distance_sensors: list[LongDistanceSensor], sensor_manager: SensorManager, event_manager: EventManager, sleep_manager: SleepManager):
         ServerManager.distance_sensors = distance_sensors
         ServerManager.long_distance_sensors = long_distance_sensors
         ServerManager.sensor_manager = sensor_manager
@@ -32,22 +30,6 @@ class ServerManager:
         status["eventsQueued"] = str(
             ServerManager.event_manager.event_queue.qsize() + ServerManager.event_manager.processing)
         status["isSleeping"] = not ServerManager.sleep_manager.is_open
-
-        # Add data for individual sensors
-        ref_sensor_data = {}
-        for s in ServerManager.reflective_sensors:
-            start_event_time = ServerManager.sensor_manager.get_sensor_occupied_time(s.zone)
-            if start_event_time is not None:
-                # Calculate the duration of the event in seconds
-                duration = (datetime.now(timezone.utc) - start_event_time).total_seconds()
-            # Add data to dict using zone id as key
-            ref_sensor_data[s.zone] = {
-                "isOccupied": s.get_state().name,
-                "eventState": ServerManager.sensor_manager.sensor_ctx[s.zone].current_event_state.name,
-                "duration": round(duration, 2) if start_event_time is not None else 0.0,
-            }
-        # Add our sensor data to the response dict
-        status["reflectiveSensors"] = ref_sensor_data
 
         dist_sensor_data = {}
 
