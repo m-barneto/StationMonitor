@@ -1,6 +1,5 @@
 import asyncio
 from typing import List
-import RPi.GPIO as GPIO  # type: ignore
 
 from managers.alarm_manager import AlarmManager
 from managers.config_manager import ConfigManager
@@ -13,7 +12,6 @@ from managers.server_manager import ServerManager
 from managers.sleep_manager import SleepManager
 from sensors.distance_sensor import DistanceSensor
 from sensors.long_distance_sensor import LongDistanceSensor
-from sensors.reflective_sensor import ReflectiveSensor
 from sensors.sensor import Sensor
 from utils.config import Config
 from utils.utils import PixelStrip
@@ -39,33 +37,6 @@ try:
     loop.create_task(sleep_manager.loop())
 
     sensors: List[Sensor] = []
-
-    # List to store sensor managers in
-    reflective_sensors = []
-
-    # Initialize sensors from config entries
-    for ref_sensor in Config.get().reflectiveSensors:
-        # Initialize our led strip
-        #leds = PixelStrip(Config.get()["leds"]["numLeds"],
-        #                  ref_sensor["indicatorPin"],
-        #                  ref_sensor["pwmChannel"],
-        #                  Config.get()["leds"]["brightness"])
-        
-        # Initialize our reflective sensor with the config and event queue
-        s = ReflectiveSensor(
-            ref_sensor,
-            event_queue
-        )
-        reflective_sensors.append(s)
-        sensors.append(s)
-
-        # Setup led manager for this sensor
-        #l = LedManager(s, leds)
-
-        # Initialize our event loops for the sensor managers
-        loop.create_task(s.loop())
-        #loop.create_task(l.loop())
-
 
     distance_sensors = []
 
