@@ -1,7 +1,7 @@
 import asyncio
 from copy import deepcopy
+import json
 
-import pyjson5
 import requests
 
 from utils.config import Config
@@ -21,7 +21,7 @@ class ConfigManager:
     async def update_config() -> None:
         try:
             res = requests.get("http://192.168.17.202/config.jsonc")
-            remote_config = pyjson5.loads(res.text)
+            remote_config = json.loads(res.text)
             orig = deepcopy(Config.conf)
 
             Config.conf = remote_config

@@ -1,6 +1,5 @@
 import json
 import serial.tools.list_ports as list_ports
-import pyjson5
 
 from utils.config import Config, LongDistanceSensorConfig
 

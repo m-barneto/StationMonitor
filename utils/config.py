@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 from typing import Any, List
-import pyjson5
 
 @dataclass
 class Flashing:
@@ -244,5 +243,5 @@ class Config:
     def get() -> StationMonitorConfig:
         if Config.conf is None:
             with open("./config.jsonc", encoding="utf-8") as f:
-                Config.conf = StationMonitorConfig.from_dict(pyjson5.load(f))
+                Config.conf = StationMonitorConfig.from_dict(json.load(f))
         return Config.conf

@@ -1,8 +1,7 @@
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, List
-import pyjson5
+from typing import Any
 
 from sensors.sensor import SensorState
 
