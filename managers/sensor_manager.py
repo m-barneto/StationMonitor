@@ -1,7 +1,6 @@
 import asyncio
 from datetime import datetime, timedelta, timezone
 import json
-import RPi.GPIO as GPIO  # type: ignore
 
 from managers.sleep_manager import SleepManager
 from sensors.sensor import Sensor, SensorState
