@@ -4,9 +4,9 @@ import serial.tools.list_ports as list_ports
 from utils.config import Config, LongDistanceSensorConfig
 
 ports = list_ports.comports()
-print(f"Found {len(ports)} total serial ports")
-for port in ports:
-    print(f"Port: {port.device}, Serial Number: {port.serial_number}, Manufacturer: {port.manufacturer}")
+
+for p in ports:
+    print (p)
 
 usb_ports = [port for port in ports if port.manufacturer and ("FTDI" in port.manufacturer or "Prolific" in port.manufacturer)]
 print(f"Found {len(usb_ports)} USB serial ports")
