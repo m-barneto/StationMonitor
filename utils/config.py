@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from typing import Any, List
+import json
 
 @dataclass
 class Flashing:

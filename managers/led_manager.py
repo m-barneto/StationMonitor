@@ -1,18 +1,16 @@
 import asyncio
-import colorsys
 from datetime import datetime, timezone
 import math
-from rpi_ws281x import Adafruit_NeoPixel, Color  # type: ignore
 
 from managers.sensor_manager import SensorContext, SensorManager
 from managers.sleep_manager import SleepManager
 from utils.config import Config
 from utils.utils import PixelStrip, clamp, hex_to_rgb, inv_lerp, lerp
 from utils.sensor_event import SensorState
-
+from utils.ws2812 import WS2812
 
 class LedManager:
-    def __init__(self, sensor: str, sensor_manager: SensorManager, leds: PixelStrip) -> None:
+    def __init__(self, sensor: str, sensor_manager: SensorManager, leds: WS2812) -> None:
         self.sensor = sensor
         self.sensor_manager = sensor_manager
         self.leds = leds
@@ -22,7 +20,7 @@ class LedManager:
             # If we're closed, sleep for configured amount of time and skip this led iteration
             if not SleepManager.is_open:
                 # Clear led strip
-                self.leds.clear()
+                self.leds.fill_buf((0, 0, 0) * self.leds.ledsCount)
                 self.leds.show()
                 await asyncio.sleep(Config.get().sleep.sleepInterval)
                 continue
@@ -90,7 +88,7 @@ class LedManager:
                     Config.get().leds.flashing.secondaryColor, y)
 
                 # Interpolate between the two
-                output = Color(clamp(primary.r + secondary.r, 0, 255), clamp(primary.g +
+                output = (clamp(primary.r + secondary.r, 0, 255), clamp(primary.g +
                                secondary.g, 0, 255), clamp(primary.b + secondary.b, 0, 255))
 
                 # Display final color
