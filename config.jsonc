@@ -1,100 +1,43 @@
 {
     "leds": {
         "numLeds": 15,
-        // Range is 0-255
         "brightness": 255,
-        // Stages for the light indicator
         "stages": [
-            // First stage, white until 3 minutes in, then the next stage is hit
             {
                 "color": "#FFFFFF",
-                "duration": 3.0 // 3 mins
+                "duration": 3.0
             },
-            // Up until 6 mins in, the color will be yellow
             {
                 "color": "#FFFF00",
-                "duration": 3.0 // 6 mins
+                "duration": 3.0
             },
-            // Finally, from 6 to 8 mins the light will be blue
             {
                 "color": "#0000FF",
-                "duration": 2.0 // 8 mins
+                "duration": 2.0
             }
         ],
         "flashing": {
             "shouldFlash": true,
-            // How quickly it goes from primary to secondary color
             "flashFrequency": 3.0,
             "primaryColor": "#00FF00",
             "secondaryColor": "#0000FF"
         }
     },
-    "distanceSensors": [
-        /*{
-            "zone": "",
-            "serialNumber": "",
-            "occupiedDistance": 5000,
-            "emptyReflectionStrength": 100,
-            "indicatorPin": 18,
-            "pwmChannel": 0
-        },*/
-        /*{
-            "zone": "",
-            "serialNumber": "",
-            "occupiedDistance": 5000,
-            "emptyReflectionStrength": 100,
-            "indicatorPin": 13,
-            "pwmChannel": 1
-        }*/
-    ],
-    "longDistanceSensors": [
-        /*{
-            "zone": "",
-            "serialNumber": "",
-            "occupiedDistance": 5000,
-            "emptyReflectionStrength": 100,
-            "indicatorPin": 18,
-            "pwmChannel": 0
-        },*/
-        /*{
-            "zone": "",
-            "serialNumber": "",
-            "occupiedDistance": 5000,
-            "emptyReflectionStrength": 100,
-            "indicatorPin": 13,
-            "pwmChannel": 1
-        }*/
-    ],
+    "distanceSensors": [],
+    "longDistanceSensors": [],
     "sleep": {
-        //  US/Eastern
-        //  US/Central
-        //  US/Mountain
-        //  US/Pacific
-
-        //  US/Arizona
-        //  US/Indiana-Starke
-        //  US/Alaska
-        //  US/Hawaii
-        //  US/Samoa
         "timezone": "US/Eastern",
         "openTime": "08:00",
         "closeTime": "20:00",
-        // Time in seconds between time checks
         "sleepInterval": 60
     },
-    // How many minutes to wait before sending an alarm out
     "alarmDuration": 1,
-    // Min duration for occupied event to be sent to server (seconds)
     "minOccupiedDuration": 10,
-    // How many times the sensor is polled per second
     "sensorPollRate": 10,
-    // IP to send our event data to
     "proxyEventRoute": "http://192.168.17.202:8070/beam/event",
     "proxyAlarmRoute": "http://192.168.17.202:8070/beam/alarm",
     "proxyStatusUpdateRoute": "http://192.168.17.202:8070/beam/status",
-    // How many events to send to server per second
     "eventSendRate": 2,
-    // If we fail to send an event, how many seconds to wait before trying again
     "eventSendFailureCooldown": 5,
     "updateConfigInterval": 10,
     "updateHealthStatusInterval": 5
