@@ -65,7 +65,7 @@ class LongDistanceSensor(Sensor):
     def __init__(self, config: LongDistanceSensorConfig, event_queue: asyncio.Queue):
         """Initialize the distance sensor with the given configuration."""
         Sensor.__init__(self, config.zone, event_queue)
-        if "ttyUSB" in config.serialNumber:
+        if "tty" in config.serialNumber:
             self.port = config.serialNumber
         else:
             print("Using serial number to find port: ", config.serialNumber)
