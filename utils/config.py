@@ -129,8 +129,6 @@ class LongDistanceSensorConfig:
     serialNumber: str
     occupiedDistance: int
     emptyReflectionStrength: int
-    indicatorPin: int
-    pwmChannel: int
 
     @staticmethod
     def from_dict(obj: Any) -> 'LongDistanceSensorConfig':
@@ -138,9 +136,7 @@ class LongDistanceSensorConfig:
         _serialNumber = str(obj.get("serialNumber"))
         _occupiedDistance = int(obj.get("occupiedDistance"))
         _emptyReflectionStrength = int(obj.get("emptyReflectionStrength"))
-        _indicatorPin = int(obj.get("indicatorPin"))
-        _pwmChannel = int(obj.get("pwmChannel"))
-        return LongDistanceSensorConfig(_zone, _serialNumber, _occupiedDistance, _emptyReflectionStrength, _indicatorPin, _pwmChannel)
+        return LongDistanceSensorConfig(_zone, _serialNumber, _occupiedDistance, _emptyReflectionStrength)
     
     @staticmethod
     def to_dict(obj: 'LongDistanceSensorConfig') -> dict:
@@ -148,9 +144,7 @@ class LongDistanceSensorConfig:
             "zone": obj.zone,
             "serialNumber": obj.serialNumber,
             "occupiedDistance": obj.occupiedDistance,
-            "emptyReflectionStrength": obj.emptyReflectionStrength,
-            "indicatorPin": obj.indicatorPin,
-            "pwmChannel": obj.pwmChannel
+            "emptyReflectionStrength": obj.emptyReflectionStrength
         }
 
 @dataclass
