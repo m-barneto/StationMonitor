@@ -1,4 +1,4 @@
 #!/bin/bash
 
 source ./venv/bin/activate
-sudo -E env PATH=$PATH python client.py
+sudo -E env PATH=$PATH python3 client.py
