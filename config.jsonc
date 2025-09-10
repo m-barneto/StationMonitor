@@ -1,30 +1,18 @@
 {
-    "leds": {
-        "numLeds": 15,
-        "brightness": 255,
-        "stages": [
-            {
-                "color": "#FFFFFF",
-                "duration": 3.0
-            },
-            {
-                "color": "#FFFF00",
-                "duration": 3.0
-            },
-            {
-                "color": "#0000FF",
-                "duration": 2.0
-            }
-        ],
-        "flashing": {
-            "shouldFlash": true,
-            "flashFrequency": 3.0,
-            "primaryColor": "#00FF00",
-            "secondaryColor": "#0000FF"
+    "longDistanceSensors": [
+        {
+            "zone": "A",
+            "serialNumber": "/dev/ttyS3",
+            "occupiedDistance": 7000,
+            "emptyReflectionStrength": 100
+        },
+        {
+            "zone": "B",
+            "serialNumber": "/dev/ttyS4",
+            "occupiedDistance": 7000,
+            "emptyReflectionStrength": 100
         }
-    },
-    "distanceSensors": [],
-    "longDistanceSensors": [],
+    ],
     "sleep": {
         "timezone": "US/Eastern",
         "openTime": "08:00",
