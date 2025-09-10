@@ -1,16 +1,16 @@
 import asyncio
-from typing import List
 
 from managers.alarm_manager import AlarmManager
-from managers.config_manager import ConfigManager
 from managers.event_manager import EventManager
 from managers.health_manager import HealthManager
 from managers.sensor_manager import SensorManager
-
 from managers.server_manager import ServerManager
 from managers.sleep_manager import SleepManager
-from sensors.distance_sensor import DistanceSensor
+from managers.config_manager import ConfigManager
+
 from sensors.long_distance_sensor import LongDistanceSensor
+
+from typing import List
 from sensors.sensor import Sensor
 from utils.config import Config
 from utils.logger import logger
@@ -35,19 +35,6 @@ loop.create_task(sleep_manager.loop())
 
 sensors: List[Sensor] = []
 
-distance_sensors = []
-
-for dist_sensor in Config.get().distanceSensors:
-    s = DistanceSensor(
-        dist_sensor,
-        event_queue
-    )
-    
-    distance_sensors.append(s)
-    sensors.append(s)
-
-    loop.create_task(s.loop())
-
 long_distance_sensors = []
 
 for long_dist_sensor in Config.get().longDistanceSensors:
@@ -64,16 +51,12 @@ for long_dist_sensor in Config.get().longDistanceSensors:
 sensor_manager = SensorManager(sensors, event_queue)
 loop.create_task(sensor_manager.loop())
 
-print("Initialization complete, starting main loop")
-#led_manager = LedManager(reflective_sensors, sensor_manager)
-#loop.create_task(led_manager.loop())
-
 # Sends out requests for alarm events when duration is exceeded
 loop.create_task(AlarmManager(sensor_manager, event_queue).loop())
 
 print("Starting web server on port 80")
 # Web server that displays current status of sensors to web
-server = ServerManager(distance_sensors, long_distance_sensors, sensor_manager, event_manager, sleep_manager)
+server = ServerManager(long_distance_sensors, sensor_manager, event_manager, sleep_manager)
 loop.create_task(server.loop())
 
 print("Finished starting web server")

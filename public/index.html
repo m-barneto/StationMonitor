@@ -19,24 +19,7 @@
                     .then((data) => {
                         // Update the page with the new data
                         let dataHtml = `<h1>Station Monitor ${data.rpiTime}</h1>`;
-                        //dataHtml += `<h2>Station Time: ${data.rpiTime}</h2>`;
-                        dataHtml += `<h2 style="margin-bottom: .5%">Distance Sensors:</h2>`;
-                        dataHtml += `<ul style="margin-top: 0px">`;
-                        Object.keys(data["distanceSensors"]).forEach(
-                            (sensor) => {
-                                let sensorData = `<li><p style="margin-top: 0px">${sensor}: <br/>`;
-                                sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspStable Distance: ${data["distanceSensors"][sensor]["stableDistance"]} mm <br/>`;
-                                sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspOccupied Distance: ${data["distanceSensors"][sensor]["occupiedDistance"]} mm <br/>`;
-                                sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspIs Occupied: ${data["distanceSensors"][sensor]["isOccupied"]} <br/>`;
-                                sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspDuration: ${data["distanceSensors"][sensor]["duration"]} <br/>`;
-                                sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspRaw Distance: ${data["distanceSensors"][sensor]["currentDistance"]} mm <br/>`;
-                                sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspReflection Strength: ${data["distanceSensors"][sensor]["reflectionStrength"]}%<br/>`;
-                                sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspSensor Temp (C): ${data["distanceSensors"][sensor]["temperature"]}<br/>`;
-                                sensorData += "</p></li>";
-                                dataHtml += sensorData;
-                            }
-                        );
-                        dataHtml += "</ul>";
+
                         dataHtml += `<h2 style="margin-bottom: .5%">Long Distance Sensors:</h2>`;
                         dataHtml += `<ul style="margin-top: 0px">`;
                         Object.keys(data["longDistanceSensors"]).forEach(

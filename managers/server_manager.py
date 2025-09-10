@@ -7,15 +7,13 @@ from managers.config_manager import ConfigManager
 from managers.event_manager import EventManager
 from managers.sensor_manager import SensorManager
 from managers.sleep_manager import SleepManager
-from sensors.distance_sensor import DistanceSensor
 from sensors.long_distance_sensor import LongDistanceSensor
 from utils.config import Config, StationMonitorConfig
 from utils.sensor_event import SensorState
 
 
 class ServerManager:
-    def __init__(self, distance_sensors: list[DistanceSensor], long_distance_sensors: list[LongDistanceSensor], sensor_manager: SensorManager, event_manager: EventManager, sleep_manager: SleepManager):
-        ServerManager.distance_sensors = distance_sensors
+    def __init__(self, long_distance_sensors: list[LongDistanceSensor], sensor_manager: SensorManager, event_manager: EventManager, sleep_manager: SleepManager):
         ServerManager.long_distance_sensors = long_distance_sensors
         ServerManager.sensor_manager = sensor_manager
         ServerManager.event_manager = event_manager
@@ -33,25 +31,6 @@ class ServerManager:
 
         dist_sensor_data = {}
 
-        for dist_sensor in ServerManager.distance_sensors:
-            start_event_time = ServerManager.sensor_manager.get_sensor_occupied_time(dist_sensor.zone)
-            if start_event_time is not None:
-                # Calculate the duration of the event in seconds
-                duration = (datetime.now(timezone.utc) - start_event_time).total_seconds()
-
-            dist_sensor_data[dist_sensor.zone] = {
-                "currentDistance": dist_sensor.current_distance,
-                "stableDistance": dist_sensor.stable_distance,
-                "reflectionStrength": dist_sensor.reflection_strength,
-                "temperature": dist_sensor.temperature,
-                "occupiedDistance": dist_sensor.occupied_distance,
-                "reflectionStrength": dist_sensor.reflection_strength,
-                "isOccupied": str(dist_sensor.get_state().name),
-                "duration": round(duration, 2) if start_event_time is not None else 0.0,
-            }
-
-        status["distanceSensors"] = dist_sensor_data
-
         long_dist_sensor_data = {}
         for long_dist_sensor in ServerManager.long_distance_sensors:
             start_event_time = ServerManager.sensor_manager.get_sensor_occupied_time(long_dist_sensor.zone)
@@ -66,7 +45,6 @@ class ServerManager:
                 "reflectionStrength": long_dist_sensor.reflection_strength,
                 "temperature": long_dist_sensor.temperature,
                 "occupiedDistance": long_dist_sensor.occupied_distance,
-                "reflectionStrength": long_dist_sensor.reflection_strength,
                 "isOccupied": str(long_dist_sensor.get_state().name),
                 "duration": round(duration, 2) if start_event_time is not None else 0.0,
             }
