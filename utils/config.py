@@ -26,37 +26,6 @@ class Sleep:
             "sleepInterval": obj.sleepInterval
         }
 
-
-@dataclass
-class DistanceSensorConfig:
-    zone: str
-    serialNumber: str
-    occupiedDistance: int
-    emptyReflectionStrength: int
-    indicatorPin: int
-    pwmChannel: int
-
-    @staticmethod
-    def from_dict(obj: Any) -> 'DistanceSensorConfig':
-        _zone = str(obj.get("zone"))
-        _serialNumber = str(obj.get("serialNumber"))
-        _occupiedDistance = int(obj.get("occupiedDistance"))
-        _emptyReflectionStrength = int(obj.get("emptyReflectionStrength"))
-        _indicatorPin = int(obj.get("indicatorPin"))
-        _pwmChannel = int(obj.get("pwmChannel"))
-        return DistanceSensorConfig(_zone, _serialNumber, _occupiedDistance, _emptyReflectionStrength, _indicatorPin, _pwmChannel)
-    
-    @staticmethod
-    def to_dict(obj: 'DistanceSensorConfig') -> dict:
-        return {
-            "zone": obj.zone,
-            "serialNumber": obj.serialNumber,
-            "occupiedDistance": obj.occupiedDistance,
-            "emptyReflectionStrength": obj.emptyReflectionStrength,
-            "indicatorPin": obj.indicatorPin,
-            "pwmChannel": obj.pwmChannel
-        }
-
 @dataclass
 class LongDistanceSensorConfig:
     zone: str
@@ -83,8 +52,6 @@ class LongDistanceSensorConfig:
 
 @dataclass
 class StationMonitorConfig:
-    leds: Leds
-    distanceSensors: List[DistanceSensorConfig]
     longDistanceSensors: List[LongDistanceSensorConfig]
     sleep: Sleep
     alarmDuration: int
@@ -100,8 +67,6 @@ class StationMonitorConfig:
 
     @staticmethod
     def from_dict(obj: Any) -> 'StationMonitorConfig':
-        _leds = Leds.from_dict(obj.get("leds"))
-        _distanceSensors = [DistanceSensorConfig.from_dict(y) for y in obj.get("distanceSensors")]
         _longDistanceSensors = [LongDistanceSensorConfig.from_dict(y) for y in obj.get("longDistanceSensors")]
         _sleep = Sleep.from_dict(obj.get("sleep"))
         _alarmDuration = int(obj.get("alarmDuration"))
@@ -114,13 +79,11 @@ class StationMonitorConfig:
         _eventSendFailureCooldown = int(obj.get("eventSendFailureCooldown"))
         _updateConfigInterval = int(obj.get("updateConfigInterval"))
         _updateHealthStatusInterval = int(obj.get("updateHealthStatusInterval"))
-        return StationMonitorConfig(_leds, _distanceSensors, _longDistanceSensors, _sleep, _alarmDuration, _minOccupiedDuration, _sensorPollRate, _proxyEventRoute, _proxyAlarmRoute, _proxyStatusUpdateRoute, _eventSendRate, _eventSendFailureCooldown, _updateConfigInterval, _updateHealthStatusInterval)
+        return StationMonitorConfig(_longDistanceSensors, _sleep, _alarmDuration, _minOccupiedDuration, _sensorPollRate, _proxyEventRoute, _proxyAlarmRoute, _proxyStatusUpdateRoute, _eventSendRate, _eventSendFailureCooldown, _updateConfigInterval, _updateHealthStatusInterval)
 
     @staticmethod
     def to_dict(obj: 'StationMonitorConfig') -> dict:
         return {
-            "leds": Leds.to_dict(obj.leds),
-            "distanceSensors": [DistanceSensorConfig.to_dict(y) for y in obj.distanceSensors],
             "longDistanceSensors": [LongDistanceSensorConfig.to_dict(y) for y in obj.longDistanceSensors],
             "sleep": Sleep.to_dict(obj.sleep),
             "alarmDuration": obj.alarmDuration,
