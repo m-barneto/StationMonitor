@@ -107,7 +107,7 @@ class ServerManager:
         app.router.add_get("/config", self.get_config)
 
         # Static file serving (css, js, images, etc.)
-        app.router.add_static("../Interface/", path="build", name="public")
+        app.router.add_static("/", path="../Interface/build", name="public")
 
         # Setup the web app runner
         runner = web.AppRunner(app)
