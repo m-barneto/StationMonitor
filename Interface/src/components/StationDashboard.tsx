@@ -11,6 +11,7 @@ import { Dropdown } from "primereact/dropdown";
 
 // Types
 interface LongDistanceSensor {
+    zone: string;
     currentDistance: number;
     stableDistance: number;
     readingCount: number;
@@ -21,32 +22,13 @@ interface LongDistanceSensor {
     duration: number;
 }
 
-interface StationData {
-    rpiTime: string;
-    eventsQueued: string;
-    isSleeping: boolean;
-    reflectiveSensors: Record<string, any>;
-    distanceSensors: Record<string, any>;
-    longDistanceSensors: Record<string, LongDistanceSensor>;
-}
-
-export interface Sensor {
-    id: string;
-    name: string;
-    value: number;
-    unit?: string;
-    status?: "ok" | "warning" | "error" | "offline";
-}
-
 // Sensor Card Component
-function SensorCard({ sensor }: { sensor: Sensor }) {
+function SensorCard({ sensor }: { sensor: LongDistanceSensor }) {
     return (
-        <Card className="mb-3 shadow-1" title={sensor.name}>
-            <p className="m-0">
-                Value: {sensor.value} {sensor.unit ?? ""}
-            </p>
+        <Card className="mb-3 shadow-1" title={sensor.zone}>
+            <p className="m-0">Value: {sensor.stableDistance} mm</p>
             <p className="m-0 text-sm text-500">
-                Status: {sensor.status ?? "—"}
+                Status: {sensor.isOccupied ?? "—"}
             </p>
         </Card>
     );
@@ -88,7 +70,7 @@ function SettingsForm() {
         <form
             onSubmit={handleSubmit}
             className="p-fluid p-3 surface-100 border-round shadow-1">
-            <h3 className="mb-3">System Settings</h3>
+            <h2 className="mb-3">System Settings</h2>
             <div className="field">
                 <label htmlFor="refresh">Refresh Rate (ms)</label>
                 <InputNumber
@@ -128,35 +110,61 @@ function SettingsForm() {
 
 // Main Dashboard
 export default function StationDashboard() {
-    const [sensors, setSensors] = useState<Sensor[]>([]);
+    const [sensors, setSensors] = useState<LongDistanceSensor[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const id = setInterval(() => {
-            const sensorData: Sensor[] = [];
-            return;
+            const sensorData: LongDistanceSensor[] = [];
             fetch("http://192.168.17.136/status")
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log(data["data"]);
+                    Object.entries(data.longDistanceSensors).forEach(
+                        ([id, sensor]) => {
+                            const s = sensor as LongDistanceSensor;
+                            s.zone = id;
+                            sensorData.push(s);
+                        }
+                    );
+                    setSensors(sensorData);
+                    setLoading(false);
                 });
-            setSensors(sensorData);
-            console.log(sensors);
-        }, 2500);
+        }, 1000);
 
         return () => clearInterval(id);
-    });
+    }, []);
 
     return (
-        <div className="grid p-4 gap-4">
-            <div className="col-12 md:col-8">
+        <div
+            className="p-4"
+            style={{
+                display: "flex",
+                height: "100vh",
+                gap: "16px",
+                alignItems: "flex-start",
+            }}>
+            {/* Left column: Sensors */}
+            <div
+                style={{
+                    flex: 1,
+                    overflowY: "auto",
+                    paddingRight: "8px",
+                }}>
                 <h2 className="mb-3">Sensors</h2>
+                {loading && <p>Loading…</p>}
+                {error && <p className="text-red-500">Error: {error}</p>}
                 {sensors.map((s) => (
-                    <SensorCard key={s.id} sensor={s} />
+                    <SensorCard key={s.zone} sensor={s} />
                 ))}
             </div>
-            <div className="col-12 md:col-4">
+
+            {/* Right column: Settings */}
+            <div
+                style={{
+                    width: "50%",
+                    flexShrink: 0,
+                }}>
                 <SettingsForm />
             </div>
         </div>
