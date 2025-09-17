@@ -29,8 +29,6 @@ class ServerManager:
             ServerManager.event_manager.event_queue.qsize() + ServerManager.event_manager.processing)
         status["isSleeping"] = not ServerManager.sleep_manager.is_open
 
-        dist_sensor_data = {}
-
         long_dist_sensor_data = {}
         for long_dist_sensor in ServerManager.long_distance_sensors:
             start_event_time = ServerManager.sensor_manager.get_sensor_occupied_time(long_dist_sensor.zone)
@@ -107,6 +105,9 @@ class ServerManager:
         app.router.add_get("/status", self.get_status)
 
         app.router.add_get("/config", self.get_config)
+
+        # Static file serving (css, js, images, etc.)
+        app.router.add_static("../Interface/", path="build", name="public")
 
         # Setup the web app runner
         runner = web.AppRunner(app)
