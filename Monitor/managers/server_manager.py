@@ -116,6 +116,10 @@ class ServerManager:
             )
         })
 
+        # Apply CORS to all routes
+        for route in list(app.router.routes()):
+            cors.add(route)
+
         # Setup the web app runner
         runner = web.AppRunner(app)
         await runner.setup()
