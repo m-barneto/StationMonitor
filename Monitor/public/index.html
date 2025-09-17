@@ -24,7 +24,7 @@
                         dataHtml += `<ul style="margin-top: 0px">`;
                         Object.keys(data["longDistanceSensors"]).forEach(
                             (sensor) => {
-                                let sensorData = `<li><p style="margin-top: 0px">${sensor}: <br/>`;
+                                let sensorData = `<li style="margin-left: 20px"><p style="margin-top: 0px">${sensor}: <br/>`;
                                 sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspStable Distance: ${data["longDistanceSensors"][sensor]["stableDistance"]} mm <br/>`;
                                 sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspSensor Readings: ${data["longDistanceSensors"][sensor]["readingCount"]} <br/>`;
                                 sensorData += `&nbsp&nbsp&nbsp&nbsp&nbsp&nbspOccupied Distance: ${data["longDistanceSensors"][sensor]["occupiedDistance"]} mm <br/>`;
