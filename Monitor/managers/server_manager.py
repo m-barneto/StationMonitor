@@ -2,6 +2,7 @@ import asyncio
 from datetime import datetime, timezone
 import json
 from aiohttp import web
+import aiohttp_cors
 
 from managers.config_manager import ConfigManager
 from managers.event_manager import EventManager
@@ -106,6 +107,14 @@ class ServerManager:
 
         # Static file serving (css, js, images, etc.)
         app.router.add_static("/", path="../Interface/build", name="public")
+
+        cors = aiohttp_cors.setup(app, defaults={
+            "*": aiohttp_cors.ResourceOptions(
+                allow_credentials=True,
+                expose_headers="*",
+                allow_headers="*",
+            )
+        })
 
         # Setup the web app runner
         runner = web.AppRunner(app)
