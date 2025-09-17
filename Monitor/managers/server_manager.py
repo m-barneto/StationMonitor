@@ -74,9 +74,7 @@ class ServerManager:
 
     async def get_interface(self, request) -> web.Response:
         # Return the interface html page
-        with open("./public/index.html", "r") as f:
-            html = f.read()
-        return web.Response(text=html, content_type="text/html")
+        return web.FileResponse("../Interface/build/index.html")
 
     async def get_style(self, request) -> web.Response:
         # Return the style css page
@@ -98,7 +96,7 @@ class ServerManager:
         # Setup our web application
         app = web.Application()
         # Add index route for status
-        #app.router.add_get('/', self.get_interface)
+        app.router.add_get('/', self.get_interface)
 
         #app.router.add_get("/style.css", self.get_style)
 
