@@ -95,13 +95,8 @@ export default function SettingsForm() {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(settings),
-        }).then((response) => {
-            if (response.ok) {
-                alert("Settings successfully saved to server.");
-            } else {
-                alert("Failed to save settings to server.");
-            }
         });
+        console.log("sent request");
     };
 
     if (settings.longDistanceSensors === undefined) {

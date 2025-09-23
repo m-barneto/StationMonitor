@@ -108,6 +108,9 @@ class ServerManager:
             Config.get().minOccupiedDuration = new_config.minOccupiedDuration
             # Save to file
             Config.save_config()
+            # Get the asyncio event loop and schedule a restart in 5 seconds
+            #asyncio.get_event_loop().call_later(5, ))
+            Config.reload_config()
             return web.Response(text="Configuration updated successfully.", status=200)
         except Exception as e:
             return web.Response(text=f"Error updating configuration: {str(e)}", status=400)
