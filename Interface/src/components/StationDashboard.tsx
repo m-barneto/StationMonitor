@@ -143,7 +143,7 @@ export default function StationDashboard() {
 
     const fetchSensorData = async () => {
         const sensorData: LongDistanceSensor[] = [];
-        fetch("http://192.168.17.181/status")
+        fetch("/status")
             .then((response) => response.json())
             .then((data) => {
                 Object.entries(data.longDistanceSensors).forEach(

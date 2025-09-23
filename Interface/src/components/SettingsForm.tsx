@@ -55,7 +55,7 @@ export default function SettingsForm() {
     const [showHelp, setShowHelp] = useState(false);
 
     const fetchSettings = async () => {
-        fetch("http://192.168.17.181/config")
+        fetch("/config")
             .then((response) => response.json())
             .then((data) => {
                 setSettings(data as StationMonitorConfig);
@@ -89,7 +89,7 @@ export default function SettingsForm() {
 
     const handleSubmit = () => {
         // Make a post request containing the updated settings in json format
-        fetch("http://192.168.17.181/config", {
+        fetch("/config", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
