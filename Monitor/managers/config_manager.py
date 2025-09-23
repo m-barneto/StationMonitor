@@ -34,4 +34,4 @@ class ConfigManager:
     @staticmethod
     def save_config() -> None:
         with open("config.jsonc", "w") as f:
-            json.dump(Config.conf, f, indent=4)
+            json.dump(Config.conf.to_dict(), f, indent=4)

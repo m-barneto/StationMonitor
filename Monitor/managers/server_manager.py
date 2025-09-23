@@ -106,12 +106,8 @@ class ServerManager:
             Config.conf.sleep.closeTime = new_config.sleep.closeTime
             Config.conf.alarmDuration = new_config.alarmDuration
             Config.conf.minOccupiedDuration = new_config.minOccupiedDuration
-            print("balls")
             # Save to file
             ConfigManager.save_config()
-            print("Received new config via web interface:")
-            print(new_config)
-            #ConfigManager.update_config(new_config)
             return web.Response(text="Configuration updated successfully.", status=200)
         except Exception as e:
             return web.Response(text=f"Error updating configuration: {str(e)}", status=400)
