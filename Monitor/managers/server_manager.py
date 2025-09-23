@@ -100,12 +100,12 @@ class ServerManager:
             # Validate and update config
             new_config = StationMonitorConfig.from_dict(data)
             # Modify the current config object
-            Config.conf.longDistanceSensors = new_config.longDistanceSensors
-            Config.conf.sleep.timezone = new_config.sleep.timezone
-            Config.conf.sleep.openTime = new_config.sleep.openTime
-            Config.conf.sleep.closeTime = new_config.sleep.closeTime
-            Config.conf.alarmDuration = new_config.alarmDuration
-            Config.conf.minOccupiedDuration = new_config.minOccupiedDuration
+            Config.get().longDistanceSensors = new_config.longDistanceSensors
+            Config.get().sleep.timezone = new_config.sleep.timezone
+            Config.get().sleep.openTime = new_config.sleep.openTime
+            Config.get().sleep.closeTime = new_config.sleep.closeTime
+            Config.get().alarmDuration = new_config.alarmDuration
+            Config.get().minOccupiedDuration = new_config.minOccupiedDuration
             # Save to file
             Config.save_config()
             return web.Response(text="Configuration updated successfully.", status=200)
