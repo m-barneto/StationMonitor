@@ -88,6 +88,20 @@ export default function SettingsForm() {
     const handleSubmit = () => {
         console.log("Submitted Settings:", settings);
         alert("Settings saved! Check console for output.");
+        // Make a post request containing the updated settings in json format
+        fetch("http://192.168.17.136/config", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(settings),
+        }).then((response) => {
+            if (response.ok) {
+                alert("Settings successfully saved to server.");
+            } else {
+                alert("Failed to save settings to server.");
+            }
+        });
     };
 
     if (settings.longDistanceSensors === undefined) {

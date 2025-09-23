@@ -101,7 +101,7 @@ class ServerManager:
             print("Received new config via web interface:")
             print(new_config)
             #ConfigManager.update_config(new_config)
-            return web.Response(text="Configuration updated successfully.", status=200)
+            return web.Response(text="Configuration updated successfully.", status=400)
         except Exception as e:
             return web.Response(text=f"Error updating configuration: {str(e)}", status=400)
 
