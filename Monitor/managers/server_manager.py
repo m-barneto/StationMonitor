@@ -1,6 +1,7 @@
 import asyncio
 from datetime import datetime, timezone
 import json
+import socket
 from aiohttp import web
 import aiohttp_cors
 
@@ -98,12 +99,39 @@ class ServerManager:
             data = await request.json()
             # Validate and update config
             new_config = StationMonitorConfig.from_dict(data)
+            # Modify the current config object
+            Config.conf.longDistanceSensors = new_config.longDistanceSensors
+            Config.conf.sleep.timezone = new_config.sleep.timezone
+            Config.conf.sleep.openTime = new_config.sleep.openTime
+            Config.conf.sleep.closeTime = new_config.sleep.closeTime
+            Config.conf.alarmDuration = new_config.alarmDuration
+            Config.conf.minOccupiedDuration = new_config.minOccupiedDuration
+
+            # Save to file
+            ConfigManager.save_config()
             print("Received new config via web interface:")
             print(new_config)
             #ConfigManager.update_config(new_config)
             return web.Response(text="Configuration updated successfully.", status=400)
         except Exception as e:
             return web.Response(text=f"Error updating configuration: {str(e)}", status=400)
+
+    async def get_available_ips(self, request) -> web.Response:
+        # Return list of available IPs
+        # get current ip
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(('8.8.8.8', 1))  # connect() for UDP doesn't send packets
+        local_ip_address = s.getsockname()[0]
+        possible_ips = [
+            "192.168.17.205",
+            "192.168.17.206",
+            "192.168.17.207",
+            "192.168.17.208",
+            "192.168.17.209",
+            "192.168.17.210",
+            local_ip_address
+        ]
+        return web.Response(text=json.dumps(possible_ips, indent=4), content_type="application/json")
 
     async def loop(self) -> None:
         # Setup our web application
@@ -114,6 +142,8 @@ class ServerManager:
         #app.router.add_get("/style.css", self.get_style)
 
         app.router.add_get("/status", self.get_status)
+
+        app.router.add_get("/ips", self.get_available_ips)
 
         app.router.add_get("/config", self.get_config)
 
