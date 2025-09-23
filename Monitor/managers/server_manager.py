@@ -107,7 +107,7 @@ class ServerManager:
             Config.conf.alarmDuration = new_config.alarmDuration
             Config.conf.minOccupiedDuration = new_config.minOccupiedDuration
             # Save to file
-            ConfigManager.save_config()
+            Config.save_config()
             return web.Response(text="Configuration updated successfully.", status=200)
         except Exception as e:
             return web.Response(text=f"Error updating configuration: {str(e)}", status=400)

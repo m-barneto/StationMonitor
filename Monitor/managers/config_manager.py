@@ -30,8 +30,3 @@ class ConfigManager:
         except requests.exceptions.ConnectionError as e:
             # sleep for a bit to avoid spamming a downed proxy
             await asyncio.sleep(60)
-    
-    @staticmethod
-    def save_config() -> None:
-        with open("config.jsonc", "w") as f:
-            json.dump(Config.conf.to_dict(), f, indent=4)
