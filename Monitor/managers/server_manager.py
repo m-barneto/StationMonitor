@@ -2,6 +2,7 @@ import asyncio
 from datetime import datetime, timezone
 import json
 import socket
+import subprocess
 from aiohttp import web
 import aiohttp_cors
 
@@ -109,8 +110,8 @@ class ServerManager:
             # Save to file
             Config.save_config()
             # Get the asyncio event loop and schedule a restart in 5 seconds
-            #asyncio.get_event_loop().call_later(5, ))
-            Config.reload_config()
+            asyncio.get_event_loop().call_later(5, subprocess.run, ["sudo", "systemctl", "restart", "stationmonitor.service"])
+            #Config.reload_config()
             return web.Response(text="Configuration updated successfully.", status=200)
         except Exception as e:
             return web.Response(text=f"Error updating configuration: {str(e)}", status=400)
