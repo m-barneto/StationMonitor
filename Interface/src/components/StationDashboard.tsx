@@ -2,12 +2,11 @@ import "primereact/resources/themes/bootstrap4-dark-blue/theme.css";
 import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Card } from "primereact/card";
-import { Button } from "primereact/button";
-import { InputText } from "primereact/inputtext";
-import { InputNumber } from "primereact/inputnumber";
 import { Dropdown } from "primereact/dropdown";
+import { Tag } from "primereact/tag";
+import SettingsForm from "./SettingsForm";
 
 // Types
 interface LongDistanceSensor {
@@ -22,118 +21,149 @@ interface LongDistanceSensor {
     duration: number;
 }
 
+const severityColors = {
+    0: { backgroundColor: "#444444", color: "#bbbbbb" },
+    1: { backgroundColor: "#264d26", color: "#d4f8d4" },
+    2: { backgroundColor: "#665c1a", color: "#f3eba0" },
+    3: { backgroundColor: "#662626", color: "#f4b6b6" },
+};
+
 // Sensor Card Component
-function SensorCard({ sensor }: { sensor: LongDistanceSensor }) {
+function SensorCardOld({ sensor }: { sensor: LongDistanceSensor }) {
+    const colorSeverity = sensor.isOccupied === "EMPTY" ? 1 : 2; // 2 or 3 if alarmed
+    const styles = {
+        backgroundColor: severityColors[colorSeverity]?.backgroundColor,
+        color: severityColors[colorSeverity]?.color,
+    };
     return (
-        <Card className="mb-3 shadow-1" title={sensor.zone}>
-            <p className="m-0">Value: {sensor.stableDistance} mm</p>
-            <p className="m-0 text-sm text-500">
-                Status: {sensor.isOccupied ?? "—"}
+        <Card
+            className="mb-3 shadow-1"
+            title={sensor.zone}
+            style={{
+                backgroundColor: styles.backgroundColor,
+                color: styles.color,
+            }}>
+            <p className="m-0">
+                Immediate Distance: {sensor.currentDistance} mm
+            </p>
+            <p className="m-0">Smoothed Distance: {sensor.stableDistance} mm</p>
+            <p className="m-0">
+                Occupied Distance Threshold: {sensor.occupiedDistance}
+            </p>
+            <p className="m-0">Status: {sensor.isOccupied ?? "—"}</p>
+            <p className="m-0">
+                Reflection Strength: {sensor.reflectionStrength}
             </p>
         </Card>
     );
 }
 
-// Settings Form Component
-function SettingsForm() {
-    const [refreshRate, setRefreshRate] = useState<number>(5000);
-    const [mode, setMode] = useState<string>("normal");
-    const [endpoint, setEndpoint] = useState<string>("/api/sensors");
-    const [submitting, setSubmitting] = useState<boolean>(false);
+function SensorCard({ sensor }: { sensor: LongDistanceSensor }) {
+    const isOccupied = sensor.isOccupied === "OCCUPIED";
+    const isEmpty = sensor.isOccupied === "EMPTY";
 
-    const modes = [
-        { label: "Normal", value: "normal" },
-        { label: "Debug", value: "debug" },
-        { label: "Maintenance", value: "maintenance" },
-    ];
+    // Set card color based on status
+    const backgroundColor = isOccupied
+        ? "#662626"
+        : isEmpty
+        ? "#264d26"
+        : "#665c1a"; // warning/neutral
 
-    async function handleSubmit(e: React.FormEvent) {
-        e.preventDefault();
-        setSubmitting(true);
-        try {
-            const config = { refreshRate, mode, endpoint };
-            const res = await fetch("/api/settings", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(config),
-            });
-            if (!res.ok) throw new Error(`HTTP ${res.status}`);
-            alert("Settings saved successfully");
-        } catch (err: any) {
-            alert(`Error saving settings: ${err.message}`);
-        } finally {
-            setSubmitting(false);
-        }
-    }
+    const color = isOccupied || isEmpty ? "#fff" : "#f3eba0";
 
     return (
-        <form
-            onSubmit={handleSubmit}
-            className="p-fluid p-3 surface-100 border-round shadow-1">
-            <h2 className="mb-3">System Settings</h2>
-            <div className="field">
-                <label htmlFor="refresh">Refresh Rate (ms)</label>
-                <InputNumber
-                    id="refresh"
-                    value={refreshRate}
-                    onValueChange={(e) => setRefreshRate(e.value ?? 5000)}
-                />
+        <Card
+            title={`Zone ${sensor.zone}`}
+            className="mb-3"
+            style={{
+                backgroundColor,
+                color,
+            }}>
+            <div className="grid">
+                {/* Distance Metrics */}
+                <div className="col-12 md:6">
+                    <p className="m-0">
+                        <strong>Immediate:</strong> {sensor.currentDistance} mm
+                    </p>
+                    <p className="m-0">
+                        <strong>Smoothed:</strong> {sensor.stableDistance} mm
+                    </p>
+                    <p className="m-0">
+                        <strong>Occupied Threshold:</strong>{" "}
+                        {sensor.occupiedDistance} mm
+                    </p>
+                </div>
+
+                {/* Status Metrics */}
+                <div className="col-12 md:6">
+                    <p className="m-0">
+                        <strong>Status:</strong>{" "}
+                        <Tag
+                            value={sensor.isOccupied ?? "—"}
+                            severity={
+                                isOccupied
+                                    ? "danger"
+                                    : isEmpty
+                                    ? "success"
+                                    : "warning"
+                            }
+                        />
+                    </p>
+                    <p className="m-0">
+                        <strong>Duration:</strong> {sensor.duration}s
+                    </p>
+                    <p className="m-0">
+                        <strong>Reflection:</strong> {sensor.reflectionStrength}
+                    </p>
+                    <p className="m-0">
+                        <strong>Temp:</strong> {sensor.temperature}°C
+                    </p>
+                    <p className="m-0">
+                        <strong>Readings:</strong> {sensor.readingCount}
+                    </p>
+                </div>
             </div>
-            <div className="field">
-                <label htmlFor="mode">Mode</label>
-                <Dropdown
-                    id="mode"
-                    value={mode}
-                    options={modes}
-                    onChange={(e) => setMode(e.value)}
-                    placeholder="Select Mode"
-                />
-            </div>
-            <div className="field">
-                <label htmlFor="endpoint">API Endpoint</label>
-                <InputText
-                    id="endpoint"
-                    value={endpoint}
-                    onChange={(e) => setEndpoint(e.target.value)}
-                />
-            </div>
-            <Button
-                type="submit"
-                label={submitting ? "Saving..." : "Save Settings"}
-                icon="pi pi-save"
-                className="p-button-success mt-3"
-                disabled={submitting}
-            />
-        </form>
+        </Card>
     );
 }
+
+const refreshIntervalOptions = [
+    { label: "100 ms", value: 100 },
+    { label: "250 ms", value: 250 },
+    { label: "500 ms", value: 500 },
+    { label: "1 second", value: 1000 },
+];
 
 // Main Dashboard
 export default function StationDashboard() {
     const [sensors, setSensors] = useState<LongDistanceSensor[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const [refreshInterval, setRefreshInterval] = useState<number>(250);
+
+    const fetchSensorData = async () => {
+        const sensorData: LongDistanceSensor[] = [];
+        fetch("http://192.168.17.136/status")
+            .then((response) => response.json())
+            .then((data) => {
+                Object.entries(data.longDistanceSensors).forEach(
+                    ([id, sensor]) => {
+                        const s = sensor as LongDistanceSensor;
+                        s.zone = id;
+                        sensorData.push(s);
+                    }
+                );
+                setSensors(sensorData);
+                setLoading(false);
+            });
+    };
 
     useEffect(() => {
-        const id = setInterval(() => {
-            const sensorData: LongDistanceSensor[] = [];
-            fetch("http://192.168.17.136/status")
-                .then((response) => response.json())
-                .then((data) => {
-                    Object.entries(data.longDistanceSensors).forEach(
-                        ([id, sensor]) => {
-                            const s = sensor as LongDistanceSensor;
-                            s.zone = id;
-                            sensorData.push(s);
-                        }
-                    );
-                    setSensors(sensorData);
-                    setLoading(false);
-                });
-        }, 1000);
+        fetchSensorData();
+        const id = setInterval(fetchSensorData, refreshInterval);
 
         return () => clearInterval(id);
-    }, []);
+    }, [refreshInterval]);
 
     return (
         <div
@@ -141,23 +171,37 @@ export default function StationDashboard() {
             style={{
                 display: "flex",
                 height: "100vh",
-                gap: "16px",
+                gap: "25px",
                 alignItems: "flex-start",
             }}>
             {/* Left column: Sensors */}
-            <div
-                style={{
-                    flex: 1,
-                    overflowY: "auto",
-                    paddingRight: "8px",
-                }}>
-                <h2 className="mb-3">Sensors</h2>
-                {loading && <p>Loading…</p>}
-                {error && <p className="text-red-500">Error: {error}</p>}
-                {sensors.map((s) => (
-                    <SensorCard key={s.zone} sensor={s} />
-                ))}
-            </div>
+            <Card title="System Configuration" className="p-4">
+                <div
+                    style={{
+                        flex: 1,
+                        overflowY: "auto",
+                        paddingRight: "8px",
+                    }}>
+                    <h2 className="mb-3">Sensors</h2>
+                    <div className="p-fluid surface-100 border-round shadow-1">
+                        <label>Refresh Rate</label>
+                        <Dropdown
+                            placeholder="Refresh Rate"
+                            value={refreshInterval}
+                            className="mb-2"
+                            options={refreshIntervalOptions}
+                            onChange={(e) =>
+                                setRefreshInterval(e.value ?? 1000)
+                            }
+                        />
+                    </div>
+                    {loading && <p>Loading…</p>}
+                    {error && <p className="text-red-500">Error: {error}</p>}
+                    {sensors.map((s) => (
+                        <SensorCard key={s.zone} sensor={s} />
+                    ))}
+                </div>
+            </Card>
 
             {/* Right column: Settings */}
             <div

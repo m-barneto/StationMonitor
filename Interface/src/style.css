@@ -13,3 +13,14 @@ main {
 .p-splitter {
     height: 90%;
 }
+
+.p-card-body {
+    padding: 0.5rem;
+}
+.p-card-content {
+    padding: 0.5rem;
+}
+
+.p-card-title {
+    margin-bottom: 0.25rem;
+}

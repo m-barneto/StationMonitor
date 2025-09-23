@@ -92,6 +92,18 @@ class ServerManager:
     async def get_config(self, request) -> web.Response:
         # Return dict as formatted json
         return web.Response(text=json.dumps(StationMonitorConfig.to_dict(Config.conf), default=str, indent=4), content_type="application/json")
+    
+    async def post_config(self, request) -> web.Response:
+        try:
+            data = await request.json()
+            # Validate and update config
+            new_config = StationMonitorConfig.from_dict(data)
+            print("Received new config via web interface:")
+            print(new_config)
+            #ConfigManager.update_config(new_config)
+            return web.Response(text="Configuration updated successfully.", status=200)
+        except Exception as e:
+            return web.Response(text=f"Error updating configuration: {str(e)}", status=400)
 
     async def loop(self) -> None:
         # Setup our web application
@@ -104,6 +116,8 @@ class ServerManager:
         app.router.add_get("/status", self.get_status)
 
         app.router.add_get("/config", self.get_config)
+
+        app.router.add_post("/config", self.post_config)
 
         # Static file serving (css, js, images, etc.)
         app.router.add_static("/", path="../Interface/build", name="public")
