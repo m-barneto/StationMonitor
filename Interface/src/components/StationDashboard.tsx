@@ -137,8 +137,8 @@ const refreshIntervalOptions = [
 // Main Dashboard
 export default function StationDashboard() {
     const [sensors, setSensors] = useState<LongDistanceSensor[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
+    const [rpiTime, setRpiTime] = useState<string>("");
+    const [eventsQueued, setEventsQueued] = useState<number>(0);
     const [refreshInterval, setRefreshInterval] = useState<number>(250);
 
     const fetchSensorData = async () => {
@@ -154,7 +154,12 @@ export default function StationDashboard() {
                     }
                 );
                 setSensors(sensorData);
-                setLoading(false);
+                const [hourStr, minute] = data.rpiTime.split(":");
+                let hour = parseInt(hourStr, 10);
+                const ampm = hour >= 12 ? "PM" : "AM";
+                hour = hour % 12 || 12;
+                setRpiTime(`${hour}:${minute} ${ampm}`);
+                setEventsQueued(data.eventsQueued);
             });
     };
 
@@ -175,14 +180,33 @@ export default function StationDashboard() {
                 alignItems: "flex-start",
             }}>
             {/* Left column: Sensors */}
-            <Card title="System Configuration" className="p-4">
+            <Card title="Status" className="p-4">
                 <div
                     style={{
                         flex: 1,
                         overflowY: "auto",
                         paddingRight: "8px",
+                        minWidth: "450px",
                     }}>
-                    <h2 className="mb-3">Sensors</h2>
+                    <h3 className="mb-3">System Information</h3>
+                    <Card title="System" className="mb-3">
+                        <p className="m-0">
+                            <strong>Raspberry Pi Time:</strong> {rpiTime || "—"}
+                        </p>
+                        <p className="m-0">
+                            <strong>Events Queued:</strong>{" "}
+                            <Tag
+                                value={eventsQueued.toString()}
+                                severity={
+                                    eventsQueued > 0 ? "danger" : "success"
+                                }
+                                style={{
+                                    padding: "0.3rem 0.5rem",
+                                }}
+                            />
+                        </p>
+                    </Card>
+                    <h3 className="mb-3">Sensors</h3>
                     <div className="p-fluid surface-100 border-round shadow-1">
                         <label>Refresh Rate</label>
                         <Dropdown
@@ -195,8 +219,6 @@ export default function StationDashboard() {
                             }
                         />
                     </div>
-                    {loading && <p>Loading…</p>}
-                    {error && <p className="text-red-500">Error: {error}</p>}
                     {sensors.map((s) => (
                         <SensorCard key={s.zone} sensor={s} />
                     ))}

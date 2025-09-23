@@ -86,8 +86,6 @@ export default function SettingsForm() {
     };
 
     const handleSubmit = () => {
-        console.log("Submitted Settings:", settings);
-        alert("Settings saved! Check console for output.");
         // Make a post request containing the updated settings in json format
         fetch("http://192.168.17.136/config", {
             method: "POST",
@@ -95,8 +93,17 @@ export default function SettingsForm() {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(settings),
+        }).then((response) => {
+            if (response.ok) {
+                alert("Settings saved successfully, reloading...");
+            } else {
+                alert("Failed to save settings");
+            }
         });
-        console.log("sent request");
+        // Reload page after a short delay to allow server to process
+        setTimeout(() => {
+            window.location.reload();
+        }, 3000);
     };
 
     if (settings.longDistanceSensors === undefined) {
