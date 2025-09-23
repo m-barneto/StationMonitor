@@ -143,7 +143,7 @@ export default function StationDashboard() {
 
     const fetchSensorData = async () => {
         const sensorData: LongDistanceSensor[] = [];
-        fetch("http://192.168.17.136/status")
+        fetch("http://192.168.17.181/status")
             .then((response) => response.json())
             .then((data) => {
                 Object.entries(data.longDistanceSensors).forEach(
@@ -188,24 +188,19 @@ export default function StationDashboard() {
                         paddingRight: "8px",
                         minWidth: "450px",
                     }}>
-                    <h3 className="mb-3">System Information</h3>
-                    <Card title="System" className="mb-3">
-                        <p className="m-0">
-                            <strong>Raspberry Pi Time:</strong> {rpiTime || "—"}
-                        </p>
-                        <p className="m-0">
-                            <strong>Events Queued:</strong>{" "}
-                            <Tag
-                                value={eventsQueued.toString()}
-                                severity={
-                                    eventsQueued > 0 ? "danger" : "success"
-                                }
-                                style={{
-                                    padding: "0.3rem 0.5rem",
-                                }}
-                            />
-                        </p>
-                    </Card>
+                    <p className="m-0">
+                        <strong>Raspberry Pi Time:</strong> {rpiTime || "—"}
+                    </p>
+                    <p className="m-0">
+                        <strong>Events Queued:</strong>{" "}
+                        <Tag
+                            value={eventsQueued.toString()}
+                            severity={eventsQueued > 0 ? "danger" : "success"}
+                            style={{
+                                padding: "0.3rem 0.5rem",
+                            }}
+                        />
+                    </p>
                     <h3 className="mb-3">Sensors</h3>
                     <div className="p-fluid surface-100 border-round shadow-1">
                         <label>Refresh Rate</label>
