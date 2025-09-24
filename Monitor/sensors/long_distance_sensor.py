@@ -101,10 +101,8 @@ class LongDistanceSensor(Sensor):
                         header1 = ser.read(1)
                         header2 = ser.read(1)
                         if header1 != b'\x59':
-                            print("h1 continuing")
                             continue
                         if header2 != b'\x59':
-                            print("h2 continuing")
                             continue
                         # Read the remaining 14 bytes to complete the 15-byte packet
                         packet = header1 + header2 + ser.read(7)
