@@ -7,6 +7,7 @@ import { Card } from "primereact/card";
 import { Dropdown } from "primereact/dropdown";
 import { Tag } from "primereact/tag";
 import SettingsForm from "./SettingsForm";
+import { Button } from "primereact/button";
 
 // Types
 interface LongDistanceSensor {
@@ -140,6 +141,7 @@ export default function StationDashboard() {
     const [rpiTime, setRpiTime] = useState<string>("");
     const [eventsQueued, setEventsQueued] = useState<number>(0);
     const [refreshInterval, setRefreshInterval] = useState<number>(250);
+    const [showHelp, setShowHelp] = useState(false);
 
     const fetchSensorData = async () => {
         const sensorData: LongDistanceSensor[] = [];
@@ -180,7 +182,21 @@ export default function StationDashboard() {
                 alignItems: "flex-start",
             }}>
             {/* Left column: Sensors */}
-            <Card title="Status" className="p-4">
+            <Card title={
+                            <div className="flex justify-content-between align-items-center w-full">
+                                <span>Sensors</span>
+                                <Button
+                                    className="p-button-rounded p-button-text"
+                                    onClick={() => setShowHelp(true)}
+                                    tooltip="View setting descriptions"
+                                    tooltipOptions={{ position: "left" }}>
+                                    <i
+                                        className="pi pi-question-circle"
+                                        style={{ fontSize: "2rem" }}
+                                    />
+                                </Button>
+                            </div>
+                        } className="p-4">
                 <div
                     style={{
                         flex: 1,
