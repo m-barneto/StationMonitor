@@ -119,7 +119,7 @@ class LongDistanceSensor(Sensor):
                 ) as ser:
                     print("Serial port opened successfully.")
                     while True:
-                        result = await loop.run_in_executor(read_packet, ser)
+                        result = await loop.run_in_executor(None, read_packet, ser)
                         if result == None:
                             continue
 
