@@ -61,6 +61,26 @@ def get_port_from_serial(serial_number: str):
             return port.device
     return None
 
+def read_packet(ser: serial.Serial):
+    header1 = ser.read(1)
+    header2 = ser.read(1)
+    if header1 != b'\x59':
+        print("Invalid header byte, skipping...")
+        return None
+    if header2 != b'\x59':
+        print("Invalid header byte, skipping...")
+        return None
+    # Read the remaining 14 bytes to complete the 15-byte packet
+    packet = header1 + header2 + ser.read(7)
+    if len(packet) != 9:
+        return None  # Skip incomplete packets
+    result = parse_sensor_data(packet)
+
+    if result['error']:
+        return None
+
+    return result
+
 class LongDistanceSensor(Sensor):
     def __init__(self, config: LongDistanceSensorConfig, event_queue: asyncio.Queue):
         """Initialize the distance sensor with the given configuration."""
@@ -85,6 +105,7 @@ class LongDistanceSensor(Sensor):
         return self.stable_distance < self.occupied_distance or self.reflection_strength < self.empty_reflection_strength
 
     async def loop(self) -> None:
+        loop = asyncio.get_running_loop()
         while True:
             print("Opening serial port: ", self.port)
             try:
@@ -98,25 +119,13 @@ class LongDistanceSensor(Sensor):
                 ) as ser:
                     print("Serial port opened successfully.")
                     while True:
-                        header1 = ser.read(1)
-                        header2 = ser.read(1)
-                        if header1 != b'\x59':
-                            print("Invalid header byte, skipping...")
-                            continue
-                        if header2 != b'\x59':
-                            print("Invalid header byte, skipping...")
-                            continue
-                        # Read the remaining 14 bytes to complete the 15-byte packet
-                        packet = header1 + header2 + ser.read(7)
-                        if len(packet) != 9:
-                            continue  # Skip incomplete packets
-                        result = parse_sensor_data(packet)
-
-                        if result['error']:
+                        result = await loop.run_in_executor(read_packet, ser)
+                        if result == None:
                             continue
 
                         if result['strength'] <= self.empty_reflection_strength:
                             result['distance'] = 0
+                            
                         self.readings.insert(0, int(result['distance']))
                         if len(self.readings) > 20:
                             self.readings.pop()
