@@ -65,10 +65,8 @@ def read_packet(ser: serial.Serial):
     header1 = ser.read(1)
     header2 = ser.read(1)
     if header1 != b'\x59':
-        print("Invalid header byte, skipping...")
         return None
     if header2 != b'\x59':
-        print("Invalid header byte, skipping...")
         return None
     # Read the remaining 14 bytes to complete the 15-byte packet
     packet = header1 + header2 + ser.read(7)
