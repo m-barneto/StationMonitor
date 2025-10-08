@@ -32,13 +32,13 @@ const severityColors = {
 function formatDuration(seconds: number): string {
   const hrs = Math.floor(seconds / 3600);
   const mins = Math.floor((seconds % 3600) / 60);
-  const secs = seconds % 60;
+  const secs = Math.floor(seconds % 60);
 
   const parts = [];
-  if (hrs > 0) parts.push(`${hrs} hour${hrs !== 1 ? "s" : ""}`);
-  if (mins > 0) parts.push(`${mins} min${mins !== 1 ? "s" : ""}`);
+  if (hrs > 0) parts.push(`${hrs}h${hrs !== 1 ? "s" : ""}`);
+  if (mins > 0) parts.push(`${mins}m${mins !== 1 ? "s" : ""}`);
   if (secs > 0 || parts.length === 0)
-    parts.push(`${secs} second${secs !== 1 ? "s" : ""}`);
+    parts.push(`${secs}s`);
 
   return parts.join(" ");
 }
