@@ -205,7 +205,7 @@ export default function StationDashboard() {
                         minWidth: "450px",
                     }}>
                     <p className="m-0">
-                        <strong>Raspberry Pi Time:</strong> {rpiTime || "—"}
+                        <strong>Local System Time:</strong> {rpiTime || "—"}
                     </p>
                     <p className="m-0">
                         <strong>Events Queued:</strong>{" "}

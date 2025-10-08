@@ -139,7 +139,7 @@ export default function SettingsForm() {
             <h3>Distance Sensors</h3>
 
             {settings.longDistanceSensors.map((sensor, i) => (
-                <Card key={i} className="mb-3 p-3">
+                <Card key={i} className="mb-3 p-0">
                     <div className="p-fluid grid formgrid">
                         <div className="col-12 md:col-8">
                             <label htmlFor={`zone-${i}`}>Zone Label</label>
