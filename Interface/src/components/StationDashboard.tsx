@@ -29,34 +29,18 @@ const severityColors = {
     3: { backgroundColor: "#662626", color: "#f4b6b6" },
 };
 
-// Sensor Card Component
-function SensorCardOld({ sensor }: { sensor: LongDistanceSensor }) {
-    const colorSeverity = sensor.isOccupied === "EMPTY" ? 1 : 2; // 2 or 3 if alarmed
-    const styles = {
-        backgroundColor: severityColors[colorSeverity]?.backgroundColor,
-        color: severityColors[colorSeverity]?.color,
-    };
-    return (
-        <Card
-            className="mb-3 shadow-1"
-            title={sensor.zone}
-            style={{
-                backgroundColor: styles.backgroundColor,
-                color: styles.color,
-            }}>
-            <p className="m-0">
-                Immediate Distance: {sensor.currentDistance} mm
-            </p>
-            <p className="m-0">Smoothed Distance: {sensor.stableDistance} mm</p>
-            <p className="m-0">
-                Occupied Distance Threshold: {sensor.occupiedDistance}
-            </p>
-            <p className="m-0">Status: {sensor.isOccupied ?? "—"}</p>
-            <p className="m-0">
-                Reflection Strength: {sensor.reflectionStrength}
-            </p>
-        </Card>
-    );
+function formatDuration(seconds: number): string {
+  const hrs = Math.floor(seconds / 3600);
+  const mins = Math.floor((seconds % 3600) / 60);
+  const secs = seconds % 60;
+
+  const parts = [];
+  if (hrs > 0) parts.push(`${hrs} hour${hrs !== 1 ? "s" : ""}`);
+  if (mins > 0) parts.push(`${mins} min${mins !== 1 ? "s" : ""}`);
+  if (secs > 0 || parts.length === 0)
+    parts.push(`${secs} second${secs !== 1 ? "s" : ""}`);
+
+  return parts.join(" ");
 }
 
 function SensorCard({ sensor }: { sensor: LongDistanceSensor }) {
@@ -111,7 +95,7 @@ function SensorCard({ sensor }: { sensor: LongDistanceSensor }) {
                         />
                     </p>
                     <p className="m-0">
-                        <strong>Duration:</strong> {sensor.duration}s
+                        <strong>Duration:</strong> {formatDuration(sensor.duration)}
                     </p>
                     <p className="m-0">
                         <strong>Reflection:</strong> {sensor.reflectionStrength}
