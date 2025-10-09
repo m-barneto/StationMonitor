@@ -115,7 +115,7 @@ try:
 
     print("Starting web server on port 80")
     # Web server that displays current status of sensors to web
-    server = ServerManager(reflective_sensors, distance_sensors, long_distance_sensors, sensor_manager, event_manager, sleep_manager)
+    server = ServerManager(long_distance_sensors, sensor_manager, event_manager, sleep_manager)
     loop.create_task(server.loop())
 
     print("Finished starting web server")
