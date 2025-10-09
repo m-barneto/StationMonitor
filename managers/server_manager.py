@@ -114,6 +114,7 @@ class ServerManager:
             #Config.reload_config()
             return web.Response(text="Configuration updated successfully.", status=200)
         except Exception as e:
+            print(str(e))
             return web.Response(text=f"Error updating configuration: {str(e)}", status=400)
 
     async def get_available_ips(self, request) -> web.Response:
