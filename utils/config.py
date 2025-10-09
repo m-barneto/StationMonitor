@@ -250,6 +250,7 @@ class Config:
     @staticmethod
     def save_config() -> None:
         with open("config.jsonc", "w") as f:
+            print("gahh")
             pyjson5.dump(StationMonitorConfig.to_dict(Config.conf), f, indent=4)
 
     @staticmethod
