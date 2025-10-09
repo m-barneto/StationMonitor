@@ -29,6 +29,9 @@ export interface LongDistanceSensor {
     serialNumber: string;
     occupiedDistance: number;
     emptyReflectionStrength: number;
+    indicatorPin: number;
+    pwmChannel: number;
+
 }
 
 export interface Sleep {
