@@ -246,3 +246,13 @@ class Config:
             with open("./config.jsonc", encoding="utf-8") as f:
                 Config.conf = StationMonitorConfig.from_dict(pyjson5.load(f))
         return Config.conf
+
+    @staticmethod
+    def save_config() -> None:
+        with open("config.jsonc", "w") as f:
+            pyjson5.dump(StationMonitorConfig.to_dict(Config.conf), f, indent=4)
+
+    @staticmethod
+    def reload_config() -> None:
+        with open("./config.jsonc", encoding="utf-8") as f:
+            Config.conf = StationMonitorConfig.from_dict(pyjson5.load(f))
