@@ -1,6 +1,5 @@
 import asyncio
 from typing import List
-import RPi.GPIO as GPIO  # type: ignore
 
 from managers.alarm_manager import AlarmManager
 from managers.config_manager import ConfigManager
@@ -127,4 +126,4 @@ try:
     loop.run_forever()
 finally:
     # Cleanup GPIO pin
-    GPIO.cleanup()
+    pass# GPIO.cleanup()
