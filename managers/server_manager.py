@@ -77,7 +77,7 @@ class ServerManager:
 
     async def get_interface(self, request) -> web.Response:
         # Return the interface html page
-        return web.FileResponse("../Interface/build/index.html")
+        return web.FileResponse("Interface/build/index.html")
 
     async def get_style(self, request) -> web.Response:
         # Return the style css page
