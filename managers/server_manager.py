@@ -1,23 +1,22 @@
 import asyncio
 from datetime import datetime, timezone
 import json
+import socket
+import subprocess
 from aiohttp import web
+import aiohttp_cors
 
 from managers.config_manager import ConfigManager
 from managers.event_manager import EventManager
 from managers.sensor_manager import SensorManager
 from managers.sleep_manager import SleepManager
-from sensors.distance_sensor import DistanceSensor
 from sensors.long_distance_sensor import LongDistanceSensor
-from sensors.reflective_sensor import ReflectiveSensor
 from utils.config import Config, StationMonitorConfig
 from utils.sensor_event import SensorState
 
 
 class ServerManager:
-    def __init__(self, reflective_sensors: list[ReflectiveSensor], distance_sensors: list[DistanceSensor], long_distance_sensors: list[LongDistanceSensor], sensor_manager: SensorManager, event_manager: EventManager, sleep_manager: SleepManager):
-        ServerManager.reflective_sensors = reflective_sensors
-        ServerManager.distance_sensors = distance_sensors
+    def __init__(self, long_distance_sensors: list[LongDistanceSensor], sensor_manager: SensorManager, event_manager: EventManager, sleep_manager: SleepManager):
         ServerManager.long_distance_sensors = long_distance_sensors
         ServerManager.sensor_manager = sensor_manager
         ServerManager.event_manager = event_manager
@@ -33,43 +32,6 @@ class ServerManager:
             ServerManager.event_manager.event_queue.qsize() + ServerManager.event_manager.processing)
         status["isSleeping"] = not ServerManager.sleep_manager.is_open
 
-        # Add data for individual sensors
-        ref_sensor_data = {}
-        for s in ServerManager.reflective_sensors:
-            start_event_time = ServerManager.sensor_manager.get_sensor_occupied_time(s.zone)
-            if start_event_time is not None:
-                # Calculate the duration of the event in seconds
-                duration = (datetime.now(timezone.utc) - start_event_time).total_seconds()
-            # Add data to dict using zone id as key
-            ref_sensor_data[s.zone] = {
-                "isOccupied": s.get_state().name,
-                "eventState": ServerManager.sensor_manager.sensor_ctx[s.zone].current_event_state.name,
-                "duration": round(duration, 2) if start_event_time is not None else 0.0,
-            }
-        # Add our sensor data to the response dict
-        status["reflectiveSensors"] = ref_sensor_data
-
-        dist_sensor_data = {}
-
-        for dist_sensor in ServerManager.distance_sensors:
-            start_event_time = ServerManager.sensor_manager.get_sensor_occupied_time(dist_sensor.zone)
-            if start_event_time is not None:
-                # Calculate the duration of the event in seconds
-                duration = (datetime.now(timezone.utc) - start_event_time).total_seconds()
-
-            dist_sensor_data[dist_sensor.zone] = {
-                "currentDistance": dist_sensor.current_distance,
-                "stableDistance": dist_sensor.stable_distance,
-                "reflectionStrength": dist_sensor.reflection_strength,
-                "temperature": dist_sensor.temperature,
-                "occupiedDistance": dist_sensor.occupied_distance,
-                "reflectionStrength": dist_sensor.reflection_strength,
-                "isOccupied": str(dist_sensor.get_state().name),
-                "duration": round(duration, 2) if start_event_time is not None else 0.0,
-            }
-
-        status["distanceSensors"] = dist_sensor_data
-
         long_dist_sensor_data = {}
         for long_dist_sensor in ServerManager.long_distance_sensors:
             start_event_time = ServerManager.sensor_manager.get_sensor_occupied_time(long_dist_sensor.zone)
@@ -84,7 +46,6 @@ class ServerManager:
                 "reflectionStrength": long_dist_sensor.reflection_strength,
                 "temperature": long_dist_sensor.temperature,
                 "occupiedDistance": long_dist_sensor.occupied_distance,
-                "reflectionStrength": long_dist_sensor.reflection_strength,
                 "isOccupied": str(long_dist_sensor.get_state().name),
                 "duration": round(duration, 2) if start_event_time is not None else 0.0,
             }
@@ -116,9 +77,7 @@ class ServerManager:
 
     async def get_interface(self, request) -> web.Response:
         # Return the interface html page
-        with open("./public/index.html", "r") as f:
-            html = f.read()
-        return web.Response(text=html, content_type="text/html")
+        return web.FileResponse("../Interface/build/index.html")
 
     async def get_style(self, request) -> web.Response:
         # Return the style css page
@@ -135,6 +94,44 @@ class ServerManager:
     async def get_config(self, request) -> web.Response:
         # Return dict as formatted json
         return web.Response(text=json.dumps(StationMonitorConfig.to_dict(Config.conf), default=str, indent=4), content_type="application/json")
+    
+    async def post_config(self, request) -> web.Response:
+        try:
+            data = await request.json()
+            # Validate and update config
+            new_config = StationMonitorConfig.from_dict(data)
+            # Modify the current config object
+            Config.get().longDistanceSensors = new_config.longDistanceSensors
+            Config.get().sleep.timezone = new_config.sleep.timezone
+            Config.get().sleep.openTime = new_config.sleep.openTime
+            Config.get().sleep.closeTime = new_config.sleep.closeTime
+            Config.get().alarmDuration = new_config.alarmDuration
+            Config.get().minOccupiedDuration = new_config.minOccupiedDuration
+            # Save to file
+            Config.save_config()
+            # Get the asyncio event loop and schedule a restart in 5 seconds
+            asyncio.get_event_loop().call_later(0.2, subprocess.run, ["sudo", "systemctl", "restart", "stationmonitor.service"])
+            #Config.reload_config()
+            return web.Response(text="Configuration updated successfully.", status=200)
+        except Exception as e:
+            return web.Response(text=f"Error updating configuration: {str(e)}", status=400)
+
+    async def get_available_ips(self, request) -> web.Response:
+        # Return list of available IPs
+        # get current ip
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(('8.8.8.8', 1))  # connect() for UDP doesn't send packets
+        local_ip_address = s.getsockname()[0]
+        possible_ips = [
+            "192.168.17.205",
+            "192.168.17.206",
+            "192.168.17.207",
+            "192.168.17.208",
+            "192.168.17.209",
+            "192.168.17.210",
+            local_ip_address
+        ]
+        return web.Response(text=json.dumps(possible_ips, indent=4), content_type="application/json")
 
     async def loop(self) -> None:
         # Setup our web application
@@ -142,11 +139,30 @@ class ServerManager:
         # Add index route for status
         app.router.add_get('/', self.get_interface)
 
-        app.router.add_get("/style.css", self.get_style)
+        #app.router.add_get("/style.css", self.get_style)
 
         app.router.add_get("/status", self.get_status)
 
+        app.router.add_get("/ips", self.get_available_ips)
+
         app.router.add_get("/config", self.get_config)
+
+        app.router.add_post("/config", self.post_config)
+
+        # Static file serving (css, js, images, etc.)
+        app.router.add_static("/", path="../Interface/build", name="public")
+
+        cors = aiohttp_cors.setup(app, defaults={
+            "*": aiohttp_cors.ResourceOptions(
+                allow_credentials=True,
+                expose_headers="*",
+                allow_headers="*",
+            )
+        })
+
+        # Apply CORS to all routes
+        for route in list(app.router.routes()):
+            cors.add(route)
 
         # Setup the web app runner
         runner = web.AppRunner(app)
