@@ -36,7 +36,7 @@ class SensorManager:
 
     async def loop(self) -> None:
         while True:
-            if not SleepManager.is_open:
+            if not SleepManager.is_open and self.is_all_empty():
                 await asyncio.sleep(Config.get().sleep.sleepInterval)
                 continue
 
@@ -142,3 +142,12 @@ class SensorManager:
                 # If the current event state is OCCUPIED_STARTED, return the occupied start time
                 return zone_ctx.occupied_start_time
         return None
+    
+    
+    def is_all_empty(self) -> bool:
+        # Loop through all sensors and call their loop method
+            for sensor in self.sensors:
+                is_empty = self.get_sensor_ctx(sensor.zone).current_event_state == EventState.EMPTY
+                if not is_empty:
+                    return False
+            return True
