@@ -45,7 +45,12 @@ class SensorManager:
 
             # Loop through all sensors and call their loop method
             for sensor in self.sensors:
-                await self.process_sensor(current_time, sensor.zone, sensor)
+                if not SleepManager.is_open:
+                    is_empty = self.get_sensor_ctx(sensor.zone).current_event_state == EventState.EMPTY
+                    if not is_empty:
+                        await self.process_sensor(current_time, sensor.zone, sensor)
+                else:
+                    await self.process_sensor(current_time, sensor.zone, sensor)
             
             # Sleep for configured interval
             await asyncio.sleep(float(1 / int(Config.get().sensorPollRate)))
