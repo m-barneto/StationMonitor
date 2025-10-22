@@ -19,6 +19,11 @@ class TimerManager:
 
         TimerManager.has_started = False
 
+    async def loop(self) -> None:
+        await TimerManager.reset()
+        await asyncio.sleep(1)
+        await TimerManager.reset()
+
     @staticmethod
     def is_bay(sensor_zone: str) -> bool:
         return TimerManager.bay_sensor_zone == sensor_zone
