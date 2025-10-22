@@ -26,12 +26,14 @@ class TimerManager:
         # to press the button
         # set state to true for non grounded
         # set to false for .25 seconds
+        print("Writing false start")
         TimerManager.start_io.write(False)
         await asyncio.sleep(.25)
         TimerManager.start_io.write(True)
 
     @staticmethod
     async def reset() -> None:
+        print("Writing false reset")
         TimerManager.reset_io.write(False)
         await asyncio.sleep(.25)
         TimerManager.reset_io.write(True)
