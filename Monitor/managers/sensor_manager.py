@@ -67,7 +67,7 @@ class SensorManager:
         if event_state is None:
             # Do nothing
             return
-        
+        print(event_state)
         match event_state:
             case EventState.OCCUPIED_PENDING:
                 if TimerManager.is_bay(zone) and not TimerManager.has_started:
