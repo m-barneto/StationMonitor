@@ -1,6 +1,6 @@
 import asyncio
 
-from Monitor.managers.timer_manager import TimerManager
+from managers.timer_manager import TimerManager
 from managers.alarm_manager import AlarmManager
 from managers.event_manager import EventManager
 from managers.health_manager import HealthManager

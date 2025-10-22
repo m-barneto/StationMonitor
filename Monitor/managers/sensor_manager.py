@@ -2,7 +2,7 @@ import asyncio
 from datetime import datetime, timedelta, timezone
 import json
 
-from Monitor.managers.timer_manager import TimerManager
+from managers.timer_manager import TimerManager
 from managers.sleep_manager import SleepManager
 from sensors.sensor import Sensor, SensorState
 from utils.config import Config

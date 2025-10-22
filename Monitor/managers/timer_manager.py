@@ -1,6 +1,6 @@
 import asyncio
 from periphery import GPIO
-from Monitor.managers.sensor_manager import EventState, SensorManager
+from managers.sensor_manager import EventState, SensorManager
 
 
 class TimerManager:
