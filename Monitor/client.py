@@ -1,5 +1,6 @@
 import asyncio
 
+from Monitor.managers.timer_manager import TimerManager
 from managers.alarm_manager import AlarmManager
 from managers.event_manager import EventManager
 from managers.health_manager import HealthManager
@@ -53,6 +54,9 @@ loop.create_task(sensor_manager.loop())
 
 # Sends out requests for alarm events when duration is exceeded
 loop.create_task(AlarmManager(sensor_manager, event_queue).loop())
+
+# Handle the timer management
+TimerManager(sensor_manager)
 
 # Web server that displays current status of sensors to web
 server = ServerManager(long_distance_sensors, sensor_manager, event_manager, sleep_manager)

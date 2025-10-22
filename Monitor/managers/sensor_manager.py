@@ -2,6 +2,7 @@ import asyncio
 from datetime import datetime, timedelta, timezone
 import json
 
+from Monitor.managers.timer_manager import TimerManager
 from managers.sleep_manager import SleepManager
 from sensors.sensor import Sensor, SensorState
 from utils.config import Config
@@ -68,6 +69,11 @@ class SensorManager:
             return
         
         match event_state:
+            case EventState.OCCUPIED_PENDING:
+                if TimerManager.is_bay(zone):
+                    await TimerManager.reset()
+                    await asyncio.sleep(.25)
+                    await TimerManager.start()
             case EventState.OCCUPIED_STARTED:
                 # Create an occupied start event
                 occupied_start = EventData.occupied_start(zone, zone_ctx.occupied_start_time)
@@ -79,6 +85,9 @@ class SensorManager:
                 # Add the event to the queue
                 print("Sending end event", occupied_end)
                 await self.event_queue.put(occupied_end)
+
+                if TimerManager.is_bay(zone):
+                    await TimerManager.reset()
 
     def update_event_state(self, zone: str, sensor: Sensor) -> EventState | None:
         # Get the zone context
