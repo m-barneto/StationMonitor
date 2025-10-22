@@ -6,8 +6,8 @@ class TimerManager:
     def __init__(self, sensors: list[Sensor]):
         # Find the bay sensor.
         for sensor in sensors:
-            if "BAY" in sensor:
-                TimerManager.bay_sensor_zone = sensor
+            if "BAY" in sensor.zone:
+                TimerManager.bay_sensor_zone = sensor.zone
                 print(TimerManager.bay_sensor_zone)
         
         TimerManager.start_io = GPIO(145, "out")
