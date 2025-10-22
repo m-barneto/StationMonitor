@@ -70,6 +70,7 @@ class SensorManager:
         
         match event_state:
             case EventState.OCCUPIED_PENDING:
+                pass
                 if TimerManager.is_bay(zone):
                     await TimerManager.reset()
                     await asyncio.sleep(.25)
@@ -86,8 +87,8 @@ class SensorManager:
                 print("Sending end event", occupied_end)
                 await self.event_queue.put(occupied_end)
 
-                if TimerManager.is_bay(zone):
-                    await TimerManager.reset()
+                #if TimerManager.is_bay(zone):
+                #    await TimerManager.reset()
 
     def update_event_state(self, zone: str, sensor: Sensor) -> EventState | None:
         # Get the zone context
