@@ -10,8 +10,8 @@ class TimerManager:
                 TimerManager.bay_sensor_zone = sensor.zone
                 print(TimerManager.bay_sensor_zone)
         
-        TimerManager.start_io = GPIO(66, "out")
-        TimerManager.reset_io = GPIO(67, "out")
+        TimerManager.start_io = GPIO(67, "out")
+        TimerManager.reset_io = GPIO(66, "out")
 
         # True = not grounded
         TimerManager.start_io.write(True)
