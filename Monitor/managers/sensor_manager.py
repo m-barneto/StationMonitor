@@ -80,6 +80,8 @@ class SensorManager:
                     print("end no event")
                     TimerManager.has_started = False
                     await TimerManager.reset()
+                    await asyncio.sleep(.25)
+                    await TimerManager.reset()
             case EventState.OCCUPIED_STARTED:
                 # Create an occupied start event
                 occupied_start = EventData.occupied_start(zone, zone_ctx.occupied_start_time)
