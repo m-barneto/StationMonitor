@@ -70,12 +70,14 @@ class SensorManager:
         match event_state:
             case EventState.OCCUPIED_PENDING:
                 if TimerManager.is_bay(zone) and not TimerManager.has_started:
+                    print("start")
                     await TimerManager.reset()
                     await asyncio.sleep(.25)
                     await TimerManager.start()
                     TimerManager.has_started = True
             case EventState.EMPTY:
                 if TimerManager.is_bay(zone) and TimerManager.has_started:
+                    print("end no event")
                     TimerManager.has_started = False
                     await TimerManager.reset()
             case EventState.OCCUPIED_STARTED:
@@ -91,6 +93,7 @@ class SensorManager:
                 await self.event_queue.put(occupied_end)
 
                 if TimerManager.is_bay(zone):
+                    print("end with event")
                     TimerManager.has_started = False
                     await TimerManager.reset()
 
