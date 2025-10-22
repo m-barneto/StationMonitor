@@ -17,6 +17,8 @@ class TimerManager:
         TimerManager.start_io.write(True)
         TimerManager.reset_io.write(True)
 
+        TimerManager.has_started = False
+
     @staticmethod
     def is_bay(sensor_zone: str) -> bool:
         return TimerManager.bay_sensor_zone == sensor_zone
