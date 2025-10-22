@@ -1,15 +1,13 @@
 import asyncio
+from sensors.sensor import Sensor
 from periphery import GPIO
-from managers.sensor_manager import EventState, SensorManager
-
 
 class TimerManager:
-    def __init__(self, sensor_manager: SensorManager):
-        self.sensor_manager = sensor_manager
+    def __init__(self, sensors: list[Sensor]):
         # Find the bay sensor.
-        for sensor in sensor_manager.sensors:
-            if "BAY" in sensor.zone:
-                TimerManager.bay_sensor_zone = sensor.zone
+        for sensor in sensors:
+            if "BAY" in sensor:
+                TimerManager.bay_sensor_zone = sensor
                 print(TimerManager.bay_sensor_zone)
         
         TimerManager.start_io = GPIO(145, "out")
