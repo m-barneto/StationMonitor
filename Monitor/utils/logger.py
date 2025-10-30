@@ -1,8 +1,11 @@
 import logging
 from logging.handlers import RotatingFileHandler
+from pathlib import Path
 
 logger = logging.getLogger("StationMonitor")
 logger.setLevel(logging.INFO)
+
+Path("/logs/").mkdir(parents=True, exist_ok=True)
 
 # Create a file handler that logs messages to a file with rotation
 handler = RotatingFileHandler(
