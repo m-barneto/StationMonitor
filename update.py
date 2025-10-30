@@ -15,6 +15,7 @@ MONITOR = INSTALL_DIR / "Monitor"
 SETUP_SCRIPT = MONITOR / "setup.sh"
 MIGRATION_SCRIPT = MONITOR / "migrate_config.py"
 ORIGINAL_CONFIG = MONITOR / "config.json"
+VENV_PYTHON = MONITOR / "venv" / "bin" / "python3"
 # ============================
 
 EXPECTED_PATHS = [
@@ -122,7 +123,7 @@ def main():
 
             # Migrate old config to new version
             if MIGRATION_SCRIPT.exists():
-                run(["python3", str(MIGRATION_SCRIPT)], cwd=MIGRATION_SCRIPT.parent)
+                run([str(VENV_PYTHON), str(MIGRATION_SCRIPT)], cwd=MIGRATION_SCRIPT.parent)
             else:
                 print("Migration script not found - skipping.")
 
