@@ -1,4 +1,5 @@
 {
+    "version": "0.0.0",
     "longDistanceSensors": [
         {
             "zone": "A",
@@ -15,8 +16,8 @@
     ],
     "sleep": {
         "timezone": "US/Eastern",
-        "openTime": "08:00",
-        "closeTime": "20:00",
+        "openTime": "07:00",
+        "closeTime": "21:00",
         "sleepInterval": 60
     },
     "alarmDuration": 1,
