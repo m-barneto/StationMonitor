@@ -27,7 +27,7 @@ EXPECTED_PATHS = [
 
 def run(cmd, check=True, cwd=None):
     """Run a shell command with logging."""
-    print(f"$ {' '.join(cmd)} (cwd={cwd or os.getcwd()})")
+    print(f"$ {' '.join(map(str, cmd))} (cwd={cwd or os.getcwd()})")
     subprocess.run(cmd, check=check, cwd=cwd)
 
 def download_latest_release(tmp_dir):
@@ -119,7 +119,7 @@ def main():
             extract_zip(zip_path)
             
             # Run setup script for virtual environment
-            run(["sudo", "bash", str(SETUP_SCRIPT)], cwd=SETUP_SCRIPT.parent)
+            run(["bash", str(SETUP_SCRIPT)], cwd=SETUP_SCRIPT.parent)
 
             # Migrate old config to new version
             if MIGRATION_SCRIPT.exists():
