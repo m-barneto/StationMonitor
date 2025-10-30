@@ -113,7 +113,7 @@ def main():
             
             # Delete old install
             if not fresh_install:
-                shutil.rmtree(INSTALL_DIR)
+                run(["sudo", "rm", "-rf", INSTALL_DIR])
                 INSTALL_DIR.mkdir(parents=True, exist_ok=True)
 
             extract_zip(zip_path)
