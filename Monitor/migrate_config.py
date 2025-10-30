@@ -13,7 +13,7 @@ def load_config(path: Path):
     with open(path, "r") as f:
         return json5.load(f)
 
-def save_config(config, path: Path):
+def save_config(path: Path, config):
     with open(path, "w") as f:
         json5.dump(config, f, indent=4)
 
