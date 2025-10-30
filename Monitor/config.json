@@ -1,5 +1,5 @@
 {
-    "version": "0.0.0",
+    "version": 1,
     "longDistanceSensors": [
         {
             "zone": "A",
@@ -20,7 +20,7 @@
         "closeTime": "21:00",
         "sleepInterval": 60
     },
-    "alarmDuration": 1,
+    "alarmDuration": 1200,
     "minOccupiedDuration": 10,
     "sensorPollRate": 10,
     "proxyEventRoute": "http://192.168.17.202:8070/beam/event",

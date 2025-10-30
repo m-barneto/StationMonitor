@@ -1,3 +1,4 @@
+import os
 import shutil
 import subprocess
 import tempfile
@@ -9,7 +10,7 @@ from pathlib import Path
 SERVICE_NAME = "stationmonitor"
 GITHUB_REPO = "m-barneto/StationMonitor"
 INSTALL_DIR = Path.home() / "StationMonitor"
-BACKUP_FILE = Path.home() / "config_backup.json"
+BACKUP_CONFIG = Path.home() / "config_backup.json"
 MONITOR = INSTALL_DIR / "Monitor"
 SETUP_SCRIPT = MONITOR / "setup.sh"
 MIGRATION_SCRIPT = MONITOR / "migrate_config.py"
@@ -23,13 +24,12 @@ EXPECTED_PATHS = [
     ORIGINAL_CONFIG
 ]
 
-def run(cmd, check=False):
+def run(cmd, check=True, cwd=None):
     """Run a shell command with logging."""
-    print(f"$ {' '.join(cmd)}")
-    subprocess.run(cmd, check=check)
+    print(f"$ {' '.join(cmd)} (cwd={cwd or os.getcwd()})")
+    subprocess.run(cmd, check=check, cwd=cwd)
 
 def download_latest_release(tmp_dir):
-    print("=== 3. Downloading latest release from GitHub ===")
     api_url = f"https://api.github.com/repos/{GITHUB_REPO}/releases/latest"
     response = requests.get(api_url, timeout=15)
     response.raise_for_status()
@@ -60,13 +60,14 @@ def extract_zip(zip_path):
             shutil.move(str(src_dir), INSTALL_DIR)
     print(f"Extracted to {INSTALL_DIR}")
 
-def preflight_check():
+def preflight_check(fresh_install):
     missing = []
 
     # Check if expected paths exist
-    for path in EXPECTED_PATHS:
-        if not path.exists():
-            missing.append(path)
+    if not fresh_install:
+        for path in EXPECTED_PATHS:
+            if not path.exists():
+                missing.append(path)
 
     # Check if systemd service exists
     service_check = subprocess.run(
@@ -94,31 +95,34 @@ def preflight_check():
     print("Preflight check passed")
 
 def main():
-    preflight_check()
+    fresh_install = not INSTALL_DIR.exists()
+    preflight_check(fresh_install)
     with tempfile.TemporaryDirectory() as tmp_dir:
         try:
             # Stop service
             run(["sudo", "systemctl", "stop", SERVICE_NAME])
 
             # Copy config to backup config path. Overwrite it if exists
-            shutil.copy2(ORIGINAL_CONFIG, BACKUP_FILE)
-            print(f"Config backed up to {BACKUP_FILE}")
+            if not fresh_install:
+                shutil.copy2(ORIGINAL_CONFIG, BACKUP_CONFIG)
+                print(f"Config backed up to {BACKUP_CONFIG}")
             
             # Download to zip
             zip_path = download_latest_release(tmp_dir)
             
             # Delete old install
-            shutil.rmtree(INSTALL_DIR)
-            INSTALL_DIR.mkdir(parents=True, exist_ok=True)
+            if not fresh_install:
+                shutil.rmtree(INSTALL_DIR)
+                INSTALL_DIR.mkdir(parents=True, exist_ok=True)
 
             extract_zip(zip_path)
             
             # Run setup script for virtual environment
-            run(["bash", str(SETUP_SCRIPT)])
+            run(["sudo", "bash", str(SETUP_SCRIPT)], cwd=SETUP_SCRIPT.parent)
 
             # Migrate old config to new version
             if MIGRATION_SCRIPT.exists():
-                run(["python3", str(MIGRATION_SCRIPT)])
+                run(["python3", str(MIGRATION_SCRIPT)], cwd=MIGRATION_SCRIPT.parent)
             else:
                 print("Migration script not found - skipping.")
 
