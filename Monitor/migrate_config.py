@@ -32,3 +32,6 @@ def migrate_config():
 
     save_config(CONFIG_PATH, config)
     print(f"Config migrated to version {version}.")
+
+if __name__ == "__main__":
+    migrate_config()
