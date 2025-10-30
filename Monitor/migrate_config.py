@@ -1,4 +1,5 @@
 import importlib
+import json
 import json5
 from pathlib import Path
 
@@ -15,7 +16,7 @@ def load_config(path: Path):
 
 def save_config(path: Path, config):
     with open(path, "w") as f:
-        json5.dump(config, f, indent=4)
+        json.dump(config, f, indent=4)
 
 def migrate_config():
     config = load_config(BACKUP_CONFIG)
