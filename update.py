@@ -13,6 +13,7 @@ INSTALL_DIR = Path.home() / "StationMonitor"
 BACKUP_CONFIG = Path.home() / "config_backup.json"
 MONITOR = INSTALL_DIR / "Monitor"
 SETUP_SCRIPT = MONITOR / "setup.sh"
+RUN_SCRIPT = MONITOR / "run.sh"
 MIGRATION_SCRIPT = MONITOR / "migrate_config.py"
 ORIGINAL_CONFIG = MONITOR / "config.json"
 VENV_PYTHON = MONITOR / "venv" / "bin" / "python3"
@@ -98,6 +99,7 @@ def preflight_check(fresh_install):
 def main():
     fresh_install = not INSTALL_DIR.exists()
     preflight_check(fresh_install)
+
     with tempfile.TemporaryDirectory() as tmp_dir:
         try:
             # Stop service
@@ -118,6 +120,9 @@ def main():
 
             extract_zip(zip_path)
             
+            run(["chmod", "+x", str(SETUP_SCRIPT)])
+            run(["chmod", "+x", str(RUN_SCRIPT)])
+
             # Run setup script for virtual environment
             run(["bash", str(SETUP_SCRIPT)], cwd=SETUP_SCRIPT.parent)
 
