@@ -1,4 +1,5 @@
 import asyncio
+import platform
 
 from managers.timer_manager import TimerManager
 from managers.alarm_manager import AlarmManager
@@ -56,7 +57,8 @@ loop.create_task(sensor_manager.loop())
 loop.create_task(AlarmManager(sensor_manager, event_queue).loop())
 
 # Handle the timer management
-loop.create_task(TimerManager(sensors).loop())
+if "rpi" not in platform.platform():
+    loop.create_task(TimerManager(sensors).loop())
 
 # Web server that displays current status of sensors to web
 server = ServerManager(long_distance_sensors, sensor_manager, event_manager, sleep_manager)
