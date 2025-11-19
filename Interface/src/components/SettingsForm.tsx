@@ -111,6 +111,20 @@ export default function SettingsForm() {
         }, 3000);
     };
 
+    const handleIpSubmit = () => {
+        fetch("/ip", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                "ip": ip
+            }),
+        }).then((response) => {
+            console.log(response);
+        });
+    };
+
     if (settings.longDistanceSensors === undefined) {
         return (
             <div
@@ -331,14 +345,22 @@ export default function SettingsForm() {
             <h3>General Settings</h3>
             <div className="p-fluid grid">
                 <div className="col-12 md:col-5">
-                    <label>Static IP</label>
+                    <label htmlFor="static_ip_input">Static IP</label>
                     <InputMask
+                    id="static_ip_input"
                         value={ip}
                         onChange={(e) =>
                             setIp(e.target.value!)
                         }
-                        placeholder="Static IP"
+                        placeholder="Static IP (192.168.17.xxx)"
+                        mask="999"
                         className="w-full mb-3"
+                    />
+                    <Button
+                        label="Set IP"
+                        icon="pi pi-save"
+                        className="p-button-success mt-3"
+                        onClick={handleIpSubmit}
                     />
                 </div>
             </div>
