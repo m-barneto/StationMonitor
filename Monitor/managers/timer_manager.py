@@ -3,6 +3,11 @@ from sensors.sensor import Sensor
 from periphery import GPIO
 
 class TimerManager:
+    has_started = False
+    start_io = None
+    reset_io = None
+    bay_sensor_zone = None
+
     def __init__(self, sensors: list[Sensor]):
         # Find the bay sensor.
         for sensor in sensors:

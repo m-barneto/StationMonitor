@@ -3,6 +3,7 @@ import { Card } from "primereact/card";
 import { Dropdown } from "primereact/dropdown";
 import { InputNumber } from "primereact/inputnumber";
 import { InputText } from "primereact/inputtext";
+import { InputMask } from "primereact/inputmask"
 import { Divider } from "primereact/divider";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { Calendar } from "primereact/calendar";
@@ -50,6 +51,8 @@ export default function SettingsForm() {
     const [settings, setSettings] = useState<StationMonitorConfig>(
         {} as StationMonitorConfig
     );
+
+    const [ip, setIp] = useState<string | undefined>("192.168.17");
 
     const [loading, setLoading] = useState(true);
     const [showHelp, setShowHelp] = useState(false);
@@ -324,6 +327,21 @@ export default function SettingsForm() {
                     </ul>
                 </div>
             </Dialog>
+            <Divider />
+            <h3>General Settings</h3>
+            <div className="p-fluid grid">
+                <div className="col-12 md:col-5">
+                    <label>Static IP</label>
+                    <InputMask
+                        value={ip}
+                        onChange={(e) =>
+                            setIp(e.target.value!)
+                        }
+                        placeholder="Static IP"
+                        className="w-full mb-3"
+                    />
+                </div>
+            </div>
         </Card>
     );
 }

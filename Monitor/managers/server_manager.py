@@ -115,23 +115,51 @@ class ServerManager:
             return web.Response(text="Configuration updated successfully.", status=200)
         except Exception as e:
             return web.Response(text=f"Error updating configuration: {str(e)}", status=400)
+    
+    async def ping(self, ip, timeout=1):
+        process = await asyncio.create_subprocess_exec(
+            "ping",
+            "-c", "1",
+            "-W", str(timeout),
+            ip,
+            stdout=asyncio.subprocess.DEVNULL,
+            stderr=asyncio.subprocess.DEVNULL,
+        )
 
-    async def get_available_ips(self, request) -> web.Response:
-        # Return list of available IPs
-        # get current ip
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.connect(('8.8.8.8', 1))  # connect() for UDP doesn't send packets
-        local_ip_address = s.getsockname()[0]
-        possible_ips = [
-            "192.168.17.205",
-            "192.168.17.206",
-            "192.168.17.207",
-            "192.168.17.208",
-            "192.168.17.209",
-            "192.168.17.210",
-            local_ip_address
+        await process.communicate()
+
+        return process.returncode == 0
+    
+    def set_static_ip(self, con_name, ip, gateway):
+        cmds = [
+            ["nmcli", "connection", "modify", con_name, "ipv4.addresses", ip],
+            ["nmcli", "connection", "modify", con_name, "ipv4.gateway", gateway],
+            ["nmcli", "connection", "modify", con_name, "ipv4.method", "manual"],
+            ["nmcli", "connection", "down", con_name],
+            ["nmcli", "connection", "up", con_name]
         ]
-        return web.Response(text=json.dumps(possible_ips, indent=4), content_type="application/json")
+
+        for cmd in cmds:
+            subprocess.run(cmd, check=True)
+
+    async def post_set_ip(self, request) -> web.Response:
+        try:
+            data = await request.json()
+            ip = data["ip"]
+
+            is_occupied = await self.ping(ip, 0.5)
+
+            if is_occupied:
+                return web.Response(text="IP is occupied.", status=409)
+            else:
+                self.set_static_ip("Wired connection 1", ip, "192.168.17.1")
+            
+            # Get the asyncio event loop and schedule a restart in 5 seconds
+            asyncio.get_event_loop().call_later(0.2, subprocess.run, ["sudo", "systemctl", "restart", "stationmonitor.service"])
+            #Config.reload_config()
+            return web.Response(text="Updated IP successfully.", status=200)
+        except Exception as e:
+            return web.Response(text=f"Error setting ip: {str(e)}", status=500)
 
     async def loop(self) -> None:
         # Setup our web application
