@@ -112,7 +112,7 @@ export default function SettingsForm() {
     };
 
     const handleIpSubmit = () => {
-        if (ip === undefined) {
+        if (ip === undefined || ip.length <= 0 || ip.length > 3) {
             alert("No IP set!");
             return;
         }
