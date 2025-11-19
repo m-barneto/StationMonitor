@@ -171,11 +171,11 @@ class ServerManager:
 
         app.router.add_get("/status", self.get_status)
 
-        app.router.add_get("/ips", self.get_available_ips)
-
         app.router.add_get("/config", self.get_config)
 
         app.router.add_post("/config", self.post_config)
+
+        app.router.add_post("/ip", self.post_set_ip)
 
         # Static file serving (css, js, images, etc.)
         app.router.add_static("/", path="../Interface/build", name="public")
