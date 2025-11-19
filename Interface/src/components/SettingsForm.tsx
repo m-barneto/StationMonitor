@@ -52,7 +52,7 @@ export default function SettingsForm() {
         {} as StationMonitorConfig
     );
 
-    const [ip, setIp] = useState<string | undefined>("192.168.17");
+    const [ip, setIp] = useState<string | undefined>();
 
     const [loading, setLoading] = useState(true);
     const [showHelp, setShowHelp] = useState(false);
@@ -112,13 +112,21 @@ export default function SettingsForm() {
     };
 
     const handleIpSubmit = () => {
+        if (ip === undefined) {
+            alert("No IP set!");
+            return;
+        }
+
+        const realIP = "192.168.17." + ip;
+        console.log("Real ip", realIP);
+
         fetch("/ip", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                "ip": ip
+                "ip": realIP
             }),
         }).then((response) => {
             console.log(response);
@@ -356,6 +364,8 @@ export default function SettingsForm() {
                         mask="999"
                         className="w-full mb-3"
                     />
+                </div>
+                <div className="col-12 md:col-5">
                     <Button
                         label="Set IP"
                         icon="pi pi-save"
