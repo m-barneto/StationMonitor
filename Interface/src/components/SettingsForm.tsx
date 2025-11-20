@@ -128,7 +128,6 @@ export default function SettingsForm() {
                 "ip": realIP
             }),
         }).then((response) => {
-            console.log(response);
             if (response.status === 409) {
                 alert("IP Conflict!");
                 setIp("");
