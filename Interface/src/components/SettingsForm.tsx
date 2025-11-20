@@ -118,7 +118,6 @@ export default function SettingsForm() {
         }
 
         const realIP = "192.168.17." + ip;
-        console.log("Real ip", realIP);
 
         fetch("/ip", {
             method: "POST",
@@ -130,6 +129,13 @@ export default function SettingsForm() {
             }),
         }).then((response) => {
             console.log(response);
+            if (response.status === 409) {
+                alert("IP Conflict!");
+                setIp("");
+            } else {
+                alert("Set IP successfully, will redirect after closing the alert.");
+                window.location.replace(`http://${realIP}/`);
+            }
         });
     };
 
