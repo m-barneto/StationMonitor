@@ -147,6 +147,9 @@ class ServerManager:
             data = await request.json()
             ip = data["ip"]
 
+            if "192.168.17." not in ip or int(str.split(ip, '.')[-1]) <= 1 or int(str.split(ip, '.')[-1]) > 255:
+                return web.Response(text="IP out of range.", status=400)
+
             is_occupied = await self.ping(ip)
 
             if is_occupied:
