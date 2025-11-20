@@ -147,16 +147,13 @@ class ServerManager:
             data = await request.json()
             ip = data["ip"]
 
-            is_occupied = await self.ping(ip, 0.5)
+            is_occupied = await self.ping(ip)
 
             if is_occupied:
                 return web.Response(text="IP is occupied.", status=409)
             else:
                 self.set_static_ip("Wired connection 1", ip, "192.168.17.1")
             
-            # Get the asyncio event loop and schedule a restart in 5 seconds
-            asyncio.get_event_loop().call_later(0.2, subprocess.run, ["sudo", "systemctl", "restart", "stationmonitor.service"])
-            #Config.reload_config()
             return web.Response(text="Updated IP successfully.", status=200)
         except Exception as e:
             return web.Response(text=f"Error setting ip: {str(e)}", status=500)
