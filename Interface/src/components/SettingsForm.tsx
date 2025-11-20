@@ -131,6 +131,10 @@ export default function SettingsForm() {
             if (response.status === 409) {
                 alert("IP Conflict!");
                 setIp("");
+            } 
+            else if (response.status === 400) {
+                alert("IP out of range!");
+                setIp("");
             } else {
                 alert("Set IP successfully, will redirect after closing the alert.");
                 window.location.replace(`http://${realIP}/`);
