@@ -151,9 +151,8 @@ class ServerManager:
 
             if is_occupied:
                 return web.Response(text="IP is occupied.", status=409)
-            else:
-                asyncio.get_event_loop().call_later(0.2, self.set_static_ip, "Wired connection 1", ip, "192.168.17.1")
-            
+
+            asyncio.get_event_loop().call_later(0.2, self.set_static_ip, "Wired connection 1", ip, "192.168.17.1")
             return web.Response(text="Updated IP successfully.", status=200)
         except Exception as e:
             return web.Response(text=f"Error setting ip: {str(e)}", status=500)
