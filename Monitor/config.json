@@ -1,0 +1,33 @@
+{
+    "version": 1,
+    "longDistanceSensors": [
+        {
+            "zone": "A",
+            "serialNumber": "/dev/ttyS3",
+            "occupiedDistance": 7000,
+            "emptyReflectionStrength": 100
+        },
+        {
+            "zone": "B",
+            "serialNumber": "/dev/ttyS4",
+            "occupiedDistance": 7000,
+            "emptyReflectionStrength": 100
+        }
+    ],
+    "sleep": {
+        "timezone": "US/Eastern",
+        "openTime": "07:00",
+        "closeTime": "21:00",
+        "sleepInterval": 60
+    },
+    "alarmDuration": 1200,
+    "minOccupiedDuration": 10,
+    "sensorPollRate": 10,
+    "proxyEventRoute": "http://192.168.17.202:8070/beam/event",
+    "proxyAlarmRoute": "http://192.168.17.202:8070/beam/alarm",
+    "proxyStatusUpdateRoute": "http://192.168.17.202:8070/beam/status",
+    "eventSendRate": 2,
+    "eventSendFailureCooldown": 5,
+    "updateConfigInterval": 10,
+    "updateHealthStatusInterval": 5
+}

@@ -1,0 +1,4 @@
+#!/bin/bash
+#comment
+source ./venv/bin/activate
+sudo -E env PATH=$PATH python3 client.py
