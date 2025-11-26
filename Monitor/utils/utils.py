@@ -45,23 +45,41 @@ def inv_lerp(a: float, b: float, v: float) -> float:
     """
     return (v - a) / (b - a)
 
+class Color:
+    def __init__(self, r: int, g: int, b: int):
+        self.r = clamp(r, 0, 255)
+        self.g = clamp(g, 0, 255)
+        self.b = clamp(b, 0, 255)
+
+
+    def __init__(self, hex: str):
+        hex = hex.lstrip("#")
+        t = tuple(int(hex[i:i + 2], 16) for i in (0, 2, 4))
+        self.r = t[0]
+        self.g = t[1]
+        self.b = t[2]
+    
+
+    def __init__(self, tuple: tuple[int, int, int]):
+        self.r = clamp(tuple[0], 0, 255)
+        self.g = clamp(tuple[1], 0, 255)
+        self.b = clamp(tuple[2], 0, 255)
+
+    def as_tuple(self) -> tuple[int, int, int]:
+        return (self.r, self.g, self.b)
 
 class PixelStrip:
-    def __init__(self, ledsCount: int, gpio: int = 18, channel: int = 0, brightness: int = 255, hz=800000, dma: int = 10, invert: bool = False):
+    def __init__(self, ledsCount: int, line: int = 0):
         """
         Initializes LED strip and handles sub strips based on number of indicators
         """
         self.ledsCount = ledsCount
         # Init main strip
-        self.strip = Adafruit_NeoPixel(
-            self.ledsCount, gpio, hz, dma, invert, brightness, channel)
-        self.strip.begin()
-
-        # Clear entire main strip
-        self.clear()
-
-        # Show cleared main strip
-        self.show()
+        self.strip = list[tuple[int, int, int]]
+        
+        # Fill the strip with empty pixels
+        for i in range(ledsCount):
+            self.strip.append((0, 0, 0))
 
     def show(self):
         self.strip.show()
@@ -70,8 +88,10 @@ class PixelStrip:
         self.strip.setPixelColor(int(i), color)
 
     def clear(self):
-        self.fill(Color(0, 0, 0))
+        # Fill the strip with empty pixels
+        for i in range(self.ledsCount):
+            self.strip[i] = (0, 0, 0)
 
     def fill(self, color: Color):
         for i in range(self.ledsCount):
-            self.setPixel(i, color)
+            self.strip[i] = color.as_tuple()
