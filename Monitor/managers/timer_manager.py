@@ -15,8 +15,8 @@ class TimerManager:
                 TimerManager.bay_sensor_zone = sensor.zone
                 print(TimerManager.bay_sensor_zone)
         
-        TimerManager.start_io = GPIO(42, "out")
-        TimerManager.reset_io = GPIO(43, "out")
+        TimerManager.start_io = GPIO(70, "out")
+        TimerManager.reset_io = GPIO(71, "out")
 
         # True = not grounded
         TimerManager.start_io.write(True)
@@ -38,13 +38,13 @@ class TimerManager:
         # to press the button
         # set state to true for non grounded
         # set to false for .25 seconds
-        TimerManager.start_io.write(False)
-        await asyncio.sleep(.25)
         TimerManager.start_io.write(True)
+        await asyncio.sleep(.25)
+        TimerManager.start_io.write(False)
 
     @staticmethod
     async def reset() -> None:
-        TimerManager.reset_io.write(False)
-        await asyncio.sleep(.25)
         TimerManager.reset_io.write(True)
+        await asyncio.sleep(.25)
+        TimerManager.reset_io.write(False)
     
