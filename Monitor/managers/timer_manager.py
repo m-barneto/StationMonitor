@@ -19,8 +19,8 @@ class TimerManager:
         TimerManager.reset_io = GPIO(71, "out")
 
         # True = not grounded
-        TimerManager.start_io.write(True)
-        TimerManager.reset_io.write(True)
+        TimerManager.start_io.write(False)
+        TimerManager.reset_io.write(False)
 
         TimerManager.has_started = False
 
