@@ -31,7 +31,9 @@ class TimerManager:
 
     @staticmethod
     def is_bay(sensor_zone: str) -> bool:
-        return TimerManager.bay_sensor_zone == sensor_zone
+        if TimerManager.bay_sensor_zone:
+            return TimerManager.bay_sensor_zone == sensor_zone
+        return False
 
     @staticmethod
     async def start() -> None:
