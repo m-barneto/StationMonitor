@@ -12,12 +12,6 @@ class Color:
         self.g = t[1]
         self.b = t[2]
     
-
-    def __init__(self, tuple: tuple[int, int, int]):
-        self.r = clamp(tuple[0], 0, 255)
-        self.g = clamp(tuple[1], 0, 255)
-        self.b = clamp(tuple[2], 0, 255)
-
     def as_tuple(self) -> tuple[int, int, int]:
         return (self.r, self.g, self.b)
 
@@ -75,9 +69,11 @@ class PixelStrip:
         # Init main strip
         self.strip = list[Color]
         
+        black = Color(0, 0, 0)
+
         # Fill the strip with empty pixels
         for i in range(ledsCount):
-            self.strip.append(Color(0, 0, 0))
+            self.strip.append(black)
 
     def show(self) -> bytearray:
         line = 0
