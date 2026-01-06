@@ -1,7 +1,7 @@
 import asyncio
 import platform
 
-from Monitor.managers.led_manager import LedManager
+from managers.led_manager import LedManager
 from managers.timer_manager import TimerManager
 from managers.alarm_manager import AlarmManager
 from managers.event_manager import EventManager
