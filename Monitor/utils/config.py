@@ -52,8 +52,8 @@ class LongDistanceSensorConfig:
 
 @dataclass
 class LedStripConfig:
-    ledStrip: int
     zone: str
+    ledStrip: int
 
     @staticmethod
     def from_dict(obj: Any) -> 'LedStripConfig':
