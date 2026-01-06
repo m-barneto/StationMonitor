@@ -117,7 +117,7 @@ class LedManager:
             time_into_stage = event_duration - \
                 self.get_time_before_stage(stage_index)
             # Get % of led bar to fill
-            val = time_into_stage / (stage.duration * 60)
+            val = time_into_stage / (stage["duration"] * 60)
             # convert that to numpixels
             pixelsToHighlight = val * strip.ledsCount
 
