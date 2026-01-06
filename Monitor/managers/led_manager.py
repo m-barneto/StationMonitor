@@ -128,7 +128,7 @@ class LedManager:
 
             # Take the last led and modulate the brightness for a smooth animation
             if pixelsToHighlight > pixelsFloored:
-                strip.setPixel(pixelsToHighlight,
+                strip.setPixel(pixelsFloored,
                                    hex_to_rgb(stage["color"], pixelsToHighlight % 1))
         else:
             # We're in the flashing stage
