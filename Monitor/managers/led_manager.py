@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 import math
 from queue import Queue
 
-from Monitor.sensors.sensor import Sensor
+from sensors.sensor import Sensor
 from managers.sensor_manager import EventState, SensorContext, SensorManager
 from managers.sleep_manager import SleepManager
 from utils.config import Config
