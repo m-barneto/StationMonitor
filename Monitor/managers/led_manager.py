@@ -166,7 +166,7 @@ class LedManager:
         # Iterate over all stages
         for stage in led_config["stages"]:
             # Subtract the stages duration from our current time
-            time -= (stage.duration * 60)
+            time -= (stage["duration"] * 60)
             # If we have time to spare
             if time > 0:
                 # Try the next stage
