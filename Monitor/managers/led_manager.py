@@ -47,6 +47,7 @@ class LedManager:
         for ledStripConfig in Config.get().ledStrips:
             self.leds[ledStripConfig.zone] = PixelStrip(15, ledStripConfig.ledStrip)
             print(ledStripConfig.zone, "zone")
+            print(ledStripConfig.ledStrip, "index")
         for sensor in self.sensors:
             print(self.leds[sensor.zone], "led thiung")
 
