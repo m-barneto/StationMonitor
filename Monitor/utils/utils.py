@@ -66,7 +66,7 @@ class PixelStrip:
         """
         self.ledsCount = ledsCount
         # Init main strip
-        self.strip = list[Color]
+        self.strip: list[Color] = list()
         
         black = Color(0, 0, 0)
 
