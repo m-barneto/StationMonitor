@@ -1,6 +1,7 @@
 import asyncio
 import platform
 
+from Monitor.managers.led_manager import LedManager
 from managers.timer_manager import TimerManager
 from managers.alarm_manager import AlarmManager
 from managers.event_manager import EventManager
@@ -60,7 +61,7 @@ loop.create_task(AlarmManager(sensor_manager, event_queue).loop())
 loop.create_task(TimerManager(sensors).loop())
 
 # Setup led controller (like timer)
-
+loop.create_task(LedManager(sensors, sensor_manager).loop())
 
 # Web server that displays current status of sensors to web
 server = ServerManager(long_distance_sensors, sensor_manager, event_manager, sleep_manager)
