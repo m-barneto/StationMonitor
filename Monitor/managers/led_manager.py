@@ -46,10 +46,6 @@ class LedManager:
         self.leds = {}
         for ledStripConfig in Config.get().ledStrips:
             self.leds[ledStripConfig.zone] = PixelStrip(15, ledStripConfig.ledStrip)
-            print(ledStripConfig.zone, "zone")
-            print(ledStripConfig.ledStrip, "index")
-        for sensor in self.sensors:
-            print(self.leds[sensor.zone], "led thiung")
 
     async def loop(self) -> None:
         while True:
@@ -80,9 +76,9 @@ class LedManager:
                             if not SleepManager.is_open:
                                 is_empty = self.get_sensor_ctx(sensor.zone).current_event_state == EventState.EMPTY
                                 if not is_empty:
-                                    await self.process_event(self.leds[sensor.zone])
+                                    await self.process_event(sensor, self.leds[sensor.zone])
                             else:
-                                await self.process_event(self.leds[sensor.zone])
+                                await self.process_event(sensor, self.leds[sensor.zone])
                         
                         # Send our commands over serial to the led controller
                         while self.command_queue.qsize() != 0:
@@ -94,13 +90,13 @@ class LedManager:
                 print(f"Serial error: {e}. Trying to open LED serial in 5 seconds...")
                 await asyncio.sleep(5)
 
-    async def process_event(self, strip: PixelStrip) -> None:
+    async def process_event(self, sensor, strip: PixelStrip) -> None:
         # Clear led strip
         strip.clear()
 
-        ctx: SensorContext = self.sensor_manager.get_sensor_ctx(self.sensor)
+        ctx: SensorContext = self.sensor_manager.get_sensor_ctx(sensor)
         if ctx == None:
-            print(f"LedManager: No context found for sensor {self.sensor}")
+            print(f"LedManager: No context found for sensor {sensor}")
             return
 
         # If event is empty, show cleared led strip and return early
