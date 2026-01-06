@@ -59,7 +59,7 @@ class LedStripConfig:
     def from_dict(obj: Any) -> 'LedStripConfig':
         _zone = str(obj.get("zone"))
         _ledStrip = int(obj.get("ledStrip"))
-        return LongDistanceSensorConfig(_zone, _ledStrip)
+        return LedStripConfig(_zone, _ledStrip)
     
     @staticmethod
     def to_dict(obj: 'LedStripConfig') -> dict:
