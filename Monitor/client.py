@@ -57,8 +57,10 @@ loop.create_task(sensor_manager.loop())
 loop.create_task(AlarmManager(sensor_manager, event_queue).loop())
 
 # Handle the timer management
-if "rpi" not in platform.platform():
-    loop.create_task(TimerManager(sensors).loop())
+loop.create_task(TimerManager(sensors).loop())
+
+# Setup led controller (like timer)
+
 
 # Web server that displays current status of sensors to web
 server = ServerManager(long_distance_sensors, sensor_manager, event_manager, sleep_manager)
