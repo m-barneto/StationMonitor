@@ -73,22 +73,21 @@ class PixelStrip:
         """
         self.ledsCount = ledsCount
         # Init main strip
-        self.strip = list[tuple[int, int, int]]
+        self.strip = list[Color]
         
         # Fill the strip with empty pixels
         for i in range(ledsCount):
-            self.strip.append((0, 0, 0))
+            self.strip.append(Color(0, 0, 0))
 
     def show(self) -> bytearray:
         line = 0
-        pixels = [(255,0,0), (0,255,0), (0,0,255)]
 
         payload = bytearray()
         payload.append(line)
-        payload.append(len(pixels))
+        payload.append(len(self.strip))
 
-        for r, g, b in pixels:
-            payload.extend([r, g, b])
+        for color in self.strip:
+            payload.extend([color.r, color.g, color.b])
 
         packet = bytearray([0xAA, 0x55, len(payload)]) + payload
 
@@ -96,13 +95,13 @@ class PixelStrip:
         return packet
 
     def setPixel(self, i: int, color: Color):
-        self.strip.setPixelColor(int(i), color)
+        self.strip[i] = color
 
     def clear(self):
         # Fill the strip with empty pixels
         for i in range(self.ledsCount):
-            self.strip[i] = (0, 0, 0)
+            self.strip[i] = Color(0, 0, 0)
 
     def fill(self, color: Color):
         for i in range(self.ledsCount):
-            self.strip[i] = color.as_tuple()
+            self.strip[i] = color
