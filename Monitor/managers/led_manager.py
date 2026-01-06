@@ -124,12 +124,12 @@ class LedManager:
             # Fill led strip to the %
             pixelsFloored = int(pixelsToHighlight)
             for i in range(pixelsFloored):
-                strip.setPixel(i, hex_to_rgb(stage.color))
+                strip.setPixel(i, hex_to_rgb(stage["color"]))
 
             # Take the last led and modulate the brightness for a smooth animation
             if pixelsToHighlight > pixelsFloored:
                 strip.setPixel(pixelsToHighlight,
-                                   hex_to_rgb(stage.color, pixelsToHighlight % 1))
+                                   hex_to_rgb(stage["color"], pixelsToHighlight % 1))
         else:
             # We're in the flashing stage
             # If should flash
