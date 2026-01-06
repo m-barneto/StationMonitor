@@ -5,12 +5,11 @@ class Color:
         self.b = clamp(b, 0, 255)
 
 
-    def __init__(self, hex: str):
+    @staticmethod
+    def from_hex(hex: str):
         hex = hex.lstrip("#")
         t = tuple(int(hex[i:i + 2], 16) for i in (0, 2, 4))
-        self.r = t[0]
-        self.g = t[1]
-        self.b = t[2]
+        return Color(t[0], t[1], t[2])
     
     def as_tuple(self) -> tuple[int, int, int]:
         return (self.r, self.g, self.b)
