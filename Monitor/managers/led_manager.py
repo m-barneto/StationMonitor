@@ -81,6 +81,7 @@ class LedManager:
                                 await self.process_event(sensor, self.leds[sensor.zone])
                         
                         # Send our commands over serial to the led controller
+                        print(self.command_queue.qsize())
                         while self.command_queue.qsize() != 0:
                             packet = self.command_queue.get()
                             ser.write(packet)
