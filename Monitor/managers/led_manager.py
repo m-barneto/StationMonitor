@@ -54,7 +54,7 @@ class LedManager:
             try:
                 with serial.Serial(
                     port="/dev/ttyS5",
-                    baudrate=19200,
+                    baudrate=9600,
                     timeout=1
                 ) as ser:
                     print("Serial port opened successfully.")
