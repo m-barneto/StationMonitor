@@ -82,7 +82,7 @@ class PixelStrip:
         for color in self.strip:
             payload.extend([color.r, color.g, color.b])
 
-        packet = bytearray([0xAA, 0x55, self.line, len(self.strip)]) + payload
+        packet = bytearray([0xA5, 0x5A, self.line, len(self.strip)]) + payload
 
         print("Packet hex:", packet.hex(" "))
         return packet
