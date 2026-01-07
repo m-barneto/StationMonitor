@@ -67,6 +67,8 @@ class PixelStrip:
         self.ledsCount = ledsCount
         # Init main strip
         self.strip: list[Color] = list()
+
+        self.line = line
         
         black = Color(0, 0, 0)
 
@@ -75,16 +77,12 @@ class PixelStrip:
             self.strip.append(black)
 
     def show(self) -> bytearray:
-        line = 0
-
         payload = bytearray()
-        payload.append(line)
-        payload.append(len(self.strip))
 
         for color in self.strip:
             payload.extend([color.r, color.g, color.b])
 
-        packet = bytearray([0xAA, 0x55, len(payload)]) + payload
+        packet = bytearray([0xAA, 0x55, self.line, len(self.strip)]) + payload
 
         print("Packet hex:", packet.hex(" "))
         return packet
