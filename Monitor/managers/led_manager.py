@@ -54,7 +54,7 @@ class LedManager:
             try:
                 with serial.Serial(
                     port="/dev/ttyS5",
-                    baudrate=9600,
+                    baudrate=19200,
                     timeout=1
                 ) as ser:
                     print("Serial port opened successfully.")
@@ -81,7 +81,6 @@ class LedManager:
                                 await self.process_event(sensor, self.leds[sensor.zone])
                         
                         # Send our commands over serial to the led controller
-                        print(self.command_queue.qsize())
                         while self.command_queue.qsize() != 0:
                             packet = self.command_queue.get()
                             ser.write(packet)
