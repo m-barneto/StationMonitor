@@ -85,7 +85,7 @@ class LedManager:
                             packet = self.command_queue.get()
                             ser.write(packet)
                         # controls the update rate of our leds
-                        await asyncio.sleep(.05)
+                        await asyncio.sleep(1)
             except serial.SerialException as e:
                 print(f"Serial error: {e}. Trying to open LED serial in 5 seconds...")
                 await asyncio.sleep(5)
