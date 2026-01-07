@@ -84,6 +84,7 @@ class LedManager:
                         while self.command_queue.qsize() != 0:
                             packet = self.command_queue.get()
                             ser.write(packet)
+                            await asyncio.sleep(.1)
                         # controls the update rate of our leds
                         await asyncio.sleep(1)
             except serial.SerialException as e:
