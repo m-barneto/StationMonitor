@@ -1,6 +1,5 @@
 import importlib
 import json
-import json5
 from pathlib import Path
 
 LATEST_VERSION = 1
@@ -12,7 +11,7 @@ BACKUP_CONFIG = Path.home() / "config_backup.json"
 
 def load_config(path: Path):
     with open(path, "r") as f:
-        return json5.load(f)
+        return json.load(f)
 
 def save_config(path: Path, config):
     with open(path, "w") as f:
