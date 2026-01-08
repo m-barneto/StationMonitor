@@ -3,6 +3,7 @@ import os.path
 import shutil
 import subprocess
 import tempfile
+import time
 import zipfile
 import requests
 from pathlib import Path
@@ -46,6 +47,10 @@ for entry in os.listdir(MONITOR_SRC):
 
 
 #zip up build
+if Path.exists(ZIP_BUILD):
+    os.remove(ZIP_BUILD)
+    print("Deleted zip")
+    
 with zipfile.ZipFile(ZIP_BUILD, "w", zipfile.ZIP_DEFLATED) as zipf:
     for file_path in BUILD_FOLDER.rglob("*"):
         if file_path.is_file():
