@@ -34,4 +34,7 @@ def migrate_config():
     print(f"Config migrated to version {version}.")
 
 if __name__ == "__main__":
-    migrate_config()
+    if Path.exists(BACKUP_CONFIG):
+        migrate_config()
+    else:
+        print("No config to migrate...")
