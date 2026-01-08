@@ -3,16 +3,13 @@ def migrate(config: dict) -> dict:
 
     # add led config that points from led_strip_id -> zone_id
     # add enabled? flag for led system
-    config["ledStrips"] = [
-        {
-            "ledStrip": 0,
-            "zone": "A"
-        },
-        {
-            "ledStrip": 1,
-            "zone": "B"
-        }
-    ]
-
+    idx = 0
+    for sensor in config["longDistanceSensors"]:
+        if "ledStripIndex" not in sensor:
+            sensor["ledStripIndex"] = idx
+            idx += 1
+    
+    if "ledsEnabled" not in config:
+        config["ledsEnabled"] = False
 
     return config

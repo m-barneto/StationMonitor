@@ -32,6 +32,7 @@ class LongDistanceSensorConfig:
     serialNumber: str
     occupiedDistance: int
     emptyReflectionStrength: int
+    ledStripIndex: int
 
     @staticmethod
     def from_dict(obj: Any) -> 'LongDistanceSensorConfig':
@@ -39,7 +40,8 @@ class LongDistanceSensorConfig:
         _serialNumber = str(obj.get("serialNumber"))
         _occupiedDistance = int(obj.get("occupiedDistance"))
         _emptyReflectionStrength = int(obj.get("emptyReflectionStrength"))
-        return LongDistanceSensorConfig(_zone, _serialNumber, _occupiedDistance, _emptyReflectionStrength)
+        _ledStripIndex = int(obj.get("ledStripIndex"))
+        return LongDistanceSensorConfig(_zone, _serialNumber, _occupiedDistance, _emptyReflectionStrength, _ledStripIndex)
     
     @staticmethod
     def to_dict(obj: 'LongDistanceSensorConfig') -> dict:
@@ -47,32 +49,15 @@ class LongDistanceSensorConfig:
             "zone": obj.zone,
             "serialNumber": obj.serialNumber,
             "occupiedDistance": obj.occupiedDistance,
-            "emptyReflectionStrength": obj.emptyReflectionStrength
+            "emptyReflectionStrength": obj.emptyReflectionStrength,
+            "ledStripIndex": obj.ledStripIndex
         }
 
-@dataclass
-class LedStripConfig:
-    zone: str
-    ledStrip: int
-
-    @staticmethod
-    def from_dict(obj: Any) -> 'LedStripConfig':
-        _zone = str(obj.get("zone"))
-        _ledStrip = int(obj.get("ledStrip"))
-        return LedStripConfig(_zone, _ledStrip)
-    
-    @staticmethod
-    def to_dict(obj: 'LedStripConfig') -> dict:
-        return {
-            "zone": obj.zone,
-            "ledStrip": obj.ledStrip
-        }
-    
 
 @dataclass
 class StationMonitorConfig:
     longDistanceSensors: List[LongDistanceSensorConfig]
-    ledStrips: List[LedStripConfig]
+    ledsEnabled: bool
     sleep: Sleep
     alarmDuration: int
     minOccupiedDuration: int
@@ -88,7 +73,7 @@ class StationMonitorConfig:
     @staticmethod
     def from_dict(obj: Any) -> 'StationMonitorConfig':
         _longDistanceSensors = [LongDistanceSensorConfig.from_dict(y) for y in obj.get("longDistanceSensors")]
-        _ledStrips = [LedStripConfig.from_dict(y) for y in obj.get("ledStrips")]
+        _ledsEnabled = bool(obj.get("ledsEnabled"))
         _sleep = Sleep.from_dict(obj.get("sleep"))
         _alarmDuration = int(obj.get("alarmDuration"))
         _minOccupiedDuration = int(obj.get("minOccupiedDuration"))
@@ -100,13 +85,13 @@ class StationMonitorConfig:
         _eventSendFailureCooldown = int(obj.get("eventSendFailureCooldown"))
         _updateConfigInterval = int(obj.get("updateConfigInterval"))
         _updateHealthStatusInterval = int(obj.get("updateHealthStatusInterval"))
-        return StationMonitorConfig(_longDistanceSensors, _ledStrips, _sleep, _alarmDuration, _minOccupiedDuration, _sensorPollRate, _proxyEventRoute, _proxyAlarmRoute, _proxyStatusUpdateRoute, _eventSendRate, _eventSendFailureCooldown, _updateConfigInterval, _updateHealthStatusInterval)
+        return StationMonitorConfig(_longDistanceSensors, _ledsEnabled, _sleep, _alarmDuration, _minOccupiedDuration, _sensorPollRate, _proxyEventRoute, _proxyAlarmRoute, _proxyStatusUpdateRoute, _eventSendRate, _eventSendFailureCooldown, _updateConfigInterval, _updateHealthStatusInterval)
 
     @staticmethod
     def to_dict(obj: 'StationMonitorConfig') -> dict:
         return {
             "longDistanceSensors": [LongDistanceSensorConfig.to_dict(y) for y in obj.longDistanceSensors],
-            "ledStrips": [LedStripConfig.to_dict(y) for y in obj.ledStrips],
+            "ledsEnabled": obj.ledsEnabled,
             "sleep": Sleep.to_dict(obj.sleep),
             "alarmDuration": obj.alarmDuration,
             "minOccupiedDuration": obj.minOccupiedDuration,

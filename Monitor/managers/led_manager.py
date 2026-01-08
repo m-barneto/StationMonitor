@@ -44,8 +44,8 @@ class LedManager:
         self.command_queue = Queue()
         # map led strip from config to sensor zone
         self.leds = {}
-        for ledStripConfig in Config.get().ledStrips:
-            self.leds[ledStripConfig.zone] = PixelStrip(15, ledStripConfig.ledStrip)
+        for sensor in Config.get().longDistanceSensors:
+            self.leds[sensor.zone] = PixelStrip(15, sensor.ledStripIndex)
 
     async def loop(self) -> None:
         while True:
@@ -57,7 +57,7 @@ class LedManager:
                     baudrate=19200,
                     timeout=1
                 ) as ser:
-                    print("Serial port opened successfully.")
+                    print("LED Serial port opened successfully.")
                     while True:
                         # If we're closed, sleep for configured amount of time and skip this led iteration
                         if not SleepManager.is_open:

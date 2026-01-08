@@ -1,15 +1,5 @@
 {
     "version": 1,
-    "ledStrips": [
-        {
-            "ledStrip": 0,
-            "zone": "A"
-        },
-        {
-            "ledStrip": 1,
-            "zone": "B"
-        }
-    ],
     "longDistanceSensors": [
         {
             "zone": "A",

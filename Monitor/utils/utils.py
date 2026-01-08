@@ -84,7 +84,6 @@ class PixelStrip:
 
         packet = bytearray([0xA5, 0x5A, 0xA5, self.line, len(self.strip)]) + payload
 
-        print("Packet hex:", packet.hex(" "))
         return packet
 
     def setPixel(self, i: int, color: Color):
