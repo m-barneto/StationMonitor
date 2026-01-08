@@ -50,7 +50,7 @@ with zipfile.ZipFile(ZIP_BUILD, "w", zipfile.ZIP_DEFLATED) as zipf:
     for file_path in BUILD_FOLDER.rglob("*"):
         if file_path.is_file():
             # Preserve folder structure inside the zip
-            arcname = file_path.relative_to(BUILD_FOLDER)
+            arcname = "StationMonitor" / file_path.relative_to(BUILD_FOLDER)
             zipf.write(file_path, arcname)
 
 print(f"Zipped build to: {ZIP_BUILD}")
