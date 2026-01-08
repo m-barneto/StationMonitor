@@ -1,17 +1,20 @@
 {
-    "version": 1,
+    "version": 2,
+    "ledsEnabled": true,
     "longDistanceSensors": [
         {
             "zone": "A",
             "serialNumber": "/dev/ttyS3",
             "occupiedDistance": 7000,
-            "emptyReflectionStrength": 100
+            "emptyReflectionStrength": 100,
+            "ledStripIndex": 0
         },
         {
             "zone": "B",
             "serialNumber": "/dev/ttyS4",
             "occupiedDistance": 7000,
-            "emptyReflectionStrength": 100
+            "emptyReflectionStrength": 100,
+            "ledStripIndex": 1
         }
     ],
     "sleep": {
