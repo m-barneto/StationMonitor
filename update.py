@@ -129,8 +129,9 @@ def main():
             run(["chmod", "+x", str(SETUP_SCRIPT)])
             run(["chmod", "+x", str(RUN_SCRIPT)])
 
-            # Run setup script for virtual environment
-            #run(["bash", str(SETUP_SCRIPT)], cwd=SETUP_SCRIPT.parent)
+            if fresh_install:
+                # Run setup script for virtual environment
+                run(["bash", str(SETUP_SCRIPT)], cwd=SETUP_SCRIPT.parent)
 
             # Migrate old config to new version
             if MIGRATION_SCRIPT.exists():
