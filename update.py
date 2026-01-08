@@ -11,12 +11,14 @@ SERVICE_NAME = "stationmonitor"
 GITHUB_REPO = "m-barneto/StationMonitor"
 INSTALL_DIR = Path.home() / "StationMonitor"
 BACKUP_CONFIG = Path.home() / "config_backup.json"
+BACKUP_VENV = Path.home() / "venv"
 MONITOR = INSTALL_DIR / "Monitor"
 SETUP_SCRIPT = MONITOR / "setup.sh"
 RUN_SCRIPT = MONITOR / "run.sh"
 MIGRATION_SCRIPT = MONITOR / "migrate_config.py"
 ORIGINAL_CONFIG = MONITOR / "config.json"
-VENV_PYTHON = MONITOR / "venv" / "bin" / "python3"
+VENV_LOCATION = MONITOR / "venv"
+VENV_PYTHON = VENV_LOCATION / "bin" / "python3"
 # ============================
 
 EXPECTED_PATHS = [
@@ -115,8 +117,12 @@ def main():
             
             # Delete old install
             if not fresh_install:
+                # Move venv out of folder
+                run(["sudo", "mv", VENV_LOCATION, BACKUP_VENV])
                 run(["sudo", "rm", "-rf", INSTALL_DIR])
                 INSTALL_DIR.mkdir(parents=True, exist_ok=True)
+                VENV_LOCATION.mkdir(parents=True, exist_ok=True)
+                run(["sudo", "mv", BACKUP_VENV, VENV_LOCATION])
 
             extract_zip(zip_path)
             
@@ -124,7 +130,7 @@ def main():
             run(["chmod", "+x", str(RUN_SCRIPT)])
 
             # Run setup script for virtual environment
-            run(["bash", str(SETUP_SCRIPT)], cwd=SETUP_SCRIPT.parent)
+            #run(["bash", str(SETUP_SCRIPT)], cwd=SETUP_SCRIPT.parent)
 
             # Migrate old config to new version
             if MIGRATION_SCRIPT.exists():
