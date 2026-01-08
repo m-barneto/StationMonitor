@@ -122,7 +122,7 @@ def main():
                 run(["sudo", "rm", "-rf", INSTALL_DIR])
                 INSTALL_DIR.mkdir(parents=True, exist_ok=True)
                 VENV_LOCATION.mkdir(parents=True, exist_ok=True)
-                run(["sudo", "mv", BACKUP_VENV, VENV_LOCATION])
+                run(["sudo", "mv", BACKUP_VENV, MONITOR])
 
             extract_zip(zip_path)
             
