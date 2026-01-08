@@ -2,7 +2,7 @@ import importlib
 import json
 from pathlib import Path
 
-LATEST_VERSION = 1
+LATEST_VERSION = 2
 
 INSTALL_DIR = Path.home() / "StationMonitor"
 MONITOR = INSTALL_DIR / "Monitor"
