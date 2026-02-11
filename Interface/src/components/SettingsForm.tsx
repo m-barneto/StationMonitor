@@ -131,7 +131,7 @@ export default function SettingsForm() {
             if (response.status === 409) {
                 alert("IP Conflict!");
                 setIp("");
-            } 
+            }
             else if (response.status === 400) {
                 alert("IP out of range!");
                 setIp("");
@@ -230,10 +230,10 @@ export default function SettingsForm() {
                         onChange={(e) => {
                             const timeStr = e.value
                                 ? e.value.toLocaleTimeString([], {
-                                      hour: "2-digit",
-                                      minute: "2-digit",
-                                      hour12: false,
-                                  })
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                    hour12: false,
+                                })
                                 : "";
                             updateSleepField("openTime", timeStr);
                         }}
@@ -255,10 +255,10 @@ export default function SettingsForm() {
                         onChange={(e) => {
                             const timeStr = e.value
                                 ? e.value.toLocaleTimeString([], {
-                                      hour: "2-digit",
-                                      minute: "2-digit",
-                                      hour12: false,
-                                  })
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                    hour12: false,
+                                })
                                 : "";
                             updateSleepField("closeTime", timeStr);
                         }}
@@ -279,9 +279,9 @@ export default function SettingsForm() {
                     </label>
                     <InputNumber
                         id="alarmDuration"
-                        value={settings.alarmDuration / 60} // convert seconds → minutes for display
+                        value={settings.alarmDuration}
                         onValueChange={(e) =>
-                            updateField("alarmDuration", (e.value || 0) * 60)
+                            updateField("alarmDuration", (e.value || 0))
                         }
                         showButtons
                         step={1}
@@ -364,7 +364,7 @@ export default function SettingsForm() {
                 <div className="col-12 md:col-5">
                     <label htmlFor="static_ip_input">Static IP</label>
                     <InputMask
-                    id="static_ip_input"
+                        id="static_ip_input"
                         value={ip}
                         onChange={(e) =>
                             setIp(e.target.value!)
