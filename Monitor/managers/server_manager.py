@@ -115,6 +115,9 @@ class ServerManager:
             Config.get().minOccupiedDuration = new_config.minOccupiedDuration
             # Save to file
             Config.save_config()
+
+            # Save cache to file
+            CacheManager.save_cache()
             # Get the asyncio event loop and schedule a restart in 5 seconds
             asyncio.get_event_loop().call_later(0.2, subprocess.run, ["sudo", "systemctl", "restart", "stationmonitor.service"])
             #Config.reload_config()
