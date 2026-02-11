@@ -100,7 +100,6 @@ class ServerManager:
         # Return dict as formatted json
         return web.Response(text=json.dumps(list(CacheManager.event_cache), default=str, indent=4), content_type="application/json")
     
-
     async def post_config(self, request) -> web.Response:
         try:
             data = await request.json()
