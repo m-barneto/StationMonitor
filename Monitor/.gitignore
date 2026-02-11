@@ -3,6 +3,7 @@
 **/venv/
 /logs/**
 #config.jsonc
+cache.json
 
 .DS_Store
 .huskyrc.json

@@ -4,6 +4,7 @@ import json
 import socket
 import subprocess
 from aiohttp import web
+from Monitor.managers.cache_manager import CacheManager
 import aiohttp_cors
 
 from managers.config_manager import ConfigManager
@@ -95,6 +96,11 @@ class ServerManager:
         # Return dict as formatted json
         return web.Response(text=json.dumps(StationMonitorConfig.to_dict(Config.conf), default=str, indent=4), content_type="application/json")
     
+    async def get_events(self, request) -> web.Response:
+        # Return dict as formatted json
+        return web.Response(text=json.dumps(list(CacheManager.event_cache), default=str, indent=4), content_type="application/json")
+    
+
     async def post_config(self, request) -> web.Response:
         try:
             data = await request.json()
@@ -169,6 +175,8 @@ class ServerManager:
         #app.router.add_get("/style.css", self.get_style)
 
         app.router.add_get("/status", self.get_status)
+
+        app.router.add_get("/events", self.get_events)
 
         app.router.add_get("/config", self.get_config)
 
