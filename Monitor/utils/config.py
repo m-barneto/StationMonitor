@@ -53,12 +53,33 @@ class LongDistanceSensorConfig:
             "ledStripIndex": obj.ledStripIndex
         }
 
+@dataclass
+class StandaloneConfig:
+    pruneHours: int
+    pruneFrequencyMins: int
+    maxCacheEvents: int
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'StandaloneConfig':
+        _pruneHours = int(obj.get("pruneHours"))
+        _pruneFrequencyMins = int(obj.get("pruneFrequencyMins"))
+        _maxCacheEvents = int(obj.get("maxCacheEvents"))
+        return StandaloneConfig(_pruneHours, _pruneFrequencyMins, _maxCacheEvents)
+    
+    @staticmethod
+    def to_dict(obj: 'StandaloneConfig') -> dict:
+        return {
+            "pruneHours": obj.pruneHours,
+            "pruneFrequencyMins": obj.pruneFrequencyMins,
+            "maxCacheEvents": obj.maxCacheEvents,
+        }
 
 @dataclass
 class StationMonitorConfig:
     longDistanceSensors: List[LongDistanceSensorConfig]
     ledsEnabled: bool
     sleep: Sleep
+    standalone: StandaloneConfig
     alarmDuration: int
     minOccupiedDuration: int
     sensorPollRate: int
@@ -75,6 +96,7 @@ class StationMonitorConfig:
         _longDistanceSensors = [LongDistanceSensorConfig.from_dict(y) for y in obj.get("longDistanceSensors")]
         _ledsEnabled = bool(obj.get("ledsEnabled"))
         _sleep = Sleep.from_dict(obj.get("sleep"))
+        _standalone = StandaloneConfig.from_dict(obj.get("standalone"))
         _alarmDuration = int(obj.get("alarmDuration"))
         _minOccupiedDuration = int(obj.get("minOccupiedDuration"))
         _sensorPollRate = int(obj.get("sensorPollRate"))
@@ -85,7 +107,7 @@ class StationMonitorConfig:
         _eventSendFailureCooldown = int(obj.get("eventSendFailureCooldown"))
         _updateConfigInterval = int(obj.get("updateConfigInterval"))
         _updateHealthStatusInterval = int(obj.get("updateHealthStatusInterval"))
-        return StationMonitorConfig(_longDistanceSensors, _ledsEnabled, _sleep, _alarmDuration, _minOccupiedDuration, _sensorPollRate, _proxyEventRoute, _proxyAlarmRoute, _proxyStatusUpdateRoute, _eventSendRate, _eventSendFailureCooldown, _updateConfigInterval, _updateHealthStatusInterval)
+        return StationMonitorConfig(_longDistanceSensors, _ledsEnabled, _sleep, _standalone, _alarmDuration, _minOccupiedDuration, _sensorPollRate, _proxyEventRoute, _proxyAlarmRoute, _proxyStatusUpdateRoute, _eventSendRate, _eventSendFailureCooldown, _updateConfigInterval, _updateHealthStatusInterval)
 
     @staticmethod
     def to_dict(obj: 'StationMonitorConfig') -> dict:
@@ -93,6 +115,7 @@ class StationMonitorConfig:
             "longDistanceSensors": [LongDistanceSensorConfig.to_dict(y) for y in obj.longDistanceSensors],
             "ledsEnabled": obj.ledsEnabled,
             "sleep": Sleep.to_dict(obj.sleep),
+            "standalone": StandaloneConfig.to_dict(obj.standalone),
             "alarmDuration": obj.alarmDuration,
             "minOccupiedDuration": obj.minOccupiedDuration,
             "sensorPollRate": obj.sensorPollRate,

@@ -23,6 +23,11 @@
         "closeTime": "21:00",
         "sleepInterval": 60
     },
+    "standalone": {
+        "pruneHours": 48,
+        "pruneFrequencyMins": 60,
+        "maxCacheEvents": 10000
+    },
     "alarmDuration": 1200,
     "minOccupiedDuration": 10,
     "sensorPollRate": 10,
