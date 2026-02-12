@@ -36,13 +36,17 @@ class CacheManager:
         cutoff = datetime.now() - timedelta(minutes=Config.get().standalone.pruneHours)
         while CacheManager.event_cache:
             start_time = datetime.fromisoformat(CacheManager.event_cache[0].body.startTime)
+            print("Cache looking at time: ", start_time)
             if start_time >= cutoff:
+                print("Time is >= cutoff, breaking now")
                 break
+            print("Popping off the queue")
             CacheManager.event_cache.popleft()
 
     async def loop(self) -> None:
         #Prune every x minutes
         while True:
             # Prune at startup if we're loading from disk
+            print("Pruning")
             CacheManager.prune_events()
             await asyncio.sleep(Config.get().standalone.pruneFrequencyMins * 60)
