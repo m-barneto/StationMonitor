@@ -187,7 +187,6 @@ export default function Speedometer() {
                     }}
                     value={avgEventDuration}
                     style={{
-                        width: "30rem",
                         height: "20rem",
                     }}
                 />
