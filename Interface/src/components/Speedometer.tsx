@@ -38,7 +38,7 @@ export default function Speedometer() {
                 justifyContent: "center",
                 gap: "5rem",
                 height: "30h",
-                paddingBottom: "2rem"
+                paddingBottom: "3rem"
             }}>
             <div>
                 <h2
