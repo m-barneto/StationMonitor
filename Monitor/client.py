@@ -74,7 +74,7 @@ status_updater = HealthManager()
 loop.create_task(status_updater.loop())
 
 cache_manager = CacheManager()
-
+loop.create_task(cache_manager.loop())
 
 # Start our event loop
 loop.run_forever()
