@@ -29,7 +29,7 @@ class EventManager:
         loop = asyncio.get_event_loop()
         while True:
             try:
-                if isinstance(self.current_event, OccupiedEvent) and self.current_event.alarmType == "occupation":
+                if self.current_event.alarmType and self.current_event.alarmType == "occupation":
                     print("adding to cache")
                     CacheManager.event_cache.append(self.current_event)
                 # Sends the request while still allowing other loops to continue running
