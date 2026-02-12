@@ -137,7 +137,6 @@ export default function Speedometer() {
                     arc={{
                         colorArray: ["#5BE12C", "#EA4228"],
                         subArcs: [
-                            {},
                             {
                                 limit: 1,
                             },
