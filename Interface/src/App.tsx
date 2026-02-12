@@ -23,11 +23,9 @@ function App() {
                             <SplitterPanel className="flex flex-row" minSize={8} size={8}>
                                 <EventHistory />
                             </SplitterPanel>
-                            <SplitterPanel minSize={30}>
-                                <div>
-                                    <Speedometer />
-                                    <DailySummary />
-                                </div>
+                            <SplitterPanel minSize={50}>
+                                <Speedometer />
+                                <DailySummary />
                             </SplitterPanel>
                             <SplitterPanel minSize={10} size={10}>
                                 <div>
