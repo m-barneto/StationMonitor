@@ -1,6 +1,6 @@
 import asyncio
 from collections import deque
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import json
 from pathlib import Path
 from utils.sensor_event import EventData
@@ -33,7 +33,7 @@ class CacheManager:
     def prune_events():
         # loop through the event cache backwards and remove events that are older than x hours.
         #TODO this should be hours not minutes
-        cutoff = datetime.now() - timedelta(minutes=Config.get().standalone.pruneHours)
+        cutoff = datetime.now(timezone.utc) - timedelta(minutes=Config.get().standalone.pruneHours)
         while CacheManager.event_cache:
             start_time = datetime.fromisoformat(CacheManager.event_cache[0]["body"]["startTime"])
             print("Cache looking at time: ", start_time)
