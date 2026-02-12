@@ -57,6 +57,7 @@ export default function DailySummary() {
             style={{
                 paddingLeft: "1rem",
                 paddingRight: "1rem",
+                paddingBottom: "3rem"
             }}>
             <Column sortable field="time" header="Time"></Column>
             <Column sortable field="total_cars" header="Cars"></Column>

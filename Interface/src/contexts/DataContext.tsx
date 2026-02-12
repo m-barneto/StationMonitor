@@ -29,10 +29,9 @@ export const EventDataProvider: React.FC<{ children: React.ReactNode }> = ({
     }, [eventData]);
 
     useEffect(() => {
-        return;
         const id = setInterval(() => {
             const events: EventData[] = [];
-            fetch("http://localhost:8000/data")
+            fetch("/events")
                 .then((response) => response.json())
                 .then((data) => {
                     console.log(data["data"]);
