@@ -190,7 +190,7 @@ class ServerManager:
         app.router.add_post("/ip", self.post_set_ip)
 
         # Static file serving (css, js, images, etc.)
-        app.router.add_static("/", path="../Interface/build", name="public")
+        app.router.add_static("/", path="../Interface/build", show_index=True)
 
         cors = aiohttp_cors.setup(app, defaults={
             "*": aiohttp_cors.ResourceOptions(
