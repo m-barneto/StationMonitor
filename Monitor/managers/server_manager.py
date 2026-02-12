@@ -5,6 +5,7 @@ import socket
 import subprocess
 from aiohttp import web
 import aiohttp_cors
+import mimetypes
 
 from managers.config_manager import ConfigManager
 from managers.event_manager import EventManager
@@ -169,6 +170,7 @@ class ServerManager:
             return web.Response(text=f"Error setting ip: {str(e)}", status=500)
 
     async def loop(self) -> None:
+        mimetypes.add_type("application/javascript", ".js")
         # Setup our web application
         app = web.Application()
         # Add index route for status
