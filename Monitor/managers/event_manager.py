@@ -32,7 +32,7 @@ class EventManager:
                 if isinstance(self.current_event, OccupiedEvent) and self.current_event.alarmType == "occupation":
                     CacheManager.event_cache.append(self.current_event)
                 # Sends the request while still allowing other loops to continue running
-                res = await loop.run_in_executor(None, partial(requests.post, url=Config.get().proxyEventRoute, json=json.loads(json.dumps(self.current_event.to_dict(), default=str)), auth=("automsvc", "speed0Meter!")))
+                #res = await loop.run_in_executor(None, partial(requests.post, url=Config.get().proxyEventRoute, json=json.loads(json.dumps(self.current_event.to_dict(), default=str)), auth=("automsvc", "speed0Meter!")))
                 # This is our rate limiting sleep
                 await asyncio.sleep(float(1 / int(Config.get().eventSendRate)))
                 # Break out of loop to allow us to process the next event in the queue
