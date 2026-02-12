@@ -171,6 +171,7 @@ class ServerManager:
 
     async def loop(self) -> None:
         mimetypes.add_type("application/javascript", ".js")
+        mimetypes.add_type("application/javascript", ".mjs")
         # Setup our web application
         app = web.Application()
         # Add index route for status
@@ -189,7 +190,7 @@ class ServerManager:
         app.router.add_post("/ip", self.post_set_ip)
 
         # Static file serving (css, js, images, etc.)
-        app.router.add_static("/static", path="../Interface/build/static", name="public")
+        app.router.add_static("/static/", path="../Interface/build/static", name="public")
 
         cors = aiohttp_cors.setup(app, defaults={
             "*": aiohttp_cors.ResourceOptions(
