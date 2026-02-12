@@ -19,7 +19,7 @@ class CacheManager:
             # Delete file
             CacheManager.cache_path.unlink()
         else:
-            CacheManager.event_cache = deque(Config.get().standalone.maxCacheEvents)
+            CacheManager.event_cache = deque(maxlen=Config.get().standalone.maxCacheEvents)
 
     @staticmethod
     def save_cache():
