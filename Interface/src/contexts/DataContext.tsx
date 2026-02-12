@@ -45,7 +45,6 @@ export const EventDataProvider: React.FC<{ children: React.ReactNode }> = ({
                     }
                 });
             setEventData(events);
-            console.log(eventData);
         }, 2500);
 
         return () => clearInterval(id);
