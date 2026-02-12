@@ -3,7 +3,7 @@ from collections import deque
 from datetime import datetime, timedelta
 import json
 from pathlib import Path
-from Monitor.utils.sensor_event import EventData
+from utils.sensor_event import EventData
 from utils.config import Config
 
 class CacheManager:

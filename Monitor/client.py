@@ -1,6 +1,7 @@
 import asyncio
 import platform
 
+from managers.cache_manager import CacheManager
 from managers.led_manager import LedManager
 from managers.timer_manager import TimerManager
 from managers.alarm_manager import AlarmManager
@@ -71,6 +72,9 @@ loop.create_task(server.loop())
 
 status_updater = HealthManager()
 loop.create_task(status_updater.loop())
+
+cache_manager = CacheManager()
+
 
 # Start our event loop
 loop.run_forever()
