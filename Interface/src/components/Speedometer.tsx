@@ -111,10 +111,6 @@ export default function Speedometer() {
                         width: 15,
                     }}
                     value={carsPerHour}
-                    style={{
-                        width: "30rem",
-                        height: "20rem",
-                    }}
                 />
             </div>
             <div>
@@ -186,9 +182,6 @@ export default function Speedometer() {
                         width: 15,
                     }}
                     value={avgEventDuration}
-                    style={{
-                        height: "20rem",
-                    }}
                 />
             </div>
         </div>
