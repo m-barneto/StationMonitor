@@ -31,7 +31,7 @@ class EventManager:
             try:
                 if self.current_event.alarm_type == "occupation":
                     print("adding to cache")
-                    CacheManager.event_cache.append(self.current_event)
+                    CacheManager.event_cache.append(self.current_event.to_dict())
                 # Sends the request while still allowing other loops to continue running
                 #res = await loop.run_in_executor(None, partial(requests.post, url=Config.get().proxyEventRoute, json=json.loads(json.dumps(self.current_event.to_dict(), default=str)), auth=("automsvc", "speed0Meter!")))
                 # This is our rate limiting sleep
