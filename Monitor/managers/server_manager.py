@@ -1,11 +1,9 @@
 import asyncio
 from datetime import datetime, timezone
 import json
-import socket
 import subprocess
 from aiohttp import web
 import aiohttp_cors
-import mimetypes
 
 from managers.config_manager import ConfigManager
 from managers.event_manager import EventManager
@@ -170,12 +168,10 @@ class ServerManager:
             return web.Response(text=f"Error setting ip: {str(e)}", status=500)
 
     async def loop(self) -> None:
-        mimetypes.add_type("application/javascript", ".js")
-        mimetypes.add_type("application/javascript", ".mjs")
         # Setup our web application
         app = web.Application()
         # Add index route for status
-        app.router.add_get('/', self.get_interface)
+        #app.router.add_get('/', self.get_interface)
 
         #app.router.add_get("/style.css", self.get_style)
 
