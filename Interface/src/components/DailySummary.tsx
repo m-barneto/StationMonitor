@@ -55,7 +55,6 @@ export default function DailySummary() {
             size="normal"
             value={dailySummary}
             style={{
-                width: "100%",
                 paddingLeft: "1rem",
                 paddingRight: "1rem",
 

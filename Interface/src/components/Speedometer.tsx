@@ -35,7 +35,6 @@ export default function Speedometer() {
         <div
             style={{
                 display: "flex",
-                width: "100%",
                 justifyContent: "center",
                 gap: "5rem",
             }}>
