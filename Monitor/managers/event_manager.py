@@ -30,6 +30,7 @@ class EventManager:
         while True:
             try:
                 if isinstance(self.current_event, OccupiedEvent) and self.current_event.alarmType == "occupation":
+                    print("adding to cache")
                     CacheManager.event_cache.append(self.current_event)
                 # Sends the request while still allowing other loops to continue running
                 #res = await loop.run_in_executor(None, partial(requests.post, url=Config.get().proxyEventRoute, json=json.loads(json.dumps(self.current_event.to_dict(), default=str)), auth=("automsvc", "speed0Meter!")))
