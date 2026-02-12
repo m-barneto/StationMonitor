@@ -35,7 +35,7 @@ class CacheManager:
         #TODO this should be hours not minutes
         cutoff = datetime.now() - timedelta(minutes=Config.get().standalone.pruneHours)
         while CacheManager.event_cache:
-            start_time = datetime.fromisoformat(CacheManager.event_cache[0].body.startTime)
+            start_time = datetime.fromisoformat(CacheManager.event_cache[0]["body"]["startTime"])
             print("Cache looking at time: ", start_time)
             if start_time >= cutoff:
                 print("Time is >= cutoff, breaking now")
