@@ -23,14 +23,14 @@ function App() {
                             <SplitterPanel className="flex flex-row" minSize={10}>
                                 <EventHistory />
                             </SplitterPanel>
-                            <SplitterPanel size={30}>
+                            <SplitterPanel>
                                 <div>
                                     {/* <SimTimeController /> */}
                                     <Speedometer />
                                     <DailySummary />
                                 </div>
                             </SplitterPanel>
-                            <SplitterPanel minSize={10} size={20}>
+                            <SplitterPanel>
                                 <div>
                                     Kill me
                                 </div>
