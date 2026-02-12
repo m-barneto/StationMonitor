@@ -30,17 +30,17 @@ const severityColors = {
 };
 
 function formatDuration(seconds: number): string {
-  const hrs = Math.floor(seconds / 3600);
-  const mins = Math.floor((seconds % 3600) / 60);
-  const secs = Math.floor(seconds % 60);
+    const hrs = Math.floor(seconds / 3600);
+    const mins = Math.floor((seconds % 3600) / 60);
+    const secs = Math.floor(seconds % 60);
 
-  const parts = [];
-  if (hrs > 0) parts.push(`${hrs}h`);
-  if (mins > 0) parts.push(`${mins}m`);
-  if (secs > 0 || parts.length === 0)
-    parts.push(`${secs}s`);
+    const parts = [];
+    if (hrs > 0) parts.push(`${hrs}h`);
+    if (mins > 0) parts.push(`${mins}m`);
+    if (secs > 0 || parts.length === 0)
+        parts.push(`${secs}s`);
 
-  return parts.join(" ");
+    return parts.join(" ");
 }
 
 function SensorCard({ sensor }: { sensor: LongDistanceSensor }) {
@@ -51,8 +51,8 @@ function SensorCard({ sensor }: { sensor: LongDistanceSensor }) {
     const backgroundColor = isOccupied
         ? "#662626"
         : isEmpty
-        ? "#264d26"
-        : "#665c1a"; // warning/neutral
+            ? "#264d26"
+            : "#665c1a"; // warning/neutral
 
     const color = isOccupied || isEmpty ? "#fff" : "#f3eba0";
 
@@ -89,8 +89,8 @@ function SensorCard({ sensor }: { sensor: LongDistanceSensor }) {
                                 isOccupied
                                     ? "danger"
                                     : isEmpty
-                                    ? "success"
-                                    : "warning"
+                                        ? "success"
+                                        : "warning"
                             }
                         />
                     </p>
@@ -167,20 +167,20 @@ export default function StationDashboard() {
             }}>
             {/* Left column: Sensors */}
             <Card title={
-                            <div className="flex justify-content-between align-items-center w-full">
-                                <span>Sensors</span>
-                                <Button
-                                    className="p-button-rounded p-button-text"
-                                    onClick={() => setShowHelp(true)}
-                                    tooltip="View setting descriptions"
-                                    tooltipOptions={{ position: "left" }}>
-                                    <i
-                                        className="pi pi-question-circle"
-                                        style={{ fontSize: "2rem" }}
-                                    />
-                                </Button>
-                            </div>
-                        } className="p-4">
+                <div className="flex justify-content-between align-items-center w-full">
+                    <span>Sensors</span>
+                    <Button
+                        className="p-button-rounded p-button-text"
+                        onClick={() => setShowHelp(true)}
+                        tooltip="View setting descriptions"
+                        tooltipOptions={{ position: "left" }}>
+                        <i
+                            className="pi pi-question-circle"
+                            style={{ fontSize: "2rem" }}
+                        />
+                    </Button>
+                </div>
+            } className="p-4">
                 <div
                     style={{
                         flex: 1,

@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 export interface StationMonitorConfig {
     longDistanceSensors: LongDistanceSensor[];
     sleep: Sleep;
+    standalone: Standalone;
     alarmDuration: number;
     minOccupiedDuration: number;
     sensorPollRate: number;
@@ -37,6 +38,12 @@ export interface Sleep {
     openTime: string;
     closeTime: string;
     sleepInterval: number;
+}
+
+export interface Standalone {
+    pruneHours: number;
+    pruneFrequencyMins: number;
+    maxCacheEvents: number;
 }
 
 const timezones = [
