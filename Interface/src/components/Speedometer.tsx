@@ -26,6 +26,7 @@ export default function Speedometer() {
         } else {
             setAvgEventDuration(0);
         }
+        console.log(lastHour.length);
 
         // Calculate how many cars we had in the past hour
         setCarsPerHour(lastHour.length);
