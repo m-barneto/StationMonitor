@@ -29,7 +29,7 @@ class EventManager:
         loop = asyncio.get_event_loop()
         while True:
             try:
-                if self.current_event.alarmType == "occupation":
+                if isinstance(self.current_event, OccupiedEvent) and self.current_event.alarmType == "occupation":
                     CacheManager.event_cache.append(self.current_event)
                 # Sends the request while still allowing other loops to continue running
                 res = await loop.run_in_executor(None, partial(requests.post, url=Config.get().proxyEventRoute, json=json.loads(json.dumps(self.current_event.to_dict(), default=str)), auth=("automsvc", "speed0Meter!")))
