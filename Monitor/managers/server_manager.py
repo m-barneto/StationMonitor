@@ -171,7 +171,7 @@ class ServerManager:
         # Setup our web application
         app = web.Application()
         # Add index route for status
-        #app.router.add_get('/', self.get_interface)
+        app.router.add_get('/', self.get_interface)
 
         #app.router.add_get("/style.css", self.get_style)
 
