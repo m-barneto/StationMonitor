@@ -29,7 +29,7 @@ class EventManager:
         loop = asyncio.get_event_loop()
         while True:
             try:
-                if self.current_event.alarm_type == "occupation":
+                if self.current_event.alarm_type == "occupation" and self.current_event.body.endTime != None:
                     print("adding to cache")
                     CacheManager.event_cache.append(self.current_event.to_dict())
                 # Sends the request while still allowing other loops to continue running

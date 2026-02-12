@@ -39,7 +39,7 @@ export const EventDataProvider: React.FC<{ children: React.ReactNode }> = ({
                             new EventData(
                                 "",
                                 i["body"]["startTime"],
-                                i["body"]["durationInSeconds"]
+                                i["body"]["duration"]
                             )
                         );
                     }
