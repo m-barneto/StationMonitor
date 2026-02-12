@@ -34,7 +34,6 @@ export const EventDataProvider: React.FC<{ children: React.ReactNode }> = ({
             fetch("/events")
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log(data);
                     for (const i of data) {
                         events.push(
                             new EventData(
@@ -46,7 +45,7 @@ export const EventDataProvider: React.FC<{ children: React.ReactNode }> = ({
                     }
                 });
             setEventData(events);
-            console.log(events);
+            console.log(eventData);
         }, 2500);
 
         return () => clearInterval(id);
