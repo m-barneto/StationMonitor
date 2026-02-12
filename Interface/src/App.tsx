@@ -20,7 +20,7 @@ function App() {
                 <TabView>
                     <TabPanel header="Summary">
                         <Splitter>
-                            <SplitterPanel className="flex flex-row" minSize={12} size={12}>
+                            <SplitterPanel className="flex flex-row" minSize={10} size={10}>
                                 <EventHistory />
                             </SplitterPanel>
                             <SplitterPanel minSize={20}>
