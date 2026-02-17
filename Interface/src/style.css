@@ -6,6 +6,7 @@
 }
 
 html,
+main,
 .p-tabview,
 .p-tabview-panels,
 .p-tabview-panel,
@@ -14,14 +15,9 @@ html,
     height: 100%;
 }
 
-body,
-main {
+#root,
+body {
     height: 98%;
-    overflow: hidden;
-}
-
-#root {
-    height: 100%;
     overflow: hidden;
 }
 
