@@ -22,6 +22,7 @@ export default function DailySummary() {
         // 2) Pre-generate bins for the last 12 hours (including latest)
         for (let i = 11; i >= 0; i--) {
             const d = new Date(latestDate);
+            d.setHours(d.getHours() - i);
             d.setMinutes(0, 0, 0);
 
             const bin = d.toLocaleString("en-US", {
@@ -48,16 +49,6 @@ export default function DailySummary() {
                 hour: "numeric",
                 hour12: true,
             });
-            if (summary[bin] == undefined) {
-                summary[bin] = {
-                    time: bin,
-                    sortTime: e.startDate.getTime(),
-                    total_cars: 0,
-                    total_duration: 0,
-                    avg_duration: 0,
-                    displayedDuration: ""
-                };
-            }
 
             summary[bin].total_cars += 1;
             summary[bin].total_duration += e.duration;
