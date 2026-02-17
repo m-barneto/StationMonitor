@@ -5,10 +5,6 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-main {
-    height: 100w
-}
-
 .p-splitter {
     height: 90%;
 }
@@ -23,4 +19,8 @@ main {
 
 .p-card-title {
     margin-bottom: 0.25rem;
+}
+
+.p-tabview-panel {
+    height: 95vh;
 }
