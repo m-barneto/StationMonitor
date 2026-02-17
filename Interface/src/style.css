@@ -37,5 +37,5 @@ body {
 }
 
 .value-text {
-    transform: translate(0px, 100px) !important;
+    transform: translate(0%, 10%) !important;
 }
