@@ -17,9 +17,8 @@ export default function EventHistory() {
             style={{ width: "100%" }}
             sortField="displayedStartTime"
             sortOrder={-1}>
-            <Column field="event_icon" header="Type"></Column>
-            <Column field="displayedStartTime" sortable header="Event Start"></Column>
-            <Column field="duration" sortable header="Duration (m)"></Column>
+            <Column field="displayedStartTime" sortable header="Start"></Column>
+            <Column field="duration" sortable header="Mins"></Column>
         </DataTable>
     );
 }
