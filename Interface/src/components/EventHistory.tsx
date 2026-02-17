@@ -13,7 +13,7 @@ export default function EventHistory() {
             scrollHeight="100%"
             size="normal"
             value={eventData}
-            tableStyle={{ minWidth: "8rem", width: "10rem" }}
+            tableStyle={{ width: "10rem" }}
             style={{ width: "100%" }}
             sortField="displayedStartTime"
             sortOrder={-1}>
