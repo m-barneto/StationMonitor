@@ -308,7 +308,7 @@ export default function SettingsForm() {
                         suffix=" s"
                         showButtons
                         step={1}
-                        min={1}
+                        min={0}
                         className="w-full mb-3"
                     />
                 </div>
