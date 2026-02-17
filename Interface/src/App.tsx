@@ -16,7 +16,6 @@ function App() {
     return (
         <main>
             <EventDataProvider>
-                <Header />
                 <TabView>
                     <TabPanel header="Summary">
                         <Splitter>
