@@ -6,7 +6,7 @@
 }
 
 .p-splitter {
-    height: 90%;
+    height: 95vh;
 }
 
 .p-card-body {
@@ -19,8 +19,4 @@
 
 .p-card-title {
     margin-bottom: 0.25rem;
-}
-
-.p-tabview-panel {
-    height: 95vh;
 }
