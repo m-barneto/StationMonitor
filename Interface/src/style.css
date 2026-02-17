@@ -35,3 +35,7 @@ body {
 .p-card-title {
     margin-bottom: 0.25rem;
 }
+
+.value-text {
+    transform: translate(0, 80)
+}
