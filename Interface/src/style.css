@@ -19,6 +19,9 @@ body {
     overflow: hidden;
 }
 
+.p-splitter {
+    height: 100%;
+}
 
 .p-card-body {
     padding: 0.5rem;
