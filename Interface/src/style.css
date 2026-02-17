@@ -5,6 +5,10 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+main {
+    height: 100w
+}
+
 .p-splitter {
     height: 90%;
 }
