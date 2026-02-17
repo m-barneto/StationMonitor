@@ -38,9 +38,9 @@ export default function Speedometer() {
                 justifyContent: "center",
                 gap: "5rem",
                 paddingBottom: "3rem",
-                height: "80%"
+                height: "65%"
             }}>
-            <div>
+            <div style={{ width: "100%" }}>
                 <h2
                     style={{
                         textAlign: "center",
@@ -115,7 +115,7 @@ export default function Speedometer() {
                     value={carsPerHour}
                 />
             </div>
-            <div>
+            <div style={{ width: "100%" }}>
                 <h2
                     style={{
                         textAlign: "center",
