@@ -130,7 +130,7 @@ export default function Speedometer() {
                         },
                         tickLabels: {
                             type: "inner",
-                            ticks: [{ value: 4 }, { value: 6 }, { value: 8 }],
+                            ticks: [{ value: 2 }, { value: 4 }, { value: 6 }, { value: 8 }, { value: 10 }],
                             defaultTickValueConfig: {
                                 formatTextValue: (value: string) => value,
                             },
