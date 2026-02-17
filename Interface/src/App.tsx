@@ -22,13 +22,13 @@ function App() {
                             <SplitterPanel className="flex flex-row" size={5}>
                                 <EventHistory />
                             </SplitterPanel>
-                            <SplitterPanel className="flex flex-row" size={90}>
+                            <SplitterPanel className="flex flex-row" size={80}>
                                 <div style={{ width: "100%" }}>
                                     <Speedometer />
                                     <DailySummary />
                                 </div>
                             </SplitterPanel>
-                            <SplitterPanel size={5}>
+                            <SplitterPanel size={15}>
                                 <div style={{ width: "100%" }}>
                                     Timer
                                 </div>
