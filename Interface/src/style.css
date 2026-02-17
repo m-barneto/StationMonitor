@@ -14,9 +14,13 @@ main,
     height: 100%;
 }
 
+.p-tabview {
+    height: 95%;
+}
+
 #root,
 body {
-    height: 98%;
+    height: 100%;
     overflow: hidden;
 }
 
