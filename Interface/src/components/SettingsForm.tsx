@@ -161,7 +161,7 @@ export default function SettingsForm() {
     }
 
     return (
-        <ScrollPanel style={{ height: "100vh" }}>
+        <ScrollPanel style={{ height: "100%" }}>
             <Card
                 title={
                     <div className="flex justify-content-between align-items-center w-full">
