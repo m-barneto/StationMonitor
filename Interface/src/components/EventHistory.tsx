@@ -18,7 +18,7 @@ export default function EventHistory() {
             sortField="displayedStartTime"
             sortOrder={-1}>
             <Column field="displayedStartTime" sortable header="Start"></Column>
-            <Column field="duration" sortable header="Mins"></Column>
+            <Column field="displayedDuration" sortable header="Mins"></Column>
         </DataTable>
     );
 }

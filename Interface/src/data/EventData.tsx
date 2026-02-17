@@ -1,4 +1,5 @@
 import { ReactElement } from "react";
+import { formatDuration } from "../utils/Utils";
 
 export class EventData {
     event_id: string;
@@ -7,6 +8,7 @@ export class EventData {
 
     startDate: Date;
     displayedStartTime: string;
+    displayedDuration: string;
     event_icon: ReactElement;
 
     constructor(event_id: string, startTime: string, duration: number) {
@@ -16,14 +18,15 @@ export class EventData {
         );
         this.startTime = startTime;
         this.duration = duration;
+        this.displayedDuration = formatDuration(this.duration);
 
         this.startDate = new Date(startTime);
 
-        const hours = String(this.startDate.getHours());
+        const hours = String(this.startDate.getHours() % 12);
         const minutes = String(this.startDate.getMinutes()).padStart(2, "0");
         const seconds = String(this.startDate.getSeconds()).padStart(2, "0");
-        //const mmmm = this.startDate.getHours() - 12 > 0 ? "PM" : "AM";
+        const mmmm = this.startDate.getHours() - 12 > 0 ? "PM" : "AM";
 
-        this.displayedStartTime = hours + ":" + minutes + ":" + seconds; // + " " + mmmm;
+        this.displayedStartTime = hours + ":" + minutes + " " + mmmm;
     }
 }

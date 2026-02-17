@@ -9,6 +9,7 @@ import { Tag } from "primereact/tag";
 import SettingsForm from "./SettingsForm";
 import { Button } from "primereact/button";
 import { ScrollPanel } from "primereact/scrollpanel";
+import { formatDuration } from "../utils/Utils";
 
 // Types
 interface LongDistanceSensor {
@@ -29,20 +30,6 @@ const severityColors = {
     2: { backgroundColor: "#665c1a", color: "#f3eba0" },
     3: { backgroundColor: "#662626", color: "#f4b6b6" },
 };
-
-function formatDuration(seconds: number): string {
-    const hrs = Math.floor(seconds / 3600);
-    const mins = Math.floor((seconds % 3600) / 60);
-    const secs = Math.floor(seconds % 60);
-
-    const parts = [];
-    if (hrs > 0) parts.push(`${hrs}h`);
-    if (mins > 0) parts.push(`${mins}m`);
-    if (secs > 0 || parts.length === 0)
-        parts.push(`${secs}s`);
-
-    return parts.join(" ");
-}
 
 function SensorCard({ sensor }: { sensor: LongDistanceSensor }) {
     const isOccupied = sensor.isOccupied === "OCCUPIED";
