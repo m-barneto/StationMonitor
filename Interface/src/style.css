@@ -6,7 +6,8 @@
 }
 
 body,
-html {
+html,
+main {
     height: 100%;
 }
 
