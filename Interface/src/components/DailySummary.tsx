@@ -10,13 +10,10 @@ export default function DailySummary() {
     const { eventData } = useContext(EventDataContext)!;
 
     useEffect(() => {
-        if (!eventData || eventData.length === 0) return;
 
         const summary: Record<string, HourlySummary> = {};
 
-        const latestDate = new Date(
-            Math.max(...eventData.map((e) => e.startDate.getTime()))
-        );
+        const latestDate = new Date();
         latestDate.setMinutes(0, 0, 0);
 
         // 2) Pre-generate bins for the last 12 hours (including latest)
@@ -42,6 +39,10 @@ export default function DailySummary() {
         }
 
 
+        if (!eventData || eventData.length === 0) {
+            setDailySummary(Object.values(summary));
+            return;
+        }
         // Go through each event
         eventData?.forEach((e) => {
             // get the event's hour
