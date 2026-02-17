@@ -11,7 +11,8 @@ main,
 .p-tabview,
 .p-tabview-panels,
 .p-tabview-panel,
-.p-splitter {
+.p-splitter,
+.p-datatable-wrapper {
     height: 100%;
 }
 
