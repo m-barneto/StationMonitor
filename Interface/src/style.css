@@ -9,7 +9,9 @@ body,
 html,
 main,
 .p-tabview,
-.p-tabview-panels {
+.p-tabview-panels,
+.p-tabview-panel,
+.p-splitter {
     height: 100%;
 }
 
@@ -20,10 +22,6 @@ body {
 #root {
     height: 100%;
     overflow: hidden;
-}
-
-.p-splitter {
-    height: 100%;
 }
 
 .p-card-body {
