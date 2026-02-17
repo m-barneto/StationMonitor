@@ -5,7 +5,6 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-body,
 html,
 main,
 .p-tabview,
@@ -13,10 +12,11 @@ main,
 .p-tabview-panel,
 .p-splitter,
 .p-datatable-wrapper {
-    height: 95%;
+    height: 100%;
 }
 
 body {
+    height: 98%;
     overflow: hidden;
 }
 
