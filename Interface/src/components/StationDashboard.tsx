@@ -8,6 +8,7 @@ import { Dropdown } from "primereact/dropdown";
 import { Tag } from "primereact/tag";
 import SettingsForm from "./SettingsForm";
 import { Button } from "primereact/button";
+import { ScrollPanel } from "primereact/scrollpanel";
 
 // Types
 interface LongDistanceSensor {
@@ -157,77 +158,79 @@ export default function StationDashboard() {
     }, [refreshInterval]);
 
     return (
-        <div
-            className="p-4"
-            style={{
-                display: "flex",
-                height: "100vh",
-                gap: "25px",
-                alignItems: "flex-start",
-            }}>
-            {/* Left column: Sensors */}
-            <Card title={
-                <div className="flex justify-content-between align-items-center w-full">
-                    <span>Sensors</span>
-                    <Button
-                        className="p-button-rounded p-button-text"
-                        onClick={() => setShowHelp(true)}
-                        tooltip="View setting descriptions"
-                        tooltipOptions={{ position: "left" }}>
-                        <i
-                            className="pi pi-question-circle"
-                            style={{ fontSize: "2rem" }}
-                        />
-                    </Button>
-                </div>
-            } className="p-4">
+        <ScrollPanel style={{ height: "90vh" }}>
+
+            <div
+                className="p-4"
+                style={{
+                    display: "flex",
+                    gap: "25px",
+                    alignItems: "flex-start",
+                }}>
+                {/* Left column: Sensors */}
+                <Card title={
+                    <div className="flex justify-content-between align-items-center w-full">
+                        <span>Sensors</span>
+                        <Button
+                            className="p-button-rounded p-button-text"
+                            onClick={() => setShowHelp(true)}
+                            tooltip="View setting descriptions"
+                            tooltipOptions={{ position: "left" }}>
+                            <i
+                                className="pi pi-question-circle"
+                                style={{ fontSize: "2rem" }}
+                            />
+                        </Button>
+                    </div>
+                } className="p-4">
+                    <div
+                        style={{
+                            flex: 1,
+                            overflowY: "auto",
+                            paddingRight: "8px",
+                            minWidth: "450px",
+                        }}>
+                        <p className="m-0">
+                            <strong>Local System Time:</strong> {rpiTime || "—"}
+                        </p>
+                        <p className="m-0">
+                            <strong>Events Queued:</strong>{" "}
+                            <Tag
+                                value={eventsQueued.toString()}
+                                severity={eventsQueued > 0 ? "danger" : "success"}
+                                style={{
+                                    padding: "0.3rem 0.5rem",
+                                }}
+                            />
+                        </p>
+                        <h3 className="mb-3">Sensors</h3>
+                        <div className="p-fluid surface-100 border-round shadow-1">
+                            <label>Refresh Rate</label>
+                            <Dropdown
+                                placeholder="Refresh Rate"
+                                value={refreshInterval}
+                                className="mb-2"
+                                options={refreshIntervalOptions}
+                                onChange={(e) =>
+                                    setRefreshInterval(e.value ?? 1000)
+                                }
+                            />
+                        </div>
+                        {sensors.map((s) => (
+                            <SensorCard key={s.zone} sensor={s} />
+                        ))}
+                    </div>
+                </Card>
+
+                {/* Right column: Settings */}
                 <div
                     style={{
-                        flex: 1,
-                        overflowY: "auto",
-                        paddingRight: "8px",
-                        minWidth: "450px",
+                        width: "50%",
+                        flexShrink: 0,
                     }}>
-                    <p className="m-0">
-                        <strong>Local System Time:</strong> {rpiTime || "—"}
-                    </p>
-                    <p className="m-0">
-                        <strong>Events Queued:</strong>{" "}
-                        <Tag
-                            value={eventsQueued.toString()}
-                            severity={eventsQueued > 0 ? "danger" : "success"}
-                            style={{
-                                padding: "0.3rem 0.5rem",
-                            }}
-                        />
-                    </p>
-                    <h3 className="mb-3">Sensors</h3>
-                    <div className="p-fluid surface-100 border-round shadow-1">
-                        <label>Refresh Rate</label>
-                        <Dropdown
-                            placeholder="Refresh Rate"
-                            value={refreshInterval}
-                            className="mb-2"
-                            options={refreshIntervalOptions}
-                            onChange={(e) =>
-                                setRefreshInterval(e.value ?? 1000)
-                            }
-                        />
-                    </div>
-                    {sensors.map((s) => (
-                        <SensorCard key={s.zone} sensor={s} />
-                    ))}
+                    <SettingsForm />
                 </div>
-            </Card>
-
-            {/* Right column: Settings */}
-            <div
-                style={{
-                    width: "50%",
-                    flexShrink: 0,
-                }}>
-                <SettingsForm />
             </div>
-        </div>
+        </ScrollPanel>
     );
 }

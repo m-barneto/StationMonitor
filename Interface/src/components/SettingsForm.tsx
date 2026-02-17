@@ -9,7 +9,6 @@ import { ProgressSpinner } from "primereact/progressspinner";
 import { Calendar } from "primereact/calendar";
 import { Dialog } from "primereact/dialog";
 import { useEffect, useState } from "react";
-import { ScrollPanel } from "primereact/scrollpanel";
 
 export interface StationMonitorConfig {
     longDistanceSensors: LongDistanceSensor[];
@@ -161,238 +160,236 @@ export default function SettingsForm() {
     }
 
     return (
-        <ScrollPanel style={{ height: "100%" }}>
-            <Card
-                title={
-                    <div className="flex justify-content-between align-items-center w-full">
-                        <span>System Configuration</span>
-                        <Button
-                            className="p-button-rounded p-button-text"
-                            onClick={() => setShowHelp(true)}
-                            tooltip="View setting descriptions"
-                            tooltipOptions={{ position: "left" }}>
-                            <i
-                                className="pi pi-question-circle"
-                                style={{ fontSize: "2rem" }}
+        <Card
+            title={
+                <div className="flex justify-content-between align-items-center w-full">
+                    <span>System Configuration</span>
+                    <Button
+                        className="p-button-rounded p-button-text"
+                        onClick={() => setShowHelp(true)}
+                        tooltip="View setting descriptions"
+                        tooltipOptions={{ position: "left" }}>
+                        <i
+                            className="pi pi-question-circle"
+                            style={{ fontSize: "2rem" }}
+                        />
+                    </Button>
+                </div>
+            }
+            className="p-4">
+            <h3>Distance Sensors</h3>
+
+            {settings.longDistanceSensors.map((sensor, i) => (
+                <Card key={i} className="mb-3 p-0">
+                    <div className="p-fluid grid formgrid">
+                        <div className="col-12 md:col-8">
+                            <label htmlFor={`zone-${i}`}>Zone Label</label>
+                            <InputText
+                                value={sensor.zone}
+                                onChange={(e) =>
+                                    updateSensorField(i, "zone", e.target.value)
+                                }
+                                placeholder="Zone"
                             />
-                        </Button>
-                    </div>
-                }
-                className="p-4">
-                <h3>Distance Sensors</h3>
-
-                {settings.longDistanceSensors.map((sensor, i) => (
-                    <Card key={i} className="mb-3 p-0">
-                        <div className="p-fluid grid formgrid">
-                            <div className="col-12 md:col-8">
-                                <label htmlFor={`zone-${i}`}>Zone Label</label>
-                                <InputText
-                                    value={sensor.zone}
-                                    onChange={(e) =>
-                                        updateSensorField(i, "zone", e.target.value)
-                                    }
-                                    placeholder="Zone"
-                                />
-                            </div>
-                            <div className="col-12 md:col-4">
-                                <label htmlFor={`occupiedDistance-${i}`}>
-                                    Occupied Distance
-                                </label>
-                                <InputNumber
-                                    value={sensor.occupiedDistance}
-                                    onValueChange={(e) =>
-                                        updateSensorField(
-                                            i,
-                                            "occupiedDistance",
-                                            e.value || 1000
-                                        )
-                                    }
-                                    placeholder="Occupied Distance"
-                                    suffix=" mm"
-                                    useGrouping={false}
-                                />
-                            </div>
                         </div>
-                    </Card>
-                ))}
-
-                <Divider />
-
-                <h3>Sleep Settings</h3>
-                <div className="p-fluid grid">
-                    <div className="col-12 md:col-4">
-                        <label htmlFor="timezone">Timezone</label>
-                        <Dropdown
-                            value={settings.sleep.timezone}
-                            options={timezones}
-                            onChange={(e) => updateSleepField("timezone", e.value)}
-                            placeholder="Timezone"
-                        />
+                        <div className="col-12 md:col-4">
+                            <label htmlFor={`occupiedDistance-${i}`}>
+                                Occupied Distance
+                            </label>
+                            <InputNumber
+                                value={sensor.occupiedDistance}
+                                onValueChange={(e) =>
+                                    updateSensorField(
+                                        i,
+                                        "occupiedDistance",
+                                        e.value || 1000
+                                    )
+                                }
+                                placeholder="Occupied Distance"
+                                suffix=" mm"
+                                useGrouping={false}
+                            />
+                        </div>
                     </div>
-                    <div className="col-12 md:col-3">
-                        <label htmlFor="openTime">Open Time</label>
-                        <Calendar
-                            id="openTime"
-                            value={
-                                new Date(`1970-01-01T${settings.sleep.openTime}:00`)
-                            }
-                            onChange={(e) => {
-                                const timeStr = e.value
-                                    ? e.value.toLocaleTimeString([], {
-                                        hour: "2-digit",
-                                        minute: "2-digit",
-                                        hour12: false,
-                                    })
-                                    : "";
-                                updateSleepField("openTime", timeStr);
-                            }}
-                            timeOnly
-                            hourFormat="24"
-                            className="w-full mb-3"
-                        />
-                    </div>
-                    <div className="col-12 md:col-3">
-                        <label htmlFor="closeTime">Close Time</label>
+                </Card>
+            ))}
 
-                        <Calendar
-                            id="closeTime"
-                            value={
-                                new Date(
-                                    `1970-01-01T${settings.sleep.closeTime}:00`
-                                )
-                            }
-                            onChange={(e) => {
-                                const timeStr = e.value
-                                    ? e.value.toLocaleTimeString([], {
-                                        hour: "2-digit",
-                                        minute: "2-digit",
-                                        hour12: false,
-                                    })
-                                    : "";
-                                updateSleepField("closeTime", timeStr);
-                            }}
-                            timeOnly
-                            hourFormat="24"
-                            className="w-full mb-3"
-                        />
-                    </div>
+            <Divider />
+
+            <h3>Sleep Settings</h3>
+            <div className="p-fluid grid">
+                <div className="col-12 md:col-4">
+                    <label htmlFor="timezone">Timezone</label>
+                    <Dropdown
+                        value={settings.sleep.timezone}
+                        options={timezones}
+                        onChange={(e) => updateSleepField("timezone", e.value)}
+                        placeholder="Timezone"
+                    />
                 </div>
-
-                <Divider />
-
-                <h3>General Settings</h3>
-                <div className="p-fluid grid">
-                    <div className="col-12 md:col-5">
-                        <label htmlFor="alarmDuration" className="mb-2">
-                            Alarm Duration
-                        </label>
-                        <InputNumber
-                            id="alarmDuration"
-                            value={settings.alarmDuration}
-                            onValueChange={(e) =>
-                                updateField("alarmDuration", (e.value || 0))
-                            }
-                            showButtons
-                            step={1}
-                            min={1}
-                            suffix=" min"
-                            className="w-full mb-3"
-                        />
-                    </div>
-                    <div className="col-12 md:col-5">
-                        <label>Minimum Occupied Duration</label>
-                        <InputNumber
-                            value={settings.minOccupiedDuration}
-                            onValueChange={(e) =>
-                                updateField("minOccupiedDuration", e.value || 0)
-                            }
-                            placeholder="Min Occupied Duration (s)"
-                            suffix=" s"
-                            showButtons
-                            step={1}
-                            min={1}
-                            className="w-full mb-3"
-                        />
-                    </div>
+                <div className="col-12 md:col-3">
+                    <label htmlFor="openTime">Open Time</label>
+                    <Calendar
+                        id="openTime"
+                        value={
+                            new Date(`1970-01-01T${settings.sleep.openTime}:00`)
+                        }
+                        onChange={(e) => {
+                            const timeStr = e.value
+                                ? e.value.toLocaleTimeString([], {
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                    hour12: false,
+                                })
+                                : "";
+                            updateSleepField("openTime", timeStr);
+                        }}
+                        timeOnly
+                        hourFormat="24"
+                        className="w-full mb-3"
+                    />
                 </div>
+                <div className="col-12 md:col-3">
+                    <label htmlFor="closeTime">Close Time</label>
 
-                <Divider />
-                <Button
-                    label="Save Configuration"
-                    icon="pi pi-save"
-                    className="p-button-success mt-3"
-                    onClick={handleSubmit}
-                />
-                <Dialog
-                    header="Settings Description"
-                    visible={showHelp}
-                    style={{ width: "35rem" }}
-                    modal
-                    onHide={() => setShowHelp(false)}>
-                    <div className="p-3">
-                        <ul className="m-0 p-0 list-none">
-                            <li className="mb-3">
-                                <strong>Zone Label:</strong>
-                                <small className="block text-gray-500">
-                                    <code>SITE-0000-WAIT-1</code>
-                                </small>
-                                <small className="block text-gray-500">
-                                    <code>SITE-0000-BAY-1</code>
-                                </small>
-                            </li>
-                            <li className="mb-6">
-                                <strong>Occupied Distance:</strong> When the sensor
-                                reading is below this value, the zone is considered
-                                occupied.
-                            </li>
-                            <li className="mb-3">
-                                <strong>Timezone:</strong> Timezone that the
-                                open/close times are based on.
-                            </li>
-                            <li className="mb-6">
-                                <strong>Open/Close Time:</strong> Events will only
-                                be triggered within this time range.
-                            </li>
-                            <li className="mb-3">
-                                <strong>Alarm Duration:</strong> Event's that go
-                                over this duration (mins) will trigger an additional
-                                alarm event.
-                            </li>
-                            <li className="mb-3">
-                                <strong>Min. Occupied Duration:</strong> Event's
-                                with a duration lower than this value (seconds) will
-                                be ignored.
-                            </li>
-                            {/* Add more descriptions as needed */}
-                        </ul>
-                    </div>
-                </Dialog>
-                <Divider />
-                <h3>General Settings</h3>
-                <div className="p-fluid grid">
-                    <div className="col-12 md:col-5">
-                        <label htmlFor="static_ip_input">Static IP</label>
-                        <InputMask
-                            id="static_ip_input"
-                            value={ip}
-                            onChange={(e) =>
-                                setIp(e.target.value!)
-                            }
-                            placeholder="Static IP (192.168.17.xxx)"
-                            mask="999"
-                            className="w-full mb-3"
-                        />
-                    </div>
-                    <div className="col-12 md:col-5">
-                        <Button
-                            label="Set IP"
-                            icon="pi pi-save"
-                            className="p-button-success mt-3"
-                            onClick={handleIpSubmit}
-                        />
-                    </div>
+                    <Calendar
+                        id="closeTime"
+                        value={
+                            new Date(
+                                `1970-01-01T${settings.sleep.closeTime}:00`
+                            )
+                        }
+                        onChange={(e) => {
+                            const timeStr = e.value
+                                ? e.value.toLocaleTimeString([], {
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                    hour12: false,
+                                })
+                                : "";
+                            updateSleepField("closeTime", timeStr);
+                        }}
+                        timeOnly
+                        hourFormat="24"
+                        className="w-full mb-3"
+                    />
                 </div>
-            </Card>
-        </ScrollPanel>
+            </div>
+
+            <Divider />
+
+            <h3>General Settings</h3>
+            <div className="p-fluid grid">
+                <div className="col-12 md:col-5">
+                    <label htmlFor="alarmDuration" className="mb-2">
+                        Alarm Duration
+                    </label>
+                    <InputNumber
+                        id="alarmDuration"
+                        value={settings.alarmDuration}
+                        onValueChange={(e) =>
+                            updateField("alarmDuration", (e.value || 0))
+                        }
+                        showButtons
+                        step={1}
+                        min={1}
+                        suffix=" min"
+                        className="w-full mb-3"
+                    />
+                </div>
+                <div className="col-12 md:col-5">
+                    <label>Minimum Occupied Duration</label>
+                    <InputNumber
+                        value={settings.minOccupiedDuration}
+                        onValueChange={(e) =>
+                            updateField("minOccupiedDuration", e.value || 0)
+                        }
+                        placeholder="Min Occupied Duration (s)"
+                        suffix=" s"
+                        showButtons
+                        step={1}
+                        min={1}
+                        className="w-full mb-3"
+                    />
+                </div>
+            </div>
+
+            <Divider />
+            <Button
+                label="Save Configuration"
+                icon="pi pi-save"
+                className="p-button-success mt-3"
+                onClick={handleSubmit}
+            />
+            <Dialog
+                header="Settings Description"
+                visible={showHelp}
+                style={{ width: "35rem" }}
+                modal
+                onHide={() => setShowHelp(false)}>
+                <div className="p-3">
+                    <ul className="m-0 p-0 list-none">
+                        <li className="mb-3">
+                            <strong>Zone Label:</strong>
+                            <small className="block text-gray-500">
+                                <code>SITE-0000-WAIT-1</code>
+                            </small>
+                            <small className="block text-gray-500">
+                                <code>SITE-0000-BAY-1</code>
+                            </small>
+                        </li>
+                        <li className="mb-6">
+                            <strong>Occupied Distance:</strong> When the sensor
+                            reading is below this value, the zone is considered
+                            occupied.
+                        </li>
+                        <li className="mb-3">
+                            <strong>Timezone:</strong> Timezone that the
+                            open/close times are based on.
+                        </li>
+                        <li className="mb-6">
+                            <strong>Open/Close Time:</strong> Events will only
+                            be triggered within this time range.
+                        </li>
+                        <li className="mb-3">
+                            <strong>Alarm Duration:</strong> Event's that go
+                            over this duration (mins) will trigger an additional
+                            alarm event.
+                        </li>
+                        <li className="mb-3">
+                            <strong>Min. Occupied Duration:</strong> Event's
+                            with a duration lower than this value (seconds) will
+                            be ignored.
+                        </li>
+                        {/* Add more descriptions as needed */}
+                    </ul>
+                </div>
+            </Dialog>
+            <Divider />
+            <h3>General Settings</h3>
+            <div className="p-fluid grid">
+                <div className="col-12 md:col-5">
+                    <label htmlFor="static_ip_input">Static IP</label>
+                    <InputMask
+                        id="static_ip_input"
+                        value={ip}
+                        onChange={(e) =>
+                            setIp(e.target.value!)
+                        }
+                        placeholder="Static IP (192.168.17.xxx)"
+                        mask="999"
+                        className="w-full mb-3"
+                    />
+                </div>
+                <div className="col-12 md:col-5">
+                    <Button
+                        label="Set IP"
+                        icon="pi pi-save"
+                        className="p-button-success mt-3"
+                        onClick={handleIpSubmit}
+                    />
+                </div>
+            </div>
+        </Card>
     );
 }
