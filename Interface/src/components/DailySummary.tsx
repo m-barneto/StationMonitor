@@ -3,6 +3,7 @@ import { DataTable } from "primereact/datatable";
 import React, { useContext, useEffect, useState } from "react";
 import { EventDataContext } from "../contexts/DataContext";
 import { HourlySummary } from "../data/HourlyData";
+import { formatDuration } from "../utils/Utils";
 
 export default function DailySummary() {
     const [dailySummary, setDailySummary] = useState([] as HourlySummary[]);
@@ -23,6 +24,7 @@ export default function DailySummary() {
                     total_cars: 0,
                     total_duration: 0,
                     avg_duration: 0,
+                    displayedDuration: ""
                 };
             }
 
@@ -37,6 +39,7 @@ export default function DailySummary() {
                         summary[bin].total_duration / summary[bin].total_cars
                     ).toFixed(2)
                 );
+                summary[bin].displayedDuration = formatDuration(summary[bin].avg_duration)
             } else {
                 summary[bin].avg_duration = 0;
             }
@@ -51,20 +54,21 @@ export default function DailySummary() {
             stripedRows
             scrollable
             removableSort
-            scrollHeight="flex"
+            scrollHeight="100%"
             size="normal"
             value={dailySummary}
             style={{
                 paddingLeft: "1rem",
                 paddingRight: "1rem",
                 paddingBottom: "3rem"
-            }}>
+            }}
+            sortField="time">
             <Column sortable field="time" header="Time"></Column>
             <Column sortable field="total_cars" header="Cars"></Column>
             <Column
                 sortable
-                field="avg_duration"
-                header="Avg Time (m)"></Column>
+                field="displayedDuration"
+                header="Avg Time"></Column>
         </DataTable>
     );
 }

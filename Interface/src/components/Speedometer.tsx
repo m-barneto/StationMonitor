@@ -37,7 +37,8 @@ export default function Speedometer() {
                 display: "flex",
                 justifyContent: "center",
                 gap: "5rem",
-                paddingBottom: "3rem"
+                paddingBottom: "3rem",
+                height: "80%"
             }}>
             <div>
                 <h2
