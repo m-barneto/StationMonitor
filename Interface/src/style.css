@@ -6,16 +6,16 @@
 }
 
 html,
-main,
 .p-tabview,
 .p-tabview-panels,
 .p-tabview-panel,
 .p-splitter,
 .p-datatable-wrapper {
-    height: 98%;
+    height: 100%;
 }
 
-body {
+body,
+main {
     height: 98%;
     overflow: hidden;
 }
