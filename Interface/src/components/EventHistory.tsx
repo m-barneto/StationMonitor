@@ -13,12 +13,13 @@ export default function EventHistory() {
             scrollHeight="100%"
             size="normal"
             value={eventData}
-            tableStyle={{ minWidth: "10rem", width: "auto" }}
+            tableStyle={{ minWidth: "8rem", width: "8rem" }}
             style={{ width: "100%" }}
-            sortField="displayedStartTime">
+            sortField="displayedStartTime"
+            sortOrder={-1}>
             <Column field="event_icon" header="Type"></Column>
             <Column field="displayedStartTime" sortable header="Event Start"></Column>
-            <Column field="duration" header="Duration (m)"></Column>
+            <Column field="duration" sortable header="Duration (m)"></Column>
         </DataTable>
     );
 }
