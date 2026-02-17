@@ -5,9 +5,20 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-.p-splitter {
-    height: 90vh;
+body,
+html {
+    height: 100%;
 }
+
+body {
+    overflow: hidden;
+}
+
+.p-tabview {
+    height: 100%;
+    overflow: hidden;
+}
+
 
 .p-card-body {
     padding: 0.5rem;
