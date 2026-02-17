@@ -7,7 +7,8 @@
 
 body,
 html,
-main {
+main,
+.p-tabview {
     height: 100%;
 }
 
