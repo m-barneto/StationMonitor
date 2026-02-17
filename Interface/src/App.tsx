@@ -11,34 +11,41 @@ import Speedometer from "./components/Speedometer";
 import DailySummary from "./components/DailySummary";
 import Header from "./components/Header";
 import { TabPanel, TabView } from "primereact/tabview";
+import { SensorStatusContext, SensorStatusProvider } from "./contexts/StatusContext";
+import ZoneTimerCard from "./components/ZoneTimerCard";
 
 function App() {
+    const { sensors } = useContext(SensorStatusContext)!;
     return (
         <main>
             <EventDataProvider>
-                <TabView>
-                    <TabPanel header="Summary">
-                        <Splitter>
-                            <SplitterPanel className="flex flex-row" size={5}>
-                                <EventHistory />
-                            </SplitterPanel>
-                            <SplitterPanel className="flex flex-row" size={80}>
-                                <div style={{ width: "100%" }}>
-                                    <Speedometer />
-                                    <DailySummary />
-                                </div>
-                            </SplitterPanel>
-                            <SplitterPanel size={15}>
-                                <div style={{ width: "100%" }}>
-                                    Timer
-                                </div>
-                            </SplitterPanel>
-                        </Splitter>
-                    </TabPanel>
-                    <TabPanel header="Settings">
-                        <StationDashboard />
-                    </TabPanel>
-                </TabView>
+                <SensorStatusProvider>
+                    <TabView>
+                        <TabPanel header="Summary">
+                            <Splitter>
+                                <SplitterPanel className="flex flex-row" size={5}>
+                                    <EventHistory />
+                                </SplitterPanel>
+                                <SplitterPanel className="flex flex-row" size={80}>
+                                    <div style={{ width: "100%" }}>
+                                        <Speedometer />
+                                        <DailySummary />
+                                    </div>
+                                </SplitterPanel>
+                                <SplitterPanel size={15}>
+                                    <div style={{ display: "flex", gap: 16, flexWrap: "wrap", width: "100%" }}>
+                                        {sensors?.map((s) => (
+                                            <ZoneTimerCard key={s.zone} sensor={s} />
+                                        ))}
+                                    </div>
+                                </SplitterPanel>
+                            </Splitter>
+                        </TabPanel>
+                        <TabPanel header="Settings">
+                            <StationDashboard />
+                        </TabPanel>
+                    </TabView>
+                </SensorStatusProvider>
             </EventDataProvider>
         </main>
     );
