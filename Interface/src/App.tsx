@@ -28,8 +28,8 @@ function App() {
                                     <DailySummary />
                                 </div>
                             </SplitterPanel>
-                            <SplitterPanel>
-                                <div>
+                            <SplitterPanel size={5}>
+                                <div style={{ width: "100%" }}>
                                     Timer
                                 </div>
                             </SplitterPanel>
