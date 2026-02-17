@@ -85,7 +85,9 @@ export default function DailySummary() {
                 paddingBottom: "1rem",
                 height: "35%"
             }}
-            sortField="sortTime">
+            sortField="sortTime"
+            sortOrder={-1}
+        >
             <Column sortable field="time" header="Time" ></Column>
             <Column sortable field="total_cars" header="Cars"></Column>
             <Column
