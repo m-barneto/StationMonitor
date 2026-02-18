@@ -116,7 +116,7 @@ export default function ZoneTimerCard({
                         left: 0,
                         right: 0,
                         height: `${progress * 100}%`,
-                        transition: "height 250ms linear, background 250ms linear",
+                        transition: "height 500ms linear, background 500ms linear",
                         ...fillStyle,
                     }}
                 />
