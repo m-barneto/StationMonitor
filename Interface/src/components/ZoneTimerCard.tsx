@@ -84,6 +84,14 @@ export default function ZoneTimerCard({
         return {};
     }, [stage]);
 
+    const borderStyle: React.CSSProperties = useMemo(() => {
+        // You can swap these colors easily
+        if (duration <= 0.0) return {};
+        if (stage === 1) return { border: "2px solid rgba(34, 197, 94, .9)" };
+        if (stage === 2) return { border: "2px solid rgba(245, 158, 11, .9)" };
+        return { background: "2px solid rgba(239,68,68,0.9)" }; // red
+    }, [stage]);
+
     return (
         <div
             style={{
@@ -108,13 +116,14 @@ export default function ZoneTimerCard({
                 </div>
             </div>
 
-            {/* Vertical bar container */}
+            {/* Vertical bar container 
+            border: stage === 3 || stage === 4 ? "2px solid rgba(239,68,68,0.9)" : "1px solid rgba(255,255,255,0.12)",*/}
             <div
                 style={{
                     height: "100%",
                     borderRadius: 12,
                     overflow: "hidden",
-                    border: stage === 3 || stage === 4 ? "2px solid rgba(239,68,68,0.9)" : "1px solid rgba(255,255,255,0.12)",
+                    ...borderStyle,
                     background: "rgba(255,255,255,0.06)",
                     position: "relative",
                     ...glowStyle,
