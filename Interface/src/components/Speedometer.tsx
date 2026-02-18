@@ -11,11 +11,11 @@ export default function Speedometer() {
     const [carsPerHour, setCarsPerHour] = useState(0);
     const [avgEventDuration, setAvgEventDuration] = useState(0);
 
-    const MIN_PER_CAR_ARCS_PER_TICK = 1;
+    const MIN_PER_CAR_ARCS_PER_TICK = 2;
     const MIN_PER_CAR_TICKS = 6;
     const MIN_PER_CAR_MAX = 15;
 
-    const CAR_PER_HOUR_ARCS_PER_TICK = 1;
+    const CAR_PER_HOUR_ARCS_PER_TICK = 2;
     const CAR_PER_HOUR_TICKS = 5;
     const CAR_PER_HOUR_MAX = 60;
 
@@ -65,8 +65,8 @@ export default function Speedometer() {
         return { ticks, subArcs };
     }
 
-    const cphGuage = generateGaugeScale(0, CAR_PER_HOUR_MAX, 4, 2, 1);
-    const mpcGuage = generateGaugeScale(0, MIN_PER_CAR_MAX, 6, 1, 1);
+    const cphGuage = generateGaugeScale(0, CAR_PER_HOUR_MAX, CAR_PER_HOUR_TICKS, CAR_PER_HOUR_ARCS_PER_TICK, 1);
+    const mpcGuage = generateGaugeScale(0, MIN_PER_CAR_MAX, MIN_PER_CAR_TICKS, MIN_PER_CAR_ARCS_PER_TICK, 1);
 
     return (
         <div
