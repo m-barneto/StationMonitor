@@ -23,10 +23,10 @@ function App() {
                     <TabView>
                         <TabPanel header="Summary">
                             <Splitter>
-                                <SplitterPanel className="flex flex-row" size={8}>
+                                <SplitterPanel className="flex flex-row" size={10}>
                                     <EventHistory />
                                 </SplitterPanel>
-                                <SplitterPanel className="flex flex-row" size={87}>
+                                <SplitterPanel className="flex flex-row" size={85}>
                                     <div style={{ width: "100%" }}>
                                         <Speedometer />
                                         <DailySummary />
