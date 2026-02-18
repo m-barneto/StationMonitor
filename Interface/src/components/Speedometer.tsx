@@ -11,8 +11,11 @@ export default function Speedometer() {
     const [carsPerHour, setCarsPerHour] = useState(0);
     const [avgEventDuration, setAvgEventDuration] = useState(0);
 
-    const MIN_PER_CAR_TICKS = 7;
+    const MIN_PER_CAR_TICKS = 6;
     const MIN_PER_CAR_MAX = 15;
+
+    const CAR_PER_HOUR_TICKS = 4;
+    const CAR_PER_HOUR_MAX = 60;
 
     useEffect(() => {
         if (!eventData) return;
@@ -84,12 +87,7 @@ export default function Speedometer() {
                         },
                         tickLabels: {
                             type: "inner",
-                            ticks: [
-                                { value: 15 },
-                                { value: 30 },
-                                { value: 45 },
-                                { value: 60 },
-                            ],
+                            ticks: generateTicks(0, CAR_PER_HOUR_MAX, CAR_PER_HOUR_TICKS),
                             defaultTickValueConfig: {
                                 formatTextValue: (value: string) => value,
                             },
@@ -97,42 +95,7 @@ export default function Speedometer() {
                     }}
                     arc={{
                         colorArray: ["#EA4228", "#5BE12C"],
-                        subArcs: [
-                            {
-                                limit: 5,
-                            },
-                            {
-                                limit: 10,
-                            },
-                            {
-                                limit: 15,
-                            },
-                            {
-                                limit: 20,
-                            },
-                            {
-                                limit: 25,
-                            },
-                            {
-                                limit: 30,
-                            },
-                            {
-                                limit: 35,
-                            },
-                            {
-                                limit: 40,
-                            },
-                            {
-                                limit: 45,
-                            },
-                            {
-                                limit: 50,
-                            },
-                            {
-                                limit: 55,
-                            },
-                            {},
-                        ],
+                        subArcs: generateSubArcs(0, CAR_PER_HOUR_MAX, CAR_PER_HOUR_TICKS),
                     }}
                     minValue={0}
                     maxValue={60}
