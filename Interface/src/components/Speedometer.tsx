@@ -65,6 +65,11 @@ export default function Speedometer() {
         return { ticks, subArcs };
     }
 
+    function padRight(text: string, targetLen: number) {
+        if (text.length >= targetLen) return text;
+        return text + "\u00A0".repeat(targetLen - text.length); // NBSP
+    }
+
     const cphGuage = generateGaugeScale(0, CAR_PER_HOUR_MAX, CAR_PER_HOUR_TICKS, CAR_PER_HOUR_ARCS_PER_TICK, 1);
     const mpcGuage = generateGaugeScale(0, MIN_PER_CAR_MAX, MIN_PER_CAR_TICKS, MIN_PER_CAR_ARCS_PER_TICK, 1);
 
@@ -88,7 +93,7 @@ export default function Speedometer() {
                     type="radial"
                     labels={{
                         valueLabel: {
-                            formatTextValue: (value) => value + " cars/hour"
+                            formatTextValue: (value) => padRight(value + " cars/hour", 14)
                         },
                         tickLabels: {
                             type: "inner",
@@ -123,7 +128,7 @@ export default function Speedometer() {
                     type="radial"
                     labels={{
                         valueLabel: {
-                            formatTextValue: (value) => formatDuration(avgEventDuration * 60) + "/car"
+                            formatTextValue: (value) => padRight(formatDuration(avgEventDuration * 60) + "/car", 14)
                         },
                         tickLabels: {
                             type: "inner",
