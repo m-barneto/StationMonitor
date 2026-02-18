@@ -38,6 +38,7 @@ body {
 
 .value-text {
     transform: translate(0%, 25%) !important;
+    font-size: large !important;
 }
 
 @keyframes redGlowPulse {

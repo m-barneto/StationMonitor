@@ -88,10 +88,7 @@ export default function Speedometer() {
                     type="radial"
                     labels={{
                         valueLabel: {
-                            formatTextValue: (value) => value + " cars/hour",
-                            style: {
-                                fontSize: "30rem"
-                            }
+                            formatTextValue: (value) => value + " cars/hour"
                         },
                         tickLabels: {
                             type: "inner",
@@ -126,10 +123,7 @@ export default function Speedometer() {
                     type="radial"
                     labels={{
                         valueLabel: {
-                            formatTextValue: (value) => formatDuration(avgEventDuration * 60) + "/car",
-                            style: {
-                                fontSize: "30rem"
-                            }
+                            formatTextValue: (value) => formatDuration(avgEventDuration * 60) + "/car"
                         },
                         tickLabels: {
                             type: "inner",
