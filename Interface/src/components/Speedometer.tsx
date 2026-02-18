@@ -10,6 +10,8 @@ export default function Speedometer() {
     const [carsPerHour, setCarsPerHour] = useState(0);
     const [avgEventDuration, setAvgEventDuration] = useState(0);
 
+    const MIN_PER_CAR_TICKS = 7;
+
     useEffect(() => {
         if (!eventData) return;
         // Go through every event (in past hour?) and calculate avg time and cars per hour
@@ -30,6 +32,18 @@ export default function Speedometer() {
         // Calculate how many cars we had in the past hour
         setCarsPerHour(lastHour.length);
     }, [eventData]);
+
+    function generateSubArcs(limit: number) {
+        const arcs = [];
+
+        for (let i = 0; i < limit; i++) {
+            arcs.push({
+                limit: i
+            });
+        }
+        arcs.push({});
+        return arcs;
+    }
 
     return (
         <div
@@ -138,45 +152,10 @@ export default function Speedometer() {
                     }}
                     arc={{
                         colorArray: ["#5BE12C", "#EA4228"],
-                        subArcs: [
-                            {
-                                limit: 1,
-                            },
-                            {
-                                limit: 2,
-                            },
-                            {
-                                limit: 3,
-                            },
-                            {
-                                limit: 4,
-                            },
-                            {
-                                limit: 5,
-                            },
-                            {
-                                limit: 6,
-                            },
-                            {
-                                limit: 7,
-                            },
-                            {
-                                limit: 8,
-                            },
-                            {
-                                limit: 9,
-                            },
-                            {
-                                limit: 10,
-                            },
-                            {
-                                limit: 11,
-                            },
-                            {},
-                        ],
+                        subArcs: generateSubArcs(MIN_PER_CAR_TICKS)
                     }}
                     minValue={0}
-                    maxValue={12}
+                    maxValue={MIN_PER_CAR_TICKS}
                     pointer={{
                         color: "#EA4228",
                         length: 0.8,

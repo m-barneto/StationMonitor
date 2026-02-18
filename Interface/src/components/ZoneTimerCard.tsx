@@ -5,13 +5,13 @@ type Props = {
     sensor: LongDistanceSensor;
 };
 
-const STAGE_1_END = 0.25 * 60; // 30s
-const STAGE_2_END = 1 * 60;   // 1m
-const STAGE_3_END = 1.5 * 60; // 1m 30s
+const STAGE_1_END = 5 * 60;
+const STAGE_2_END = 10 * 60;
+const STAGE_3_END = 15 * 60;
 
-const STAGE_1 = "0-15s";
-const STAGE_2 = "15-60s";
-const STAGE_3 = "60-90s";
+const STAGE_1 = "0-5m";
+const STAGE_2 = "5-10m";
+const STAGE_3 = "10-15m";
 
 export default function ZoneTimerCard({
     sensor
@@ -54,7 +54,7 @@ export default function ZoneTimerCard({
 
         return {
             progress: 1,
-            stageLabel: "90+ sec",
+            stageLabel: "15m +",
         };
     }, [duration, stage]);
 
