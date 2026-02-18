@@ -33,7 +33,9 @@ function App() {
                                     </div>
                                 </SplitterPanel>
                                 <SplitterPanel size={15}>
-                                    <ZoneTimerPanel />
+                                    <div style={{ display: "flex", gap: 16, flexWrap: "wrap", width: "100%" }}>
+                                        <ZoneTimerPanel />
+                                    </div>
                                 </SplitterPanel>
                             </Splitter>
                         </TabPanel>
