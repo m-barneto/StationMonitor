@@ -90,7 +90,7 @@ export default function Speedometer() {
                         valueLabel: {
                             formatTextValue: (value) => value + " cars/hour",
                             style: {
-                                fontSize: "1rem"
+                                fontSize: "30rem"
                             }
                         },
                         tickLabels: {
@@ -128,7 +128,7 @@ export default function Speedometer() {
                         valueLabel: {
                             formatTextValue: (value) => formatDuration(avgEventDuration * 60) + "/car",
                             style: {
-                                fontSize: "1rem"
+                                fontSize: "30rem"
                             }
                         },
                         tickLabels: {
