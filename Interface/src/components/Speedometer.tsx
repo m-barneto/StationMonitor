@@ -55,7 +55,7 @@ export default function Speedometer() {
                 value: Number((numTicks / limit).toFixed(1))
             });
         }
-        return [];
+        return ticks;
     }
 
     return (
