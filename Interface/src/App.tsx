@@ -13,9 +13,9 @@ import Header from "./components/Header";
 import { TabPanel, TabView } from "primereact/tabview";
 import { SensorStatusContext, SensorStatusProvider } from "./contexts/StatusContext";
 import ZoneTimerCard from "./components/ZoneTimerCard";
+import ZoneTimerPanel from "./components/ZoneTimerPanel";
 
 function App() {
-    const { sensors } = useContext(SensorStatusContext)!;
     return (
         <main>
             <EventDataProvider>
@@ -34,9 +34,7 @@ function App() {
                                 </SplitterPanel>
                                 <SplitterPanel size={15}>
                                     <div style={{ display: "flex", gap: 16, flexWrap: "wrap", width: "100%" }}>
-                                        {sensors?.map((s) => (
-                                            <ZoneTimerCard key={s.zone} sensor={s} />
-                                        ))}
+                                        <ZoneTimerPanel />
                                     </div>
                                 </SplitterPanel>
                             </Splitter>
