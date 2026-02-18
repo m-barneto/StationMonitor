@@ -73,7 +73,7 @@ export default function DailySummary() {
 
     return (
         <div>
-            <h2 style={{ marginBottom: "0.5rem" }}>Daily Summary</h2>
+            <h2 style={{ textAlign: "center" }}>Daily Summary</h2>
             <DataTable
                 showGridlines
                 stripedRows

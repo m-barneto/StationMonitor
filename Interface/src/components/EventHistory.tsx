@@ -9,7 +9,7 @@ export default function EventHistory() {
 
     return (
         <div>
-            <h2 style={{ marginBottom: "0.5rem" }}>Event History</h2>
+            <h2 style={{ marginBottom: "0.5rem", textAlign: "center" }}>Event History</h2>
             <DataTable
                 scrollable
                 scrollHeight="100%"
