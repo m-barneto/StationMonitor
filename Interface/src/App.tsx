@@ -26,7 +26,7 @@ function App() {
                                 <SplitterPanel className="flex flex-row" size={5}>
                                     <EventHistory />
                                 </SplitterPanel>
-                                <SplitterPanel className="flex flex-row" size={80}>
+                                <SplitterPanel className="flex flex-row" size={90}>
                                     <div style={{ width: "100%" }}>
                                         <Speedometer />
                                         <DailySummary />

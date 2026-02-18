@@ -90,7 +90,7 @@ export default function ZoneTimerCard({
         if (stage === 1) return { border: "2px solid rgba(34, 197, 94, .9)" };
         if (stage === 2) return { border: "2px solid rgba(245, 158, 11, .9)" };
         return { background: "2px solid rgba(239,68,68,0.9)" }; // red
-    }, [stage]);
+    }, [stage, duration]);
 
     return (
         <div
@@ -124,6 +124,7 @@ export default function ZoneTimerCard({
                     borderRadius: 12,
                     overflow: "hidden",
                     ...borderStyle,
+                    transition: "border 500ms linear",
                     background: "rgba(255,255,255,0.06)",
                     position: "relative",
                     ...glowStyle,
