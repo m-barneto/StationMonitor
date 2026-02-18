@@ -7,7 +7,16 @@ export default function ZoneTimerPanel() {
     const { sensors } = useContext(SensorStatusContext)!;
 
     return (
-        <div style={{ height: "100%" }}>
+        <div
+            style={{
+                display: "flex",
+                flexDirection: "row",
+                gap: 16,
+                width: "100%",
+                height: "100%",
+                alignItems: "stretch",
+            }}
+        >
             {sensors?.map((s) => (
                 <ZoneTimerCard key={s.zone} sensor={s} />
             ))}
