@@ -5,9 +5,9 @@ type Props = {
     sensor: LongDistanceSensor;
 };
 
-const STAGE_1_END = .05 * 60;
-const STAGE_2_END = .10 * 60;
-const STAGE_3_END = .15 * 60;
+const STAGE_1_END = .25 * 60;
+const STAGE_2_END = .5 * 60;
+const STAGE_3_END = .75 * 60;
 
 const STAGE_1 = "0-5m";
 const STAGE_2 = "5-10m";
