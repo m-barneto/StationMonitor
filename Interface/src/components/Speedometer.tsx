@@ -19,10 +19,10 @@ export default function Speedometer() {
         // Calculate avg event duration in the past hour
         let sum = 0;
         lastHour.forEach((e) => {
-            sum += e.duration;
+            sum += e.duration / 60;
         });
         if (lastHour.length > 0) {
-            setAvgEventDuration(Number((sum / lastHour.length).toFixed(2)));
+            setAvgEventDuration(Number((sum / lastHour.length).toFixed(1)));
         } else {
             setAvgEventDuration(0);
         }
