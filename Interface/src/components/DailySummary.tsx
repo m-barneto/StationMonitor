@@ -72,29 +72,32 @@ export default function DailySummary() {
     }, [eventData]);
 
     return (
-        <DataTable
-            showGridlines
-            stripedRows
-            scrollable
-            removableSort
-            scrollHeight="100%"
-            size="normal"
-            value={dailySummary}
-            style={{
-                paddingLeft: "1rem",
-                paddingRight: "1rem",
-                paddingBottom: "1rem",
-                height: "25%"
-            }}
-            sortField="sortTime"
-            sortOrder={-1}
-        >
-            <Column sortable field="time" header="Time" ></Column>
-            <Column sortable field="total_cars" header="Cars"></Column>
-            <Column
-                sortable
-                field="displayedDuration"
-                header="Avg Time"></Column>
-        </DataTable>
+        <div>
+            <h2 style={{ marginBottom: "0.5rem" }}>Daily Summary</h2>
+            <DataTable
+                showGridlines
+                stripedRows
+                scrollable
+                removableSort
+                scrollHeight="100%"
+                size="normal"
+                value={dailySummary}
+                style={{
+                    paddingLeft: "1rem",
+                    paddingRight: "1rem",
+                    paddingBottom: "1rem",
+                    height: "25%"
+                }}
+                sortField="sortTime"
+                sortOrder={-1}
+            >
+                <Column sortable field="time" header="Time" ></Column>
+                <Column sortable field="total_cars" header="Cars"></Column>
+                <Column
+                    sortable
+                    field="displayedDuration"
+                    header="Avg Time"></Column>
+            </DataTable>
+        </div>
     );
 }
