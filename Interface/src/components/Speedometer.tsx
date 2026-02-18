@@ -16,7 +16,7 @@ export default function Speedometer() {
     const MIN_PER_CAR_MAX = 15;
 
     const CAR_PER_HOUR_ARCS_PER_TICK = 1;
-    const CAR_PER_HOUR_TICKS = 4;
+    const CAR_PER_HOUR_TICKS = 5;
     const CAR_PER_HOUR_MAX = 60;
 
     useEffect(() => {
@@ -45,7 +45,7 @@ export default function Speedometer() {
 
         const step = (max - min) / segments;
 
-        for (let i = 1; i <= segments; i++) {
+        for (let i = 1; i < segments; i++) {
             arcs.push({
                 limit: min + step * i,
             });
