@@ -11,7 +11,7 @@ export default function ZoneTimerPanel() {
             style={{
                 display: "flex",
                 flexDirection: "row",
-                gap: 16,
+                gap: 2,
                 width: "100%",
                 height: "100%",
                 alignItems: "stretch",
