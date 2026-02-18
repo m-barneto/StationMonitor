@@ -40,30 +40,23 @@ export default function Speedometer() {
         setCarsPerHour(lastHour.length);
     }, [eventData]);
 
-    function generateSubArcs(min: number, max: number, segments: number) {
-        const arcs: { limit: number }[] = [];
-
+    function generateGaugeScale(min: number, max: number, segments: number, decimals = 0) {
         const step = (max - min) / segments;
 
-        for (let i = 1; i < segments; i++) {
-            arcs.push({
-                limit: min + step * i,
-            });
-        }
-        return arcs;
+        const subArcs = Array.from({ length: segments }, (_, i) => ({
+            limit: Number((min + step * (i + 1)).toFixed(decimals)),
+        }));
+
+        // ticks are boundaries => segments + 1
+        const ticks: Tick[] = Array.from({ length: segments + 1 }, (_, i) => ({
+            value: Number((min + step * i).toFixed(decimals)),
+        }));
+
+        return { subArcs, ticks };
     }
 
-    function generateTicks(min: number, max: number, numTicks: number) {
-        const ticks: Tick[] = [];
-        const step = (max - min) / (numTicks - 1);
-
-        for (let i = 0; i < numTicks; i++) {
-            ticks.push({
-                value: Number((min + step * i).toFixed(1)),
-            });
-        }
-        return ticks;
-    }
+    const cphGuage = generateGaugeScale(0, CAR_PER_HOUR_MAX, 5, 1);
+    const mpcGuage = generateGaugeScale(0, MIN_PER_CAR_MAX, 6, 1);
 
     return (
         <div
@@ -89,7 +82,7 @@ export default function Speedometer() {
                         },
                         tickLabels: {
                             type: "inner",
-                            ticks: generateTicks(0, CAR_PER_HOUR_MAX, CAR_PER_HOUR_TICKS),
+                            ticks: cphGuage.ticks,
                             defaultTickValueConfig: {
                                 formatTextValue: (value: string) => value,
                             },
@@ -97,7 +90,7 @@ export default function Speedometer() {
                     }}
                     arc={{
                         colorArray: ["#EA4228", "#5BE12C"],
-                        subArcs: generateSubArcs(0, CAR_PER_HOUR_MAX, CAR_PER_HOUR_TICKS * CAR_PER_HOUR_ARCS_PER_TICK),
+                        subArcs: cphGuage.subArcs,
                     }}
                     minValue={0}
                     maxValue={60}
@@ -124,7 +117,7 @@ export default function Speedometer() {
                         },
                         tickLabels: {
                             type: "inner",
-                            ticks: generateTicks(0, MIN_PER_CAR_MAX, MIN_PER_CAR_TICKS),
+                            ticks: mpcGuage.ticks,
                             defaultTickValueConfig: {
                                 formatTextValue: (value: string) => value,
                             },
@@ -132,7 +125,7 @@ export default function Speedometer() {
                     }}
                     arc={{
                         colorArray: ["#5BE12C", "#EA4228"],
-                        subArcs: generateSubArcs(0, MIN_PER_CAR_MAX, MIN_PER_CAR_TICKS * MIN_PER_CAR_ARCS_PER_TICK)
+                        subArcs: mpcGuage.subArcs
                     }}
                     minValue={0}
                     maxValue={MIN_PER_CAR_MAX}
