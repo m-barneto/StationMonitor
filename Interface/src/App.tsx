@@ -32,7 +32,7 @@ function App() {
                                         <DailySummary />
                                     </div>
                                 </SplitterPanel>
-                                <SplitterPanel size={15}>
+                                <SplitterPanel size={5}>
                                     <ZoneTimerPanel />
                                 </SplitterPanel>
                             </Splitter>
