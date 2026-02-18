@@ -67,9 +67,21 @@ export default function ZoneTimerCard({
 
     const glowStyle: React.CSSProperties = useMemo(() => {
         if (stage !== 3 && stage !== 4) return {};
-        return {
-            boxShadow: "0 0 0 2px rgba(239,68,68,0.9), 0 0 18px rgba(239,68,68,0.75)",
-        };
+        // Stage 3 = static glow
+        if (stage === 3) {
+            return {
+                boxShadow:
+                    "0 0 0 2px rgba(239,68,68,0.9), 0 0 18px rgba(239,68,68,0.75)",
+            };
+        }
+
+        // Stage 4 = pulsing glow
+        if (stage === 4) {
+            return {
+                animation: "redGlowPulse 1s ease-in-out infinite",
+            };
+        }
+        return {};
     }, [stage]);
 
     return (
@@ -102,7 +114,7 @@ export default function ZoneTimerCard({
                     height: "100%",
                     borderRadius: 12,
                     overflow: "hidden",
-                    border: stage === 4 ? "2px solid rgba(239,68,68,0.9)" : "1px solid rgba(255,255,255,0.12)",
+                    border: stage === 3 || stage === 4 ? "2px solid rgba(239,68,68,0.9)" : "1px solid rgba(255,255,255,0.12)",
                     background: "rgba(255,255,255,0.06)",
                     position: "relative",
                     ...glowStyle,

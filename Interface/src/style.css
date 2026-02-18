@@ -39,3 +39,20 @@ body {
 .value-text {
     transform: translate(0%, 25%) !important;
 }
+
+@keyframes redGlowPulse {
+    0% {
+        box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.35),
+            0 0 10px rgba(239, 68, 68, 0.25);
+    }
+
+    50% {
+        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.95),
+            0 0 26px rgba(239, 68, 68, 0.9);
+    }
+
+    100% {
+        box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.35),
+            0 0 10px rgba(239, 68, 68, 0.25);
+    }
+}
