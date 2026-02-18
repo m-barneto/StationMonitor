@@ -40,23 +40,33 @@ export default function Speedometer() {
         setCarsPerHour(lastHour.length);
     }, [eventData]);
 
-    function generateGaugeScale(min: number, max: number, segments: number, decimals = 0) {
-        const step = (max - min) / segments;
+    function generateGaugeScale(
+        min: number,
+        max: number,
+        numTicks: number,
+        segmentsPerTickInterval: number,
+        decimals = 0
+    ) {
+        // Tick labels
+        const tickStep = (max - min) / (numTicks - 1);
 
-        const subArcs = Array.from({ length: segments }, (_, i) => ({
-            limit: Number((min + step * (i + 1)).toFixed(decimals)),
+        const ticks: Tick[] = Array.from({ length: numTicks }, (_, i) => ({
+            value: Number((min + tickStep * i).toFixed(decimals)),
         }));
 
-        // ticks are boundaries => segments + 1
-        const ticks: Tick[] = Array.from({ length: segments + 1 }, (_, i) => ({
-            value: Number((min + step * i).toFixed(decimals)),
+        // SubArcs (segments)
+        const totalSegments = (numTicks - 1) * segmentsPerTickInterval;
+        const arcStep = (max - min) / totalSegments;
+
+        const subArcs = Array.from({ length: totalSegments }, (_, i) => ({
+            limit: Number((min + arcStep * (i + 1)).toFixed(decimals)),
         }));
 
-        return { subArcs, ticks };
+        return { ticks, subArcs };
     }
 
-    const cphGuage = generateGaugeScale(0, CAR_PER_HOUR_MAX, 5, 1);
-    const mpcGuage = generateGaugeScale(0, MIN_PER_CAR_MAX, 6, 1);
+    const cphGuage = generateGaugeScale(0, CAR_PER_HOUR_MAX, 4, 2, 1);
+    const mpcGuage = generateGaugeScale(0, MIN_PER_CAR_MAX, 6, 1, 1);
 
     return (
         <div
