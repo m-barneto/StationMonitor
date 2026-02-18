@@ -2,7 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import ReactSpeedometer from "react-d3-speedometer";
 import { EventDataContext } from "../contexts/DataContext";
 import { getPastHour } from "../utils/Period";
-import GaugeComponent from "react-gauge-component";
+import GaugeComponent, { Tick } from "react-gauge-component";
+import { formatDuration } from "../utils/Utils";
 
 export default function Speedometer() {
     const { eventData } = useContext(EventDataContext)!;
@@ -11,6 +12,7 @@ export default function Speedometer() {
     const [avgEventDuration, setAvgEventDuration] = useState(0);
 
     const MIN_PER_CAR_TICKS = 7;
+    const MIN_PER_CAR_MAX = 15;
 
     useEffect(() => {
         if (!eventData) return;
@@ -43,6 +45,16 @@ export default function Speedometer() {
         }
         arcs.push({});
         return arcs;
+    }
+
+    function generateTics(limit: number, numTicks: number) {
+        const ticks: Tick[] = [];
+        for (let i = 0; i < numTicks; i++) {
+            ticks.push({
+                value: Number((numTicks / limit).toFixed(1))
+            });
+        }
+        return ticks;
     }
 
     return (
@@ -140,11 +152,11 @@ export default function Speedometer() {
                     type="radial"
                     labels={{
                         valueLabel: {
-                            formatTextValue: (value) => value + " mins/car",
+                            formatTextValue: (value) => formatDuration(avgEventDuration * 60) + "/car",
                         },
                         tickLabels: {
                             type: "inner",
-                            ticks: [{ value: 2 }, { value: 4 }, { value: 6 }, { value: 8 }, { value: 10 }],
+                            ticks: generateTics(MIN_PER_CAR_MAX, MIN_PER_CAR_TICKS),
                             defaultTickValueConfig: {
                                 formatTextValue: (value: string) => value,
                             },
@@ -155,7 +167,7 @@ export default function Speedometer() {
                         subArcs: generateSubArcs(MIN_PER_CAR_TICKS)
                     }}
                     minValue={0}
-                    maxValue={MIN_PER_CAR_TICKS}
+                    maxValue={MIN_PER_CAR_MAX}
                     pointer={{
                         color: "#EA4228",
                         length: 0.8,
