@@ -35,15 +35,16 @@ export default function Speedometer() {
         setCarsPerHour(lastHour.length);
     }, [eventData]);
 
-    function generateSubArcs(limit: number, numTicks: number) {
-        const arcs = [];
+    function generateSubArcs(min: number, max: number, segments: number) {
+        const arcs: { limit: number }[] = [];
 
-        for (let i = 0; i < numTicks; i++) {
+        const step = (max - min) / segments;
+
+        for (let i = 1; i <= segments; i++) {
             arcs.push({
-                limit: limit / i
+                limit: min + step * i,
             });
         }
-        arcs.push({});
         return arcs;
     }
 
@@ -164,7 +165,7 @@ export default function Speedometer() {
                     }}
                     arc={{
                         colorArray: ["#5BE12C", "#EA4228"],
-                        subArcs: generateSubArcs(MIN_PER_CAR_MAX, MIN_PER_CAR_TICKS)
+                        subArcs: generateSubArcs(0, MIN_PER_CAR_MAX, MIN_PER_CAR_TICKS)
                     }}
                     minValue={0}
                     maxValue={MIN_PER_CAR_MAX}
