@@ -48,11 +48,13 @@ export default function Speedometer() {
         return arcs;
     }
 
-    function generateTics(limit: number, numTicks: number) {
+    function generateTicks(min: number, max: number, numTicks: number) {
         const ticks: Tick[] = [];
+        const step = (max - min) / (numTicks - 1);
+
         for (let i = 0; i < numTicks; i++) {
             ticks.push({
-                value: Number((numTicks / limit).toFixed(1))
+                value: Number((min + step * i).toFixed(1)),
             });
         }
         return ticks;
@@ -157,7 +159,7 @@ export default function Speedometer() {
                         },
                         tickLabels: {
                             type: "inner",
-                            ticks: generateTics(MIN_PER_CAR_MAX, MIN_PER_CAR_TICKS),
+                            ticks: generateTicks(0, MIN_PER_CAR_MAX, MIN_PER_CAR_TICKS),
                             defaultTickValueConfig: {
                                 formatTextValue: (value: string) => value,
                             },
