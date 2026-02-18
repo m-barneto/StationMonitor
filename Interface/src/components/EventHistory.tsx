@@ -15,7 +15,7 @@ export default function EventHistory() {
             value={eventData}
             tableStyle={{}}
             style={{ width: "100%" }}
-            sortField="displayedStartTime"
+            sortField="startTimeNumeric"
             sortOrder={-1}>
             <Column field="displayedStartTime" sortable header="Start"></Column>
             <Column field="displayedDuration" sortable header="Time"></Column>

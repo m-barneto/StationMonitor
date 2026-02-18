@@ -5,6 +5,7 @@ export class EventData {
     event_id: string;
     startTime: string;
     duration: number;
+    startTimeNumeric: number;
 
     startDate: Date;
     displayedStartTime: string;
@@ -21,6 +22,7 @@ export class EventData {
         this.displayedDuration = formatDuration(this.duration);
 
         this.startDate = new Date(startTime);
+        this.startTimeNumeric = this.startDate.getTime();
 
         const hours = String(this.startDate.getHours() % 12);
         const minutes = String(this.startDate.getMinutes()).padStart(2, "0");
