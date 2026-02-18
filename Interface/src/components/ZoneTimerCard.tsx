@@ -99,6 +99,7 @@ export default function ZoneTimerCard({
             {/* Vertical bar container */}
             <div
                 style={{
+                    height: "100%",
                     borderRadius: 12,
                     overflow: "hidden",
                     border: stage === 3 ? "2px solid rgba(239,68,68,0.9)" : "1px solid rgba(255,255,255,0.12)",
