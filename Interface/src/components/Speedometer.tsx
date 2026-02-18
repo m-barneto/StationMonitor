@@ -12,10 +12,10 @@ export default function Speedometer() {
     const [avgEventDuration, setAvgEventDuration] = useState(0);
 
     const MIN_PER_CAR_ARCS_PER_TICK = 1;
-    const MIN_PER_CAR_TICKS = 5;
+    const MIN_PER_CAR_TICKS = 6;
     const MIN_PER_CAR_MAX = 15;
 
-    const CAR_PER_HOUR_ARCS_PER_TICK = 2;
+    const CAR_PER_HOUR_ARCS_PER_TICK = 1;
     const CAR_PER_HOUR_TICKS = 4;
     const CAR_PER_HOUR_MAX = 60;
 
