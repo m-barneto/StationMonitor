@@ -31,7 +31,7 @@ export default function Speedometer() {
             sum += e.duration / 60;
         });
         if (lastHour.length > 0) {
-            setAvgEventDuration(Number((sum / lastHour.length).toFixed(1)));
+            setAvgEventDuration(sum / lastHour.length);
         } else {
             setAvgEventDuration(0);
         }
