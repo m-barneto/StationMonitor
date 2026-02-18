@@ -3,24 +3,26 @@ import type LongDistanceSensor from "../data/StatusData";
 
 type Props = {
     sensor: LongDistanceSensor;
-    height?: number; // px
-    width?: number;  // px
 };
 
-const STAGE_1_END = 2 * 60;   // 2 minutes
-const STAGE_2_END = 12 * 60;  // 12 minutes
+const STAGE_1_END = 0.25 * 60; // 30s
+const STAGE_2_END = 1 * 60;   // 1m
+const STAGE_3_END = 1.5 * 60; // 1m 30s
+
+const STAGE_1 = "0-15s";
+const STAGE_2 = "15-60s";
+const STAGE_3 = "60-90s";
 
 export default function ZoneTimerCard({
-    sensor,
-    height = 220,
-    width = 120,
+    sensor
 }: Props) {
     const duration = sensor.duration ?? 0;
 
     const stage = useMemo(() => {
         if (duration < STAGE_1_END) return 1;
         if (duration < STAGE_2_END) return 2;
-        return 3;
+        if (duration < STAGE_3_END) return 3;
+        return 4;
     }, [duration]);
 
     // Progress resets when stage changes
@@ -28,7 +30,7 @@ export default function ZoneTimerCard({
         if (stage === 1) {
             return {
                 progress: clamp(duration / STAGE_1_END),
-                stageLabel: "0–2 min",
+                stageLabel: STAGE_1,
             };
         }
 
@@ -37,13 +39,22 @@ export default function ZoneTimerCard({
             const stageTotal = STAGE_2_END - STAGE_1_END;
             return {
                 progress: clamp(stageDuration / stageTotal),
-                stageLabel: "2–12 min",
+                stageLabel: STAGE_2,
+            };
+        }
+
+        if (stage === 3) {
+            const stageDuration = duration - STAGE_2_END;
+            const stageTotal = STAGE_3_END - STAGE_2_END;
+            return {
+                progress: clamp(stageDuration / stageTotal),
+                stageLabel: STAGE_3,
             };
         }
 
         return {
             progress: 1,
-            stageLabel: "12+ min",
+            stageLabel: "90+ sec",
         };
     }, [duration, stage]);
 
@@ -64,7 +75,6 @@ export default function ZoneTimerCard({
     return (
         <div
             style={{
-                width,
                 borderRadius: 12,
                 padding: 12,
                 border: "1px solid rgba(255,255,255,0.12)",
@@ -88,7 +98,6 @@ export default function ZoneTimerCard({
             {/* Vertical bar container */}
             <div
                 style={{
-                    height,
                     borderRadius: 12,
                     overflow: "hidden",
                     border: stage === 3 ? "2px solid rgba(239,68,68,0.9)" : "1px solid rgba(255,255,255,0.12)",
