@@ -11,12 +11,12 @@ export default function Speedometer() {
     const [carsPerHour, setCarsPerHour] = useState(0);
     const [avgEventDuration, setAvgEventDuration] = useState(0);
 
-    const CAR_PER_HOUR_ARCS_PER_TICK = 2;
+    const CAR_PER_HOUR_ARCS_PER_TICK = 3;
     const CAR_PER_HOUR_TICKS = 5;
     const CAR_PER_HOUR_MAX = 60;
 
-    const MIN_PER_CAR_ARCS_PER_TICK = 3;
-    const MIN_PER_CAR_TICKS = 6;
+    const MIN_PER_CAR_ARCS_PER_TICK = 1;
+    const MIN_PER_CAR_TICKS = 7;
     const MIN_PER_CAR_MAX = 15;
 
     useEffect(() => {
