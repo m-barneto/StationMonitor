@@ -371,7 +371,7 @@ export default function SettingsForm() {
                 className="p-button-success mt-3"
                 onClick={handleSubmit}
             />
-            <Button
+            {/* {<Button
                 style={{
                     marginLeft: "1rem"
                 }}
@@ -379,7 +379,7 @@ export default function SettingsForm() {
                 icon="pi pi-save"
                 className="p-button-success mt-3"
                 onClick={handleSyncTime}
-            />
+            />} */}
             <Dialog
                 header="Settings Description"
                 visible={showHelp}

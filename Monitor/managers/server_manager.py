@@ -169,38 +169,6 @@ class ServerManager:
         except Exception as e:
             return web.Response(text=f"Error setting ip: {str(e)}", status=500)
 
-    async def post_sync_time(self, request) -> web.Response:
-        try:
-            data = await request.json()
-            time_string: str = data["time"]
-            if time_string.endswith("Z"):
-                time_string = time_string.replace("Z", "+00:00")
-            dt = datetime.fromisoformat(time_string)
-            formatted_time = dt.strftime("%Y-%m-%d %H:%M:%S")
-            print(time_string)
-            result = subprocess.run(["sudo", "timedatectl", "set-timezone", "UTC"], capture_output=True, text=True)
-            result = subprocess.run(["sudo", "timedatectl", "set-timezone", "UTC"], capture_output=True, text=True)
-            result = subprocess.run(["sudo", "timedatectl", "set-timezone", "UTC"], capture_output=True, text=True)
-            result = subprocess.run(["sudo", "timedatectl", "set-timezone", "UTC"], capture_output=True, text=True)
-            print(result.stderr)
-            print(result.stdout)
-            result = subprocess.run(["sudo", "timedatectl", "set-time", formatted_time], capture_output=True, text=True)
-            result = subprocess.run(["sudo", "timedatectl", "set-time", formatted_time], capture_output=True, text=True)
-            result = subprocess.run(["sudo", "timedatectl", "set-time", formatted_time], capture_output=True, text=True)
-            result = subprocess.run(["sudo", "timedatectl", "set-time", formatted_time], capture_output=True, text=True)
-            print(result.stderr)
-            print(result.stdout)
-            result = subprocess.run(["sudo", "timedatectl", "set-timezone", Config.get().sleep.timezone], capture_output=True, text=True)
-            result = subprocess.run(["sudo", "timedatectl", "set-timezone", Config.get().sleep.timezone], capture_output=True, text=True)
-            result = subprocess.run(["sudo", "timedatectl", "set-timezone", Config.get().sleep.timezone], capture_output=True, text=True)
-            result = subprocess.run(["sudo", "timedatectl", "set-timezone", Config.get().sleep.timezone], capture_output=True, text=True)
-            print(result.stderr)
-            print(result.stdout)
-
-            return web.Response(text="Synced time successfully.", status=200)
-        except Exception as e:
-            return web.Response(text=f"Error syncing time: {str(e)}", status=500)
-
     async def loop(self) -> None:
         # Setup our web application
         app = web.Application()
@@ -218,10 +186,6 @@ class ServerManager:
         app.router.add_post("/config", self.post_config)
 
         app.router.add_post("/ip", self.post_set_ip)
-
-        app.router.add_post("/time", self.post_sync_time)
-
-
 
         # Static file serving (css, js, images, etc.)
         app.router.add_static("/", path="../Interface/build", name="public", show_index=True)
