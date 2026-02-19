@@ -9,7 +9,7 @@ export default function EventHistory() {
 
     return (
         <div style={{ width: "100%" }}>
-            {/* {<div
+            <div
                 style={{
                     width: "100%",
                     display: "flex",
@@ -18,7 +18,7 @@ export default function EventHistory() {
                 }}
             >
                 <img
-                    src="/your-image.png"
+                    src="/logo.png"
                     alt="Logo"
                     style={{
                         width: "100%",          // change size as you want
@@ -27,7 +27,7 @@ export default function EventHistory() {
                         display: "block",
                     }}
                 />
-            </div>} */}
+            </div>
             <h2 style={{ marginBottom: "0.5rem", marginTop: "0.5rem", textAlign: "center", width: "100%" }}>Event History</h2>
             <DataTable
                 scrollable
