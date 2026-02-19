@@ -5,12 +5,10 @@ import { getPastHour } from "../utils/Period";
 import GaugeComponent, { Tick } from "react-gauge-component";
 import { formatDuration } from "../utils/Utils";
 import { SensorStatusContext } from "../contexts/StatusContext";
-import { TimeContext } from "../contexts/TimeContext";
 
 export default function Speedometer() {
     const { eventData } = useContext(EventDataContext)!;
     const { sensors } = useContext(SensorStatusContext)!;
-    const { time } = useContext(TimeContext)!;
 
 
     const [carsPerHour, setCarsPerHour] = useState(0);
