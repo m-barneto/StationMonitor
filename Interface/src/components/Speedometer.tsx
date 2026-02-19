@@ -5,10 +5,12 @@ import { getPastHour } from "../utils/Period";
 import GaugeComponent, { Tick } from "react-gauge-component";
 import { formatDuration } from "../utils/Utils";
 import { SensorStatusContext } from "../contexts/StatusContext";
+import { TimeContext } from "../contexts/TimeContext";
 
 export default function Speedometer() {
     const { eventData } = useContext(EventDataContext)!;
     const { sensors } = useContext(SensorStatusContext)!;
+    const { time } = useContext(TimeContext)!;
 
 
     const [carsPerHour, setCarsPerHour] = useState(0);
@@ -26,7 +28,7 @@ export default function Speedometer() {
         if (!eventData || !sensors) return;
         // Go through every event (in past hour?) and calculate avg time and cars per hour
         //const lastHour = getPastHour(simTime, eventData!);
-        const lastHour = getPastHour(eventData!);
+        const lastHour = getPastHour(eventData!, time);
         // generate events for the current status
 
 

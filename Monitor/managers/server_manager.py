@@ -28,6 +28,7 @@ class ServerManager:
         status = {}
         # Add data that pertains to the rpi system
         status["rpiTime"] = ServerManager.sleep_manager.get_local_time()
+        status["realTime"] = datetime.now(timezone.utc).isoformat()
         status["eventsQueued"] = str(
             ServerManager.event_manager.event_queue.qsize() + ServerManager.event_manager.processing)
         status["isSleeping"] = not ServerManager.sleep_manager.is_open

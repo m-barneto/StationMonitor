@@ -14,36 +14,39 @@ import { TabPanel, TabView } from "primereact/tabview";
 import { SensorStatusContext, SensorStatusProvider } from "./contexts/StatusContext";
 import ZoneTimerCard from "./components/ZoneTimerCard";
 import ZoneTimerPanel from "./components/ZoneTimerPanel";
+import { TimeContext, TimeProvider } from "./contexts/TimeContext";
 
 function App() {
     return (
         <main>
-            <EventDataProvider>
-                <SensorStatusProvider>
-                    <TabView>
-                        <TabPanel header="Summary">
-                            <Splitter>
-                                <SplitterPanel className="flex flex-row" size={10}>
-                                    <EventHistory />
-                                </SplitterPanel>
-                                <SplitterPanel className="flex flex-row" size={80}>
-                                    <div style={{ width: "100%" }}>
-                                        <Speedometer />
-                                        <h2 style={{ textAlign: "center", margin: 0, paddingBottom: "0.5rem" }}>Hourly Summary</h2>
-                                        <DailySummary />
-                                    </div>
-                                </SplitterPanel>
-                                <SplitterPanel size={5}>
-                                    <ZoneTimerPanel />
-                                </SplitterPanel>
-                            </Splitter>
-                        </TabPanel>
-                        <TabPanel header="Settings">
-                            <StationDashboard />
-                        </TabPanel>
-                    </TabView>
-                </SensorStatusProvider>
-            </EventDataProvider>
+            <TimeProvider>
+                <EventDataProvider>
+                    <SensorStatusProvider>
+                        <TabView>
+                            <TabPanel header="Summary">
+                                <Splitter>
+                                    <SplitterPanel className="flex flex-row" size={10}>
+                                        <EventHistory />
+                                    </SplitterPanel>
+                                    <SplitterPanel className="flex flex-row" size={80}>
+                                        <div style={{ width: "100%" }}>
+                                            <Speedometer />
+                                            <h2 style={{ textAlign: "center", margin: 0, paddingBottom: "0.5rem" }}>Hourly Summary</h2>
+                                            <DailySummary />
+                                        </div>
+                                    </SplitterPanel>
+                                    <SplitterPanel size={5}>
+                                        <ZoneTimerPanel />
+                                    </SplitterPanel>
+                                </Splitter>
+                            </TabPanel>
+                            <TabPanel header="Settings">
+                                <StationDashboard />
+                            </TabPanel>
+                        </TabView>
+                    </SensorStatusProvider>
+                </EventDataProvider>
+            </TimeProvider>
         </main>
     );
 }

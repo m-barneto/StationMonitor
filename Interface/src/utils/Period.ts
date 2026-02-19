@@ -13,11 +13,11 @@ export const getPastHourSim = (simTime: Date, events: EventData[]) => {
     return periodicEvents;
 }
 
-export const getPastHour = (events: EventData[]) => {
+export const getPastHour = (events: EventData[], time: Date | undefined) => {
     const periodicEvents: EventData[] = [];
     events.forEach((e) => {
         //
-        const timeDiff = (new Date().getTime() - e.startDate!.getTime()) / 1000 / 60 / 60;
+        const timeDiff = (time!.getTime() - e.startDate!.getTime()) / 1000 / 60 / 60;
         if (timeDiff <= 1 && timeDiff > 0) {
             periodicEvents.push(e);
         }
