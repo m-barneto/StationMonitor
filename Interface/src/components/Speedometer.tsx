@@ -128,7 +128,8 @@ export default function Speedometer() {
                     arc={{
                         colorArray: ["#EA4228", "#5BE12C"],
                         subArcs: cphGuage.subArcs,
-                        cornerRadius: 15
+                        cornerRadius: 5,
+                        padding: .05
                     }}
                     minValue={0}
                     maxValue={60}
@@ -166,7 +167,8 @@ export default function Speedometer() {
                     arc={{
                         colorArray: ["#5BE12C", "#EA4228"],
                         subArcs: mpcGuage.subArcs,
-                        cornerRadius: 15
+                        cornerRadius: 5,
+                        padding: .05
                     }}
                     minValue={0}
                     maxValue={MIN_PER_CAR_MAX}
