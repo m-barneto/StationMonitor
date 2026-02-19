@@ -174,7 +174,7 @@ class ServerManager:
             if time_string.endswith("Z"):
                 time_string = time_string.replace("Z", "+00:00")
             dt = datetime.fromisoformat(time_string)
-            formatted_time = "'" + dt.strftime("%Y-%m-%d %H:%M:%S") + "'"
+            formatted_time = dt.strftime("%Y-%m-%d %H:%M:%S")
 
             print(formatted_time)
             result = subprocess.run(["sudo", "timedatectl", "set-time", formatted_time], check=True, capture_output=True, text=True)
