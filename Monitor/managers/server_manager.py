@@ -171,7 +171,8 @@ class ServerManager:
         try:
             data = await request.json()
             dt = datetime.fromisoformat(data["time"])
-            formatted_time = dt.strftime("'%Y-%m-%d %H:%M:%S'")
+            formatted_time = "'" + dt.strftime("%Y-%m-%d %H:%M:%S") + "'"
+
             print(formatted_time)
             result = subprocess.run(["sudo", "timedatectl", "set-time", formatted_time], check=True, capture_output=True, text=True)
             print(result.returncode)
