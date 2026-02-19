@@ -51,6 +51,19 @@ export default function DailySummary() {
                 hour12: true,
             });
 
+            if (summary[bin] === undefined) {
+                summary[bin] = {
+                    time: bin,
+                    sortTime: e.startDate.getTime(),
+                    total_cars: 0,
+                    total_duration: 0,
+                    avg_duration: 0,
+                    displayedDuration: "",
+                };
+            }
+
+
+
             summary[bin].total_cars += 1;
             summary[bin].total_duration += e.duration;
         });
