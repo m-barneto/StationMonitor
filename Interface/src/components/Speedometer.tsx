@@ -28,7 +28,7 @@ export default function Speedometer() {
         if (!eventData || !sensors) return;
         // Go through every event (in past hour?) and calculate avg time and cars per hour
         //const lastHour = getPastHour(simTime, eventData!);
-        const lastHour = getPastHour(eventData!, time);
+        const lastHour = getPastHour(eventData!);
         // generate events for the current status
 
 

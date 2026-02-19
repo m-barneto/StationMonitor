@@ -28,7 +28,6 @@ class ServerManager:
         status = {}
         # Add data that pertains to the rpi system
         status["rpiTime"] = ServerManager.sleep_manager.get_local_time()
-        status["realTime"] = datetime.now(timezone.utc).isoformat()
         status["eventsQueued"] = str(
             ServerManager.event_manager.event_queue.qsize() + ServerManager.event_manager.processing)
         status["isSleeping"] = not ServerManager.sleep_manager.is_open
@@ -168,6 +167,19 @@ class ServerManager:
         except Exception as e:
             return web.Response(text=f"Error setting ip: {str(e)}", status=500)
 
+    async def post_sync_time(self, request) -> web.Response:
+        try:
+            data = await request.json()
+            dt = datetime.fromisoformat(data["time"])
+            formatted_time = dt.strftime("%Y-%m-%d %H:%M:%S")
+            result = subprocess.run(["sudo", "timedatectl", "set-time", formatted_time], check=True, capture_output=True, text=True)
+            print(result.returncode)
+            print(result.stdout)
+            print(result.stderr)
+            return web.Response(text="Synced time successfully.", status=200)
+        except Exception as e:
+            return web.Response(text=f"Error syncing time: {str(e)}", status=500)
+
     async def loop(self) -> None:
         # Setup our web application
         app = web.Application()
@@ -185,6 +197,10 @@ class ServerManager:
         app.router.add_post("/config", self.post_config)
 
         app.router.add_post("/ip", self.post_set_ip)
+
+        app.router.add_post("/time", self.post_sync_time)
+
+
 
         # Static file serving (css, js, images, etc.)
         app.router.add_static("/", path="../Interface/build", name="public", show_index=True)

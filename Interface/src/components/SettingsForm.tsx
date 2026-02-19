@@ -161,6 +161,25 @@ export default function SettingsForm() {
         });
     };
 
+    const handleSyncTime = () => {
+        const pin = window.prompt("Enter PIN:");
+        if (pin !== "1234") {
+            alert("Incorrect PIN");
+            return;
+        }
+        fetch("/time", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                "time": new Date().toISOString()
+            }),
+        }).then((response) => {
+            alert("Synced time.");
+        });
+    }
+
     if (settings.longDistanceSensors === undefined) {
         return (
             <div
@@ -332,6 +351,12 @@ export default function SettingsForm() {
                 icon="pi pi-save"
                 className="p-button-success mt-3"
                 onClick={handleSubmit}
+            />
+            <Button
+                label="Sync Time"
+                icon="pi pi-save"
+                className="p-button-success mt-3"
+                onClick={handleSyncTime}
             />
             <Dialog
                 header="Settings Description"
