@@ -4,9 +4,12 @@ import { EventDataContext } from "../contexts/DataContext";
 import { getPastHour } from "../utils/Period";
 import GaugeComponent, { Tick } from "react-gauge-component";
 import { formatDuration } from "../utils/Utils";
+import { SensorStatusContext } from "../contexts/StatusContext";
 
 export default function Speedometer() {
     const { eventData } = useContext(EventDataContext)!;
+    const { sensors } = useContext(SensorStatusContext)!;
+
 
     const [carsPerHour, setCarsPerHour] = useState(0);
     const [avgEventDuration, setAvgEventDuration] = useState(0);
@@ -20,24 +23,36 @@ export default function Speedometer() {
     const MIN_PER_CAR_MAX = 15;
 
     useEffect(() => {
-        if (!eventData) return;
+        if (!eventData || !sensors) return;
         // Go through every event (in past hour?) and calculate avg time and cars per hour
         //const lastHour = getPastHour(simTime, eventData!);
         const lastHour = getPastHour(eventData!);
+        // generate events for the current status
+
 
         // Calculate avg event duration in the past hour
         let sum = 0;
+        let count = lastHour.length;
+        for (const sensorId in sensors) {
+            const sensor = sensors[sensorId];
+            if (sensor.duration > 0) {
+                sum += sensor.duration / 60;
+                count++;
+            }
+        }
+
         lastHour.forEach((e) => {
             sum += e.duration / 60;
         });
+
         if (lastHour.length > 0) {
-            setAvgEventDuration(sum / lastHour.length);
+            setAvgEventDuration(sum / count);
         } else {
             setAvgEventDuration(0);
         }
 
         // Calculate how many cars we had in the past hour
-        setCarsPerHour(lastHour.length);
+        setCarsPerHour(count);
     }, [eventData]);
 
     function generateGaugeScale(

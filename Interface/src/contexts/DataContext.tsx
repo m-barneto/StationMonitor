@@ -1,7 +1,8 @@
-import React, { createContext, useEffect, useMemo, useState } from "react";
+import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { EventData } from "../data/EventData";
 
 import dummyDataJson from "../data/dummy_data.json";
+import { SensorStatusContext } from "./StatusContext";
 
 const dummyData: EventData[] = dummyDataJson.events as unknown as EventData[];
 
