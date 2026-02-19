@@ -161,6 +161,24 @@ export default function SettingsForm() {
         });
     };
 
+    function toLocalISOString(date: Date): string {
+        const pad = (n: number) => String(n).padStart(2, "0");
+
+        const year = date.getFullYear();
+        const month = pad(date.getMonth() + 1);
+        const day = pad(date.getDate());
+        const hours = pad(date.getHours());
+        const minutes = pad(date.getMinutes());
+        const seconds = pad(date.getSeconds());
+
+        const offsetMinutes = -date.getTimezoneOffset();
+        const sign = offsetMinutes >= 0 ? "+" : "-";
+        const offsetHours = pad(Math.floor(Math.abs(offsetMinutes) / 60));
+        const offsetMins = pad(Math.abs(offsetMinutes) % 60);
+
+        return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}${sign}${offsetHours}:${offsetMins}`;
+    }
+
     const handleSyncTime = () => {
         const pin = window.prompt("Enter PIN:");
         if (pin !== "1234") {
@@ -173,7 +191,7 @@ export default function SettingsForm() {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                "time": new Date().toISOString()
+                "time": toLocalISOString(new Date())
             }),
         }).then((response) => {
             alert("Synced time.");
