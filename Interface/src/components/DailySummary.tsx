@@ -73,20 +73,20 @@ export default function DailySummary() {
 
     return (
         <div>
-            <h2 style={{ textAlign: "center" }}>Daily Summary</h2>
+            <h2 style={{ textAlign: "center", padding: 0 }}>Daily Summary</h2>
             <DataTable
                 showGridlines
                 stripedRows
                 scrollable
                 removableSort
-                scrollHeight="100%"
+                scrollHeight="15%"
                 size="normal"
                 value={dailySummary}
                 style={{
                     paddingLeft: "1rem",
                     paddingRight: "1rem",
                     paddingBottom: "1rem",
-                    height: "25%"
+                    height: "15%"
                 }}
                 sortField="sortTime"
                 sortOrder={-1}

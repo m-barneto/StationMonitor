@@ -85,13 +85,13 @@ export default function Speedometer() {
                 display: "flex",
                 justifyContent: "center",
                 gap: "5rem",
-                paddingBottom: "1rem",
                 height: "75%"
             }}>
             <div style={{ width: "100%" }}>
                 <h2
                     style={{
                         textAlign: "center",
+                        margin: 0
                     }}>
                     Cars Per Hour
                 </h2>
@@ -127,6 +127,7 @@ export default function Speedometer() {
                 <h2
                     style={{
                         textAlign: "center",
+                        margin: 0
                     }}>
                     Avg Service Time
                 </h2>
