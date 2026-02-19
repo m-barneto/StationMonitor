@@ -91,7 +91,8 @@ export default function Speedometer() {
                 <h2
                     style={{
                         textAlign: "center",
-                        margin: 0
+                        margin: 0,
+                        marginTop: "0.5rem"
                     }}>
                     Cars Per Hour
                 </h2>
@@ -127,7 +128,8 @@ export default function Speedometer() {
                 <h2
                     style={{
                         textAlign: "center",
-                        margin: 0
+                        margin: 0,
+                        marginTop: "0.5rem"
                     }}>
                     Avg Service Time
                 </h2>
