@@ -170,7 +170,10 @@ class ServerManager:
     async def post_sync_time(self, request) -> web.Response:
         try:
             data = await request.json()
-            dt = datetime.fromisoformat(data["time"])
+            time_string = data["time"]
+            if time_string.endswith("Z"):
+                time_string = time_string.replace("Z", "+00:00")
+            dt = datetime.fromisoformat(time_string)
             formatted_time = "'" + dt.strftime("%Y-%m-%d %H:%M:%S") + "'"
 
             print(formatted_time)
