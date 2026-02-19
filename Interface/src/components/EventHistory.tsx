@@ -9,25 +9,7 @@ export default function EventHistory() {
 
     return (
         <div style={{ width: "100%" }}>
-            <div
-                style={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "center"
-                }}
-            >
-                <img
-                    src="/logo.png"
-                    alt="Logo"
-                    style={{
-                        width: "100%",          // change size as you want
-                        aspectRatio: "1 / 1",   // keeps it square
-                        objectFit: "cover",
-                        display: "block",
-                    }}
-                />
-            </div>
-            <h2 style={{ marginBottom: "0.5rem", textAlign: "center", width: "100%" }}>Event History</h2>
+            <h2 style={{ marginBottom: "0.5rem", marginTop: "0.5rem", textAlign: "center", width: "100%" }}>Event History</h2>
             <DataTable
                 scrollable
                 scrollHeight="100%"
