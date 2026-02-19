@@ -11,7 +11,7 @@ class TimerManager:
     def __init__(self, sensors: list[Sensor]):
         # Find the bay sensor.
         for sensor in sensors:
-            if "BAY" in sensor.zone:
+            if "BAY" in sensor.zone or "DEMO" in sensor.zone.upper():
                 TimerManager.bay_sensor_zone = sensor.zone
                 print(TimerManager.bay_sensor_zone)
         
