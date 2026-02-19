@@ -179,7 +179,7 @@ class ServerManager:
             #dt = datetime.fromisoformat(time_string)
             #formatted_time = dt.strftime("%Y-%m-%d %H:%M:%S")
             print(time_string)
-            result = subprocess.run(["sudo", "timedatectl", "set-time", time_string], check=True, capture_output=True, text=True)
+            result = subprocess.run(["sudo", "timedatectl", "set-time", time_string], capture_output=True, text=True)
             print(result.stderr)
             print(result.stdout)
             return web.Response(text="Synced time successfully.", status=200)
