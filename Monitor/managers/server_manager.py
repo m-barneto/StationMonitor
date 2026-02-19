@@ -180,6 +180,8 @@ class ServerManager:
             #formatted_time = dt.strftime("%Y-%m-%d %H:%M:%S")
             print(time_string)
             result = subprocess.run(["sudo", "timedatectl", "set-time", time_string], check=True, capture_output=True, text=True)
+            print(result.stderr)
+            print(result.stdout)
             return web.Response(text="Synced time successfully.", status=200)
         except Exception as e:
             return web.Response(text=f"Error syncing time: {str(e)}", status=500)
