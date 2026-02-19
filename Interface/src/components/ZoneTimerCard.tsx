@@ -96,6 +96,7 @@ export default function ZoneTimerCard({
         <div
             style={{
                 height: "100%",
+                width: "100%",
                 borderRadius: 12,
                 padding: 12,
                 border: "1px solid rgba(255,255,255,0.12)",
