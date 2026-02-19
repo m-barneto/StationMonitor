@@ -353,6 +353,9 @@ export default function SettingsForm() {
                 onClick={handleSubmit}
             />
             <Button
+                style={{
+                    paddingLeft: "1rem"
+                }}
                 label="Sync Time"
                 icon="pi pi-save"
                 className="p-button-success mt-3"
