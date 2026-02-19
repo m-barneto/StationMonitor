@@ -32,27 +32,19 @@ export default function Speedometer() {
 
         // Calculate avg event duration in the past hour
         let sum = 0;
-        let count = lastHour.length;
-        for (const sensorId in sensors) {
-            const sensor = sensors[sensorId];
-            if (sensor.duration > 0) {
-                sum += sensor.duration / 60;
-                count++;
-            }
-        }
 
         lastHour.forEach((e) => {
             sum += e.duration / 60;
         });
 
         if (lastHour.length > 0) {
-            setAvgEventDuration(sum / count);
+            setAvgEventDuration(sum / lastHour.length);
         } else {
             setAvgEventDuration(0);
         }
 
         // Calculate how many cars we had in the past hour
-        setCarsPerHour(count);
+        setCarsPerHour(lastHour.length);
     }, [eventData]);
 
     function generateGaugeScale(
