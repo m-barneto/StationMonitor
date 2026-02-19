@@ -98,6 +98,12 @@ export default function SettingsForm() {
     };
 
     const handleSubmit = () => {
+        const pin = window.prompt("Enter PIN:");
+        if (pin !== "1234") {
+            alert("Incorrect PIN");
+            return;
+        }
+
         // Make a post request containing the updated settings in json format
         fetch("/config", {
             method: "POST",
@@ -121,6 +127,12 @@ export default function SettingsForm() {
     const handleIpSubmit = () => {
         if (ip === undefined || ip.length <= 0 || ip.length > 3) {
             alert("No IP set!");
+            return;
+        }
+
+        const pin = window.prompt("Enter PIN:");
+        if (pin !== "1234") {
+            alert("Incorrect PIN");
             return;
         }
 
