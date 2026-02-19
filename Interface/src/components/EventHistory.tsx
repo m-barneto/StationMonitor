@@ -13,8 +13,7 @@ export default function EventHistory() {
                 style={{
                     width: "100%",
                     display: "flex",
-                    justifyContent: "center",
-                    marginBottom: "0.5rem",
+                    justifyContent: "center"
                 }}
             >
                 <img
@@ -28,7 +27,7 @@ export default function EventHistory() {
                     }}
                 />
             </div>
-            <h2 style={{ marginBottom: "0.5rem", marginTop: "0.5rem", textAlign: "center", width: "100%" }}>Event History</h2>
+            <h2 style={{ marginBottom: "0.5rem", textAlign: "center", width: "100%" }}>Event History</h2>
             <DataTable
                 scrollable
                 scrollHeight="100%"
