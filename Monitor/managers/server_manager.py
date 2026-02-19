@@ -117,7 +117,6 @@ class ServerManager:
             # Save cache to file
             CacheManager.save_cache()
 
-            subprocess.run(["sudo", "timedatectl", "set-timezone", Config.get().sleep.timezone], check=True, capture_output=True, text=True)
             #sudo timedatectl set-timezone America/Chicago
             # Get the asyncio event loop and schedule a restart in 5 seconds
             asyncio.get_event_loop().call_later(0.2, subprocess.run, ["sudo", "systemctl", "restart", "stationmonitor.service"])
@@ -174,14 +173,21 @@ class ServerManager:
         try:
             data = await request.json()
             time_string: str = data["time"]
-            if time_string.endswith("+00:00"):
-                time_string = time_string.replace("+00:00", "Z")
-            #dt = datetime.fromisoformat(time_string)
-            #formatted_time = dt.strftime("%Y-%m-%d %H:%M:%S")
+            if time_string.endswith("Z"):
+                time_string = time_string.replace("Z", "+00:00")
+            dt = datetime.fromisoformat(time_string)
+            formatted_time = dt.strftime("%Y-%m-%d %H:%M:%S")
             print(time_string)
-            result = subprocess.run(["sudo", "timedatectl", "set-time", time_string], capture_output=True, text=True)
+            result = subprocess.run(["sudo", "timedatectl", "set-timezone", "UTC"], capture_output=True, text=True)
             print(result.stderr)
             print(result.stdout)
+            result = subprocess.run(["sudo", "timedatectl", "set-time", formatted_time], capture_output=True, text=True)
+            print(result.stderr)
+            print(result.stdout)
+            result = subprocess.run(["sudo", "timedatectl", "set-timezone", Config.get().sleep.timezone], capture_output=True, text=True)
+            print(result.stderr)
+            print(result.stdout)
+
             return web.Response(text="Synced time successfully.", status=200)
         except Exception as e:
             return web.Response(text=f"Error syncing time: {str(e)}", status=500)
