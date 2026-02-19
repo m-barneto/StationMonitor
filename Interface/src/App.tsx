@@ -29,6 +29,7 @@ function App() {
                                 <SplitterPanel className="flex flex-row" size={80}>
                                     <div style={{ width: "100%" }}>
                                         <Speedometer />
+                                        <h2 style={{ textAlign: "center", margin: 0 }}>Daily Summary</h2>
                                         <DailySummary />
                                     </div>
                                 </SplitterPanel>
