@@ -191,7 +191,7 @@ export default function SettingsForm() {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                "time": toLocalISOString(new Date())
+                "time": new Date().toISOString()
             }),
         }).then((response) => {
             alert("Synced time.");
