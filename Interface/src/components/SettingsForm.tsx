@@ -354,7 +354,7 @@ export default function SettingsForm() {
             />
             <Button
                 style={{
-                    paddingLeft: "1rem"
+                    marginLeft: "1rem"
                 }}
                 label="Sync Time"
                 icon="pi pi-save"
