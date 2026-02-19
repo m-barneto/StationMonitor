@@ -174,11 +174,11 @@ class ServerManager:
         try:
             data = await request.json()
             time_string: str = data["time"]
-            #if time_string.endswith("Z"):
-            #    time_string = time_string.replace("Z", "+00:00")
-            dt = datetime.fromisoformat(time_string)
-            formatted_time = dt.strftime("%Y-%m-%d %H:%M:%S")
-            print(formatted_time)
+            if time_string.endswith("+00:00"):
+                time_string = time_string.replace("+00:00", "Z")
+            #dt = datetime.fromisoformat(time_string)
+            #formatted_time = dt.strftime("%Y-%m-%d %H:%M:%S")
+            print(time_string)
             result = subprocess.run(["sudo", "timedatectl", "set-time", time_string], check=True, capture_output=True, text=True)
             return web.Response(text="Synced time successfully.", status=200)
         except Exception as e:
