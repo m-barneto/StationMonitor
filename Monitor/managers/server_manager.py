@@ -116,6 +116,9 @@ class ServerManager:
 
             # Save cache to file
             CacheManager.save_cache()
+
+            subprocess.run(["sudo", "timedatectl", "set-timezone", Config.get().sleep.timezone], check=True, capture_output=True, text=True)
+            #sudo timedatectl set-timezone America/Chicago
             # Get the asyncio event loop and schedule a restart in 5 seconds
             asyncio.get_event_loop().call_later(0.2, subprocess.run, ["sudo", "systemctl", "restart", "stationmonitor.service"])
             #Config.reload_config()
@@ -171,8 +174,6 @@ class ServerManager:
         try:
             data = await request.json()
             time_string = data["time"]
-            if time_string.endswith("Z"):
-                time_string = time_string.replace("Z", "+00:00")
             dt = datetime.fromisoformat(time_string)
             formatted_time = dt.strftime("%Y-%m-%d %H:%M:%S")
             print(formatted_time)
