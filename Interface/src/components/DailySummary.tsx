@@ -84,7 +84,7 @@ export default function DailySummary() {
                 paddingLeft: "1rem",
                 paddingRight: "1rem",
                 paddingBottom: "1rem",
-                height: "23%"
+                height: "31%"
             }}
             sortField="sortTime"
             sortOrder={-1}

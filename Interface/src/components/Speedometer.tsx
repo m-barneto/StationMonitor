@@ -85,7 +85,7 @@ export default function Speedometer() {
                 display: "flex",
                 justifyContent: "center",
                 gap: "5rem",
-                height: "75%"
+                height: "65%"
             }}>
             <div style={{ width: "100%" }}>
                 <h2
