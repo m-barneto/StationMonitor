@@ -36,7 +36,6 @@ export const EventDataProvider: React.FC<{ children: React.ReactNode }> = ({
                 .then((response) => response.json())
                 .then((data) => {
                     for (const i of data) {
-                        console.log(i["body"]["startTime"]);
                         events.push(
                             new EventData(
                                 "",

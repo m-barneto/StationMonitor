@@ -180,6 +180,7 @@ export default function SettingsForm() {
     }
 
     const handleSyncTime = () => {
+        console.log(new Date().toISOString());
         const pin = window.prompt("Enter PIN:");
         if (pin !== "1234") {
             alert("Incorrect PIN");
