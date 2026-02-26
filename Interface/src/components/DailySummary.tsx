@@ -3,7 +3,7 @@ import { DataTable } from "primereact/datatable";
 import React, { useContext, useEffect, useState } from "react";
 import { EventDataContext } from "../contexts/DataContext";
 import { HourlySummary } from "../data/HourlyData";
-import { formatDuration } from "../utils/Utils";
+import isDev, { formatDuration } from "../utils/Utils";
 
 export default function DailySummary() {
     const [dailySummary, setDailySummary] = useState([] as HourlySummary[]);
@@ -39,10 +39,12 @@ export default function DailySummary() {
         }
 
 
-        if (!eventData || eventData.length === 0) {
+        if (!eventData || eventData.length === 0 || isDev()) {
             setDailySummary(Object.values(summary));
             return;
         }
+
+
         // Go through each event
         eventData?.forEach((e) => {
             // get the event's hour

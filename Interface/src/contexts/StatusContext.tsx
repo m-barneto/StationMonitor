@@ -1,5 +1,6 @@
 import React, { createContext, useEffect, useMemo, useState } from "react";
 import LongDistanceSensor from "../data/StatusData";
+import isDev from "../utils/Utils";
 
 interface SensorStatusContextType {
     sensors: LongDistanceSensor[] | undefined;
@@ -41,6 +42,10 @@ export const SensorStatusProvider: React.FC<{ children: React.ReactNode }> = ({
     };
 
     useEffect(() => {
+        if (isDev()) {
+            return;
+        }
+
         fetchSensorData();
         const id = setInterval(fetchSensorData, 500);
 

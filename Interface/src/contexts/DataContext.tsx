@@ -3,6 +3,7 @@ import { EventData } from "../data/EventData";
 
 import dummyDataJson from "../data/dummy_data.json";
 import { SensorStatusContext } from "./StatusContext";
+import isDev from "../utils/Utils";
 
 const dummyData: EventData[] = dummyDataJson.events as unknown as EventData[];
 
@@ -30,6 +31,10 @@ export const EventDataProvider: React.FC<{ children: React.ReactNode }> = ({
     }, [eventData]);
 
     useEffect(() => {
+        if (isDev()) {
+            setEventData(dummyData);
+            return;
+        }
         const id = setInterval(() => {
             const events: EventData[] = [];
             fetch("/events")

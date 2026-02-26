@@ -9,6 +9,7 @@ import { ProgressSpinner } from "primereact/progressspinner";
 import { Calendar } from "primereact/calendar";
 import { Dialog } from "primereact/dialog";
 import { useEffect, useState } from "react";
+import isDev from "../utils/Utils";
 
 export interface StationMonitorConfig {
     longDistanceSensors: LongDistanceSensor[];
@@ -73,6 +74,9 @@ export default function SettingsForm() {
     };
 
     useEffect(() => {
+        if (isDev()) {
+            return;
+        }
         fetchSettings();
     }, []);
 

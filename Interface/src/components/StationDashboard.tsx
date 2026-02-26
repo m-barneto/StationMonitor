@@ -9,7 +9,7 @@ import { Tag } from "primereact/tag";
 import SettingsForm from "./SettingsForm";
 import { Button } from "primereact/button";
 import { ScrollPanel } from "primereact/scrollpanel";
-import { formatDuration } from "../utils/Utils";
+import isDev, { formatDuration } from "../utils/Utils";
 
 // Types
 interface LongDistanceSensor {
@@ -138,6 +138,9 @@ export default function StationDashboard() {
     };
 
     useEffect(() => {
+        if (isDev()) {
+            return;
+        }
         fetchSensorData();
         const id = setInterval(fetchSensorData, refreshInterval);
 

@@ -1,3 +1,5 @@
+import process from "process";
+
 export function formatDuration(seconds: number): string {
     const hrs = Math.floor(seconds / 3600);
     const mins = Math.floor((seconds % 3600) / 60);
@@ -10,4 +12,10 @@ export function formatDuration(seconds: number): string {
         parts.push(`${secs}s`);
 
     return parts.join(" ");
+}
+
+const development: boolean = !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
+
+export default function isDev(): boolean {
+    return development;
 }
