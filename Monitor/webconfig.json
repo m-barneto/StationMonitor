@@ -1,0 +1,26 @@
+{
+    "stages": [
+        {
+            "duration": 0,
+            "color": "",
+            "label": ""
+        },
+                {
+            "duration": 60,
+            "color": "",
+            "label": ""
+        },
+        {
+            "duration": 90,
+            "color": "",
+            "label": ""
+        }
+    ],
+    "guages": {
+        "min": 0,
+        "max": 15,
+        "ticks": 5,
+        "segments": 3,
+        "window": 60
+    }
+}

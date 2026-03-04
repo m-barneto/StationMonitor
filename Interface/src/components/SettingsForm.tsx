@@ -54,6 +54,45 @@ const timezones = [
     { label: "US/Pacific", value: "US/Pacific" },
 ];
 
+const dummySettings: StationMonitorConfig = 
+{
+    "longDistanceSensors": [
+        {
+            "zone": "A",
+            "serialNumber": "/dev/ttyS3",
+            "occupiedDistance": 7000,
+            "emptyReflectionStrength": 100
+        },
+        {
+            "zone": "B",
+            "serialNumber": "/dev/ttyS4",
+            "occupiedDistance": 7000,
+            "emptyReflectionStrength": 100
+        }
+    ],
+    "sleep": {
+        "timezone": "US/Eastern",
+        "openTime": "07:00",
+        "closeTime": "21:00",
+        "sleepInterval": 60
+    },
+    "standalone": {
+        "pruneHours": 48,
+        "pruneFrequencyMins": 60,
+        "maxCacheEvents": 10000
+    },
+    "alarmDuration": 1200,
+    "minOccupiedDuration": 10,
+    "sensorPollRate": 10,
+    "proxyEventRoute": "http://192.168.17.202:8070/beam/event",
+    "proxyAlarmRoute": "http://192.168.17.202:8070/beam/alarm",
+    "proxyStatusUpdateRoute": "http://192.168.17.202:8070/beam/status",
+    "eventSendRate": 2,
+    "eventSendFailureCooldown": 5,
+    "updateConfigInterval": 10,
+    "updateHealthStatusInterval": 5
+}
+
 // Settings Form Component
 export default function SettingsForm() {
     const [settings, setSettings] = useState<StationMonitorConfig>(
@@ -75,6 +114,7 @@ export default function SettingsForm() {
 
     useEffect(() => {
         if (isDev()) {
+            setSettings(dummySettings);
             return;
         }
         fetchSettings();

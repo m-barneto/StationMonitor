@@ -15,6 +15,7 @@ import { SensorStatusContext, SensorStatusProvider } from "./contexts/StatusCont
 import ZoneTimerCard from "./components/ZoneTimerCard";
 import ZoneTimerPanel from "./components/ZoneTimerPanel";
 import { TimeContext, TimeProvider } from "./contexts/TimeContext";
+import WebConfigForm from "./components/WebConfigForm";
 
 function App() {
     return (
@@ -39,8 +40,11 @@ function App() {
                                 </SplitterPanel>
                             </Splitter>
                         </TabPanel>
-                        <TabPanel header="Settings">
+                        <TabPanel header="System Settings">
                             <StationDashboard />
+                        </TabPanel>
+                        <TabPanel header="Web Settings">
+                            <WebConfigForm />
                         </TabPanel>
                     </TabView>
                 </SensorStatusProvider>

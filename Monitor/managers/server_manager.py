@@ -12,6 +12,7 @@ from managers.sleep_manager import SleepManager
 from managers.cache_manager import CacheManager
 from sensors.long_distance_sensor import LongDistanceSensor
 from utils.config import Config, StationMonitorConfig
+from utils.web_config import WebConfig, WebConfigLoader
 from utils.sensor_event import SensorState
 
 
@@ -95,6 +96,10 @@ class ServerManager:
         # Return dict as formatted json
         return web.Response(text=json.dumps(StationMonitorConfig.to_dict(Config.conf), default=str, indent=4), content_type="application/json")
     
+    async def get_web_config(self, request) -> web.Response:
+        # Return dict as formatted json
+        return web.Response(text=json.dumps(WebConfig.to_dict(WebConfigLoader.conf), default=str, indent=4), content_type="application/json")
+    
     async def get_events(self, request) -> web.Response:
         # Return dict as formatted json
         return web.Response(text=json.dumps(list(CacheManager.event_cache), default=str, indent=4), content_type="application/json")
@@ -125,6 +130,28 @@ class ServerManager:
         except Exception as e:
             return web.Response(text=f"Error updating configuration: {str(e)}", status=400)
     
+    async def post_web_config(self, request) -> web.Response:
+        try:
+            data = await request.json()
+            # Validate and update config
+            new_config = WebConfig.from_dict(data)
+            # Modify the current config object
+            WebConfigLoader.get().stages = new_config.stages
+            WebConfigLoader.get().guages = new_config.guages
+            # Save to file
+            WebConfigLoader.save_config()
+
+            # Save cache to file
+            CacheManager.save_cache()
+
+            #sudo timedatectl set-timezone America/Chicago
+            # Get the asyncio event loop and schedule a restart in 5 seconds
+            asyncio.get_event_loop().call_later(0.2, subprocess.run, ["sudo", "systemctl", "restart", "stationmonitor.service"])
+            #Config.reload_config()
+            return web.Response(text="Configuration updated successfully.", status=200)
+        except Exception as e:
+            return web.Response(text=f"Error updating configuration: {str(e)}", status=400)
+
     async def ping(self, ip, timeout=1):
         process = await asyncio.create_subprocess_exec(
             "ping",
@@ -182,8 +209,10 @@ class ServerManager:
         app.router.add_get("/events", self.get_events)
 
         app.router.add_get("/config", self.get_config)
-
         app.router.add_post("/config", self.post_config)
+
+        app.router.add_get("/webconfig", self.get_web_config)
+        app.router.add_post("/webconfig", self.post_web_config)
 
         app.router.add_post("/ip", self.post_set_ip)
 
