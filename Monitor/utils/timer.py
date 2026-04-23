@@ -7,7 +7,7 @@ class Timer:
         self.zone = zone
         self.start_io = GPIO(pin_start, "out")
         self.reset_io = GPIO(pin_reset, "out")
-        print(f"Initialized timer for zone {self.zone} with start pin {self.start_io.pin} and reset pin {self.reset_io.pin}")
+        print(f"Initialized timer for zone {self.zone} with start pin {pin_start} and reset pin {pin_reset}")
 
         self.start_io.write(False)
         self.reset_io.write(False)
