@@ -10,6 +10,7 @@ class Timer:
 
         self.start_io.write(False)
         self.reset_io.write(False)
+        self.has_started = False
 
     async def start(self):
         self.start_io.write(True)
