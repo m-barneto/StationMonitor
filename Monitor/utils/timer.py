@@ -14,12 +14,14 @@ class Timer:
 
     async def start(self):
         print(f"Starting timer for zone {self.zone}")
+        print(f"Writing to pin {self.start_io.pin}")
         self.start_io.write(True)
         await asyncio.sleep(0.25)
         self.start_io.write(False)
 
     async def reset(self):
         print(f"Resetting timer for zone {self.zone}")
+        print(f"Writing to pin {self.reset_io.pin}")
         self.reset_io.write(True)
         await asyncio.sleep(0.25)
         self.reset_io.write(False)
