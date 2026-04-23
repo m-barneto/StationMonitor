@@ -19,7 +19,6 @@ class TimerManager:
             )
     
     async def loop(self) -> None:
-        return
         for timer in self.timers.values():
             await timer.reset()
             await asyncio.sleep(1)
