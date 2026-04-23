@@ -53,6 +53,7 @@ for long_dist_sensor in Config.get().longDistanceSensors:
     loop.create_task(s.loop())
 
 timer_manager = TimerManager()
+loop.create_task(timer_manager.loop())
 
 sensor_manager = SensorManager(sensors, event_queue, timer_manager)
 loop.create_task(sensor_manager.loop())

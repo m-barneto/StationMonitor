@@ -1,3 +1,5 @@
+import asyncio
+
 from utils.config import Config
 from utils.timer import Timer
 
@@ -15,6 +17,11 @@ class TimerManager:
                 timer_cfg["pinStart"],
                 timer_cfg["pinReset"]
             )
+    
+    async def loop(self) -> None:
+        for timer in self.timers.values():
+            await timer.reset()
+            await asyncio.sleep(1)
 
     def get(self, zone: str) -> Timer | None:
         return self.timers.get(zone)
