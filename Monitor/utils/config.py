@@ -54,6 +54,27 @@ class LongDistanceSensorConfig:
         }
 
 @dataclass
+class TimerConfig:
+    zone: str
+    pinStart: int
+    pinReset: int
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'TimerConfig':
+        _zone = str(obj.get("zone"))
+        _pinStart = int(obj.get("pinStart"))
+        _pinReset = int(obj.get("pinReset"))
+        return TimerConfig(_zone, _pinStart, _pinReset)
+    
+    @staticmethod
+    def to_dict(obj: 'TimerConfig') -> dict:
+        return {
+            "zone": obj.zone,
+            "pinStart": obj.pinStart,
+            "pinReset": obj.pinReset
+        }
+
+@dataclass
 class StandaloneConfig:
     pruneHours: int
     pruneFrequencyMins: int
@@ -77,6 +98,7 @@ class StandaloneConfig:
 @dataclass
 class StationMonitorConfig:
     longDistanceSensors: List[LongDistanceSensorConfig]
+    timers: List[TimerConfig]
     ledsEnabled: bool
     sleep: Sleep
     standalone: StandaloneConfig
@@ -94,6 +116,7 @@ class StationMonitorConfig:
     @staticmethod
     def from_dict(obj: Any) -> 'StationMonitorConfig':
         _longDistanceSensors = [LongDistanceSensorConfig.from_dict(y) for y in obj.get("longDistanceSensors")]
+        _timers = [TimerConfig.from_dict(y) for y in obj.get("timers")]
         _ledsEnabled = bool(obj.get("ledsEnabled"))
         _sleep = Sleep.from_dict(obj.get("sleep"))
         _standalone = StandaloneConfig.from_dict(obj.get("standalone"))
@@ -107,12 +130,13 @@ class StationMonitorConfig:
         _eventSendFailureCooldown = int(obj.get("eventSendFailureCooldown"))
         _updateConfigInterval = int(obj.get("updateConfigInterval"))
         _updateHealthStatusInterval = int(obj.get("updateHealthStatusInterval"))
-        return StationMonitorConfig(_longDistanceSensors, _ledsEnabled, _sleep, _standalone, _alarmDuration, _minOccupiedDuration, _sensorPollRate, _proxyEventRoute, _proxyAlarmRoute, _proxyStatusUpdateRoute, _eventSendRate, _eventSendFailureCooldown, _updateConfigInterval, _updateHealthStatusInterval)
+        return StationMonitorConfig(_longDistanceSensors, _timers, _ledsEnabled, _sleep, _standalone, _alarmDuration, _minOccupiedDuration, _sensorPollRate, _proxyEventRoute, _proxyAlarmRoute, _proxyStatusUpdateRoute, _eventSendRate, _eventSendFailureCooldown, _updateConfigInterval, _updateHealthStatusInterval)
 
     @staticmethod
     def to_dict(obj: 'StationMonitorConfig') -> dict:
         return {
             "longDistanceSensors": [LongDistanceSensorConfig.to_dict(y) for y in obj.longDistanceSensors],
+            "timers": [TimerConfig.to_dict(y) for y in obj.timers],
             "ledsEnabled": obj.ledsEnabled,
             "sleep": Sleep.to_dict(obj.sleep),
             "standalone": StandaloneConfig.to_dict(obj.standalone),

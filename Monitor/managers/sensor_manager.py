@@ -27,10 +27,11 @@ class SensorContext:
 
 
 class SensorManager:
-    def __init__(self, sensors: list[Sensor], event_queue: asyncio.Queue) -> None:
+    def __init__(self, sensors: list[Sensor], event_queue: asyncio.Queue, timer_manager: TimerManager) -> None:
         self.sensor_ctx: dict[str, SensorContext] = {}
         self.event_queue = event_queue
         self.sensors = sensors
+        self.timer_manager = timer_manager
         for sensor in sensors:
             # Initialize the sensor context for each sensor
             self.sensor_ctx[sensor.zone] = SensorContext()
@@ -60,6 +61,8 @@ class SensorManager:
         
         # Get the zone context
         zone_ctx = self.sensor_ctx.get(zone)
+
+        timer = self.timer_manager.get(zone)
         
         # Get current state of sensor
         event_state: EventState | None = self.update_event_state(zone, sensor)
@@ -69,19 +72,19 @@ class SensorManager:
             return
         match event_state:
             case EventState.OCCUPIED_PENDING:
-                if TimerManager.is_bay(zone) and not TimerManager.has_started:
+                if timer and not timer.has_started:
                     print("start")
-                    await TimerManager.reset()
+                    await timer.reset()
                     await asyncio.sleep(.25)
-                    await TimerManager.start()
-                    TimerManager.has_started = True
+                    await timer.start()
+                    timer.has_started = True
             case EventState.EMPTY:
-                if TimerManager.is_bay(zone) and TimerManager.has_started:
+                if timer and not timer.has_started:
                     print("end no event")
-                    TimerManager.has_started = False
-                    await TimerManager.reset()
+                    timer.has_started = False
+                    await timer.reset()
                     await asyncio.sleep(.25)
-                    await TimerManager.reset()
+                    await timer.reset()
             case EventState.OCCUPIED_STARTED:
                 # Create an occupied start event
                 occupied_start = EventData.occupied_start(zone, zone_ctx.occupied_start_time)
@@ -94,10 +97,10 @@ class SensorManager:
                 print("Sending end event", occupied_end)
                 await self.event_queue.put(occupied_end)
 
-                if TimerManager.is_bay(zone):
+                if timer:
                     print("end with event")
-                    TimerManager.has_started = False
-                    await TimerManager.reset()
+                    timer.has_started = False
+                    await timer.reset()
 
     def update_event_state(self, zone: str, sensor: Sensor) -> EventState | None:
         # Get the zone context

@@ -17,6 +17,18 @@
             "ledStripIndex": 1
         }
     ],
+    "timers": [
+        {
+            "zone": "A",
+            "pinReset": 70,
+            "pinStart": 71
+        },
+        {
+            "zone": "B",
+            "pinReset": 42,
+            "pinStart": 43
+        }
+    ],
     "sleep": {
         "timezone": "US/Eastern",
         "openTime": "07:00",

@@ -1,50 +1,23 @@
-import asyncio
-from sensors.sensor import Sensor
-from periphery import GPIO
+from utils.config import Config
+from utils.timer import Timer
+
 
 class TimerManager:
-    has_started = False
-    start_io = None
-    reset_io = None
-    bay_sensor_zone = None
+    def __init__(self):
+        self.timers: dict[str, Timer] = {}
 
-    def __init__(self, sensors: list[Sensor]):
-        # Find the bay sensor.
-        for sensor in sensors:
-            if "BAY" in sensor.zone or "DEMO" in sensor.zone.upper():
-                TimerManager.bay_sensor_zone = sensor.zone
-                print(TimerManager.bay_sensor_zone)
-        
-        TimerManager.start_io = GPIO(70, "out")
-        TimerManager.reset_io = GPIO(71, "out")
+        timers = Config.get().timers
 
-        # True = not grounded
-        TimerManager.start_io.write(False)
-        TimerManager.reset_io.write(False)
+        for timer_cfg in timers:
+            zone = timer_cfg["zone"]
+            self.timers[zone] = Timer(
+                zone,
+                timer_cfg["pinStart"],
+                timer_cfg["pinReset"]
+            )
 
-        TimerManager.has_started = False
+    def get(self, zone: str) -> Timer | None:
+        return self.timers.get(zone)
 
-    async def loop(self) -> None:
-        await TimerManager.reset()
-        await asyncio.sleep(1)
-        await TimerManager.reset()
-
-    @staticmethod
-    def is_bay(sensor_zone: str) -> bool:
-        return TimerManager.bay_sensor_zone == sensor_zone
-
-    @staticmethod
-    async def start() -> None:
-        # to press the button
-        # set state to true for non grounded
-        # set to false for .25 seconds
-        TimerManager.start_io.write(True)
-        await asyncio.sleep(.25)
-        TimerManager.start_io.write(False)
-
-    @staticmethod
-    async def reset() -> None:
-        TimerManager.reset_io.write(True)
-        await asyncio.sleep(.25)
-        TimerManager.reset_io.write(False)
-    
+    def has(self, zone: str) -> bool:
+        return zone in self.timers

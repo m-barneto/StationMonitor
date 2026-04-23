@@ -52,7 +52,9 @@ for long_dist_sensor in Config.get().longDistanceSensors:
 
     loop.create_task(s.loop())
 
-sensor_manager = SensorManager(sensors, event_queue)
+timer_manager = TimerManager()
+
+sensor_manager = SensorManager(sensors, event_queue, timer_manager)
 loop.create_task(sensor_manager.loop())
 
 # Sends out requests for alarm events when duration is exceeded
