@@ -11,11 +11,11 @@ class TimerManager:
         timers = Config.get().timers
 
         for timer_cfg in timers:
-            zone = timer_cfg["zone"]
+            zone = timer_cfg.zone
             self.timers[zone] = Timer(
                 zone,
-                timer_cfg["pinStart"],
-                timer_cfg["pinReset"]
+                timer_cfg.pinStart,
+                timer_cfg.pinReset
             )
     
     async def loop(self) -> None:
