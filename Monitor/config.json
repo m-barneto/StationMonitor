@@ -20,13 +20,13 @@
     "timers": [
         {
             "zone": "A",
-            "pinReset": 70,
-            "pinStart": 71
+            "pinStart": 70,
+            "pinReset": 71
         },
         {
             "zone": "B",
-            "pinReset": 42,
-            "pinStart": 43
+            "pinStart": 42,
+            "pinReset": 43
         }
     ],
     "sleep": {

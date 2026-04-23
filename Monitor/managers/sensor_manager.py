@@ -79,7 +79,7 @@ class SensorManager:
                     await timer.start()
                     timer.has_started = True
             case EventState.EMPTY:
-                if timer and not timer.has_started:
+                if timer and timer.has_started:
                     print("end no event")
                     timer.has_started = False
                     await timer.reset()
