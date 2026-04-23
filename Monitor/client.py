@@ -61,9 +61,6 @@ loop.create_task(sensor_manager.loop())
 # Sends out requests for alarm events when duration is exceeded
 loop.create_task(AlarmManager(sensor_manager, event_queue).loop())
 
-# Handle the timer management
-loop.create_task(TimerManager(sensors).loop())
-
 # Setup led controller (like timer)
 if (Config.get().ledsEnabled):
     print("Enabled LED Manager.")
